@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+//@import "../../umd/lib/connection/style/index";
+
+.app-menu-bar{
+    width: 100%;
+    height:60px;
+    background-color: #21252b;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    li {
+        float: left;
+        width: 100px;
+        line-height:40px;
+        font-size: 20px;
+        text-align: center;
+    }
+}
+
+.app-side-bar {
+    width: 20%;
+    height: 100%;
+    //background-color: #ffffff;
+    //float: left !important;
+    flex: 1;
+}
+
+.app-content {
+    width: 79%;
+    height: 100%;
+    //float: right !important;
+    //background-color: red;
+    flex: 3;
+}

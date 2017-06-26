@@ -1,0 +1,34 @@
+{
+    "presets": [
+        "es2015",
+        "stage-0",
+        "react"
+    ],
+    "plugins": [
+        [
+            "import",
+            [
+                {
+                    "libraryName": "antd"
+                },
+                {
+                    "libraryName": "uwd",
+                    "libraryDirectory": "lib"
+                },
+                {
+                    "libraryName": "umd",
+                    "libraryDirectory": "lib"
+                }
+            ]
+        ],
+        "transform-decorators-legacy"
+    ],
+    "env": {
+        "build": {
+            "optional": [
+                "optimisation",
+                "minification"
+            ]
+        }
+    }
+}
