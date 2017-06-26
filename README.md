@@ -1,20 +1,13 @@
-图形化设计器(UMD)
+练习 react-redux，react-router
 
 使用主要类库包括:
 
 * react
 * antd
 * Redux
-* UWD
+* react-router
 
-__注意__
-
-本工程采用 ES6、JSX 编写，IDE 可能默认不支持，可以修改配置启用 ES6、JSX 语法支持。
-
-建议使用 JSX 语法的 JS 文件后缀改为 .jsx，否则 JavaScript 支持需要改为 JSX
-
-IntelliJ IDEA :
-
+IDE IntelliJ IDEA :
     依次 选择 Preferences -> Languages & Frameworks -> JavaScript
     然后将 `ECMAScript 5.1` 修改为 `ECMAScript 6`
 
