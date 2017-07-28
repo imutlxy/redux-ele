@@ -19,9 +19,6 @@ module.exports = {
         disableHostCheck: true
     },
     resolve: {
-        alias: {
-            uwd: path.join(__dirname, './../node_modules/@ud/uwd/')
-        },
         //import文件的查找方式，如果不存在文件后缀，依次尝试 js jsx 后缀
         extensions: ['.js', '.jsx'],
         modules: [defaultSettings.srcPath, 'node_modules']
@@ -30,7 +27,6 @@ module.exports = {
     externals : {
         react: 'window.React',
         'react-dom': 'window.ReactDOM',
-        axios: 'window.axios',
-        jsoneditor: 'window.JSONEditor'
+        axios: 'window.axios'
     }
 };

@@ -9,31 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="lib/polyfills/css/polyfills.css">
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="lib/ud-font-awesome/ud-font-awesome.css"/>
-    <link rel="stylesheet" href="lib/jsoneditor/dist/jsoneditor.min.css"/>
-    <link rel="stylesheet" href="./uwd-theme-dark.css" id="dark-css"/>
     <% var stylesheets = htmlWebpackPlugin.options.stylesheets || [] %>
     <% for(var i = 0; i < stylesheets.length; i++) { %>
     <link rel="stylesheet" href="<%= stylesheets[i] %>">
     <% } %>
-    <!--[if lte IE 8]>
-    <script type="text/javascript" src="lib/polyfills/js/ie8-polyfills.js"></script>
-    <![endif]-->
-    <!--[if IE 9]>
-    <script type="text/javascript" src="lib/polyfills/js/ie9-polyfills.js"></script>
-    <![endif]-->
 </head>
 <body>
 <div id="app"></div>
 
-<script type="text/javascript" id="ud-polyfills" data-base-url="lib/polyfills/js/"
-        src="lib/polyfills/js/polyfills.js"></script>
 <script type="text/javascript" src="lib/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="lib/react/dist/react.min.js"></script>
 <script type="text/javascript" src="lib/react-dom/dist/react-dom.min.js"></script>
-<script type="text/javascript" src="lib/jsoneditor/dist/jsoneditor.min.js"></script>
 <% var scripts = htmlWebpackPlugin.options.scripts || [] %>
 <% for(var i = 0; i < scripts.length; i++) { %>
 <script type="text/javascript" src="<%= scripts[i] %>"></script>

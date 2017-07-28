@@ -8,6 +8,8 @@ import {
 import About from './About';
 import Inbox from './Inbox';
 import ContentView from './ContentView';
+import '../style/_content.scss';
+import 'antd/dist/antd.css';
 
 /**
  * App View

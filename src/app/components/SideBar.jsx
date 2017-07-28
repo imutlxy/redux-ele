@@ -8,9 +8,6 @@ const {Sider} = Layout;
 
 import * as AppActionRouter from '../config/AppActionRouter';
 
-/**
- * App View
- */
 class SideBarView extends Component {
     constructor(props) {
         super(props);

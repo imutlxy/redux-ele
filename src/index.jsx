@@ -1,8 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
-import WrapView from './app/components/WrapView';
+
+import App from './app/components/App';
 
 /**
  * Main App View
  */
-render(<WrapView />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

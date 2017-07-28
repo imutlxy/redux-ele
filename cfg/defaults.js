@@ -1,9 +1,3 @@
-/**
- * Function that returns default values.
- * Used because Object.assign does a shallow instead of a deep copy.
- * Using [].push will add to the base array, so a require will alter
- * the base array output.
- */
 'use strict';
 
 const path = require('path');
@@ -22,9 +16,6 @@ const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
 const srcPath = path.join(__dirname, '/../src');
 const dfltPort = 3000;
 
-/**
- * Get the default modules object for webpack
- */
 function getDefaultModules() {
     return {
         rules: [
@@ -146,10 +137,7 @@ const entries = files.reduce(function (memo, file) {
     memo[name] = file;
     return memo;
 }, {
-    boot: 'uwd/lib/boot',
     // 凡是加到 vendor 中的模块，都会被全部打包到 vendor.js
-    // 例外:
-    // lodash 应该按需加载，由对应插件处理，打包到 index.js 中
     vendor: [
         'ajv',
         'ajv-i18n/localize/zh',
@@ -169,7 +157,6 @@ const entries = files.reduce(function (memo, file) {
         'redux-devtools-log-monitor',
         'redux-slider-monitor',
         'redux-thunk',
-        'redux-undo',
         'sockjs-client',
         'webstomp-client',
         'tether-shepherd',
@@ -218,19 +205,14 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             //可以指定多个 entryName，打出多个 common 包
-            names: ['common', 'vendor', 'boot'], // 最后一项包含 webpack runtime
+            names: ['common', 'vendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
         }),
         new CopyWebpackPlugin([
-            {from: 'node_modules/@ud/uwd-manuals/html', to: 'manuals/'},
-            {from: 'node_modules/@ud/uwd/dist', to: './'},
             {from: 'node_modules/font-awesome', to: 'lib/font-awesome/'},
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},
             {from: 'node_modules/react/dist', to: 'lib/react/dist/'},
             {from: 'node_modules/react-dom/dist', to: 'lib/react-dom/dist/'},
-            {from: 'node_modules/jsoneditor/dist', to: 'lib/jsoneditor/dist/'},
-            {from: 'node_modules/@ud/polyfills/lib', to: 'lib/polyfills/'},
-            {from: 'node_modules/@ud/font-awesome/build', to: 'lib/ud-font-awesome/'},
             {from: 'node_modules/jquery/dist', to: 'lib/jquery/dist/'}
         ], {
             ignore: [
@@ -240,13 +222,13 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             title: 'test',
-            favicon: 'node_modules/@ud/uwd/lib/favicon.png',
-            template: 'node_modules/@ud/uwd/lib/app/index.ejs',
+            favicon: 'src/resource/favicon.png',
+            template: 'src/index.ejs',
             stylesheets: [],
             scripts: [
                 'lib/jquery/dist/jquery.min.js'
             ],
-            chunks: ['boot', 'vendor', 'common', 'index'], // 页面应用哪些chunks
+            chunks: ['vendor', 'common', 'index'], // 页面应用哪些chunks
             minify: {
                 removeComments: true,
                 collapseWhitespace: minimize
