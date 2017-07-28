@@ -3,7 +3,7 @@
  * 前置拦截器
  */
 let preMiddleWares = {
-    CREATE_NEW_ITEM: (action, state) => {
+    DROP_TO_CONTENT: (action, state) => {
         return true;
     }
 };
@@ -12,7 +12,7 @@ let preMiddleWares = {
  * 后置拦截器
  */
 let postMiddleWares = {
-    RESTORE_PAGE_DESIGNER_DATA: (action, state) => {
+    DROP_TO_CONTENT: (action, state) => {
         return true;
     }
 };

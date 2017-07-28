@@ -7,7 +7,7 @@ import {
 
 import About from './About';
 import Inbox from './Inbox';
-import ContentView from './ContentView';
+import WrapView from './WrapView';
 import '../style/_content.scss';
 import 'antd/dist/antd.css';
 
@@ -29,7 +29,7 @@ class App extends Component {
                         <li><Link to='/Inbox'>Inbox</Link></li>
                     </ul>
                     <hr/>
-                    <Route exact path='/' component={ContentView}/>
+                    <Route exact path='/' component={WrapView}/>
                     <Route path='/about' component={About}/>
                     <Route path='/Inbox' component={Inbox}/>
                 </div>
