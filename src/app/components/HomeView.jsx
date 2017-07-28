@@ -8,13 +8,11 @@ import * as AppActionRouter from '../config/AppActionRouter';
 class HomeView extends Component {
     constructor(props) {
         super(props);
-        console.log(props)
     }
 
     handleBtnClick = (e) => {
         const {onClickAction, store} = this.props;
 
-        console.log(this.props)
         let changeActiveKeyAction = {
             type: 'DROP_TO_CONTENT',
             content: {
@@ -40,7 +38,9 @@ class HomeView extends Component {
 }
 
 function mapStateToProps(state) {
-    return state && state.appReducer ? state.appReducer : {};
+    return {
+        store: state && state.appReducer ? state.appReducer : {}
+    };
 }
 
 function mapDispatchToProps(dispatch) {
