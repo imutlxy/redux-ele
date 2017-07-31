@@ -221,7 +221,7 @@ module.exports = {
             ]
         }),
         new HtmlWebpackPlugin({
-            title: 'test',
+            title: 'react-redux test',
             favicon: 'src/resource/favicon.png',
             template: 'src/index.ejs',
             stylesheets: [],

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {translate} from 'react-i18next';
 import {Button} from 'antd';
 
 import * as AppActionRouter from '../config/AppActionRouter';
 
+@translate(['menuBar'], {wait: true})
 class HomeView extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +14,8 @@ class HomeView extends Component {
 
     handleBtnClick = (e) => {
         const {onClickAction, store} = this.props;
+        // let language = this.props.i18n.language;
+        // this.props.i18n.language = language.toLowerCase().includes('zh') ? 'en' : 'zh';
 
         let changeActiveKeyAction = {
             type: 'DROP_TO_CONTENT',
@@ -24,13 +28,14 @@ class HomeView extends Component {
 
     render() {
         let self = this;
+        const {t} = self.props;
         return (
             <div>
                 <Button
                     type="primary"
                     onClick={self.handleBtnClick}
                 >
-                    点击发送 action
+                    {t('menuBar:click_test')}
                 </Button>
             </div>
         );
