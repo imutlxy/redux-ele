@@ -45,7 +45,7 @@ class HomeView extends Component {
 
 function mapStateToProps(state) {
     return {
-        store: state && state.appReducer ? state.appReducer : {}
+        store: (state && state.appReducer) || {}
     };
 }
 

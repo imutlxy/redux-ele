@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import {I18nextProvider} from 'react-i18next';
 
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const { Header, Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
-
 import actions from '../actions';
 import reducers from '../reducers';
 import {default as Store} from '../config/ConfigureStore';
@@ -13,7 +9,6 @@ import appMiddleWares from '../middleware/AppMiddleWare';
 
 import HomeView from './HomeView';
 import {i18n, locales} from '../i18n';
-import '../style/_content.scss';
 import {merge} from '../utils/object';
 
 /**
@@ -60,12 +55,5 @@ class WrapView extends Component {
         );
     }
 }
-
-// WrapView.propTypes = {
-//     content: PropTypes.element,
-//     locales: PropTypes.object,
-//     storeOptions: PropTypes.object.isRequired,
-//     options: PropTypes.object
-// };
 
 export default WrapView;
