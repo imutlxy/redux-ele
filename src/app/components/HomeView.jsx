@@ -4,7 +4,8 @@ import {bindActionCreators} from 'redux';
 import {translate} from 'react-i18next';
 import {Button} from 'antd';
 
-import * as AppActionRouter from '../config/AppActionRouter';
+import appConfig from '../config';
+const AppActionRouter = appConfig.router;
 
 @translate(['menuBar'], {wait: true})
 class HomeView extends Component {
