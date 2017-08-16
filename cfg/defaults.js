@@ -139,23 +139,14 @@ const entries = files.reduce(function (memo, file) {
 }, {
     // 凡是加到 vendor 中的模块，都会被全部打包到 vendor.js
     vendor: [
-        'ajv',
-        'ajv-i18n/localize/zh',
         'classnames',
-        'hotkeys-js',
         'i18next',
         'i18next-browser-languagedetector',
         'immutability-helper',
         'immutable',
-        'react-dnd',
-        'react-dnd-html5-backend',
         'react-i18next',
         'react-redux',
         'redux',
-        'redux-devtools',
-        'redux-devtools-dock-monitor',
-        'redux-devtools-log-monitor',
-        'redux-slider-monitor',
         'redux-thunk',
         'sockjs-client',
         'webstomp-client',
@@ -180,18 +171,6 @@ module.exports = {
     publicPath: './',
     port: dfltPort,
     getDefaultModules: getDefaultModules,
-    markdownLoader: {
-        markedOptions: {
-            renderer: renderer,
-            gfm: true,
-            tables: true,
-            breaks: true,
-            pedantic: true,
-            sanitize: true,
-            smartLists: true,
-            smartypants: true
-        }
-    },
     plugins: [
         new webpack.LoaderOptionsPlugin({
             debug: true
