@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {translate} from 'react-i18next';
 import {Button} from 'antd';
 
+import i18n from '../i18n';
 import appConfig from '../config';
 const AppActionRouter = appConfig.router;
 
@@ -15,8 +16,8 @@ class HomeView extends Component {
 
     handleBtnClick = (e) => {
         const {onClickAction, store} = this.props;
-        // let language = this.props.i18n.language;
-        // this.props.i18n.language = language.toLowerCase().includes('zh') ? 'en' : 'zh';
+        let language = this.props.i18n.language;
+        i18n.changeLanguage(language.toLowerCase().includes('zh') ? 'en' : 'zh');
 
         let changeActiveKeyAction = {
             type: 'DROP_TO_CONTENT',
@@ -32,12 +33,8 @@ class HomeView extends Component {
         const {t} = self.props;
         return (
             <div>
-                <Button
-                    type="primary"
-                    onClick={self.handleBtnClick}
-                >
-                    {t('menuBar:click_test')}
-                </Button>
+                <h1>{t('menuBar:content_test')}</h1>
+                <Button type="primary" onClick={self.handleBtnClick}>点击切换</Button>
             </div>
         );
     }

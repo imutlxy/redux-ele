@@ -1,5 +1,6 @@
 const menuBar = {
-    click_test: 'click'
+    click_test: 'click',
+    content_test: 'english'
 };
 
 const settings = {

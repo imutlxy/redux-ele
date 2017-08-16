@@ -1,5 +1,6 @@
 const menuBar = {
-    click_test: '点击'
+    click_test: '点击',
+    content_test: '中文'
 };
 
 const settings = {
