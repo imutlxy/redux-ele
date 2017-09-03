@@ -3,6 +3,14 @@ const menuBar = {
     content_test: '中文'
 };
 
+const about = {
+    about_test: '关于页'
+};
+
+const inbox = {
+    inbox_test: 'Inbox页'
+};
+
 const settings = {
     theme: '主题',
     dark: '深色',
@@ -18,5 +26,7 @@ const settings = {
 
 export default {
     menuBar,
+    about,
+    inbox,
     settings
 };

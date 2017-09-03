@@ -3,6 +3,14 @@ const menuBar = {
     content_test: 'english'
 };
 
+const about = {
+    about_test: 'About page'
+};
+
+const inbox = {
+    inbox_test: 'Inbox page'
+};
+
 const settings = {
     theme: 'Theme',
     dark: 'Dark',
@@ -18,5 +26,7 @@ const settings = {
 
 export default {
     menuBar,
+    about,
+    inbox,
     settings
 };
