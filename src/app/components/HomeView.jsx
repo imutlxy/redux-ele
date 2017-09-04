@@ -7,6 +7,7 @@ import {Button} from 'antd';
 import Constants from '../constants';
 import i18n from '../i18n';
 import appConfig from '../config';
+import {axiosInstance} from '../utils/axiosInstance';
 
 const {DROP_TO_CONTENT, GOTO} = Constants;
 const AppActionRouter = appConfig.router;
@@ -17,7 +18,7 @@ class HomeView extends Component {
         super(props);
     }
 
-    handleBtnClick = (e) => {
+    handleTransLan = (e) => {
         e.stopPropagation();
         const {onClickAction, store} = this.props;
         let language = this.props.i18n.language;
@@ -30,6 +31,20 @@ class HomeView extends Component {
             }
         };
         onClickAction(changeActiveKeyAction, this.props);
+    }
+
+    ajxaGetClick = (e) => {
+        e.stopPropagation();
+        axiosInstance.get('/user', {params: {userName: 'sivan'}}).then(response => {
+            console.log('get 请求接收到的数据', response);
+        });
+    }
+
+    ajxaPostClick = (e) => {
+        e.stopPropagation();
+        axiosInstance.post('/user', {data: 123}).then(response => {
+            console.log('post 请求接收到的数据', response);
+        });
     }
 
     gotoBtnClick = (e) => {
@@ -45,13 +60,17 @@ class HomeView extends Component {
     render() {
         let self = this;
         const {t} = self.props;
+        let btnStyle = {
+            display: 'block',
+            margin: 20
+        }
         return (
             <div>
                 <h1>{t('menuBar:content_test')}</h1>
-                <Button type="primary" onClick={self.handleBtnClick}>点击切换</Button>
-                <br/>
-                <br/>
-                <Button type="primary" onClick={self.gotoBtnClick}>跳转到 about</Button>
+                <Button style={btnStyle} type="primary" onClick={self.handleTransLan}>点击切换语言</Button>
+                <Button style={btnStyle} type="primary" onClick={self.ajxaGetClick}>点击发起 get 请求</Button>
+                <Button style={btnStyle} type="primary" onClick={self.ajxaPostClick}>点击发起 post 请求</Button>
+                <Button style={btnStyle} type="primary" onClick={self.gotoBtnClick}>跳转到 about</Button>
             </div>
         );
     }

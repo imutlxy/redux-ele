@@ -10,6 +10,9 @@
 IDE IntelliJ IDEA :
     依次 选择 Preferences -> Languages & Frameworks -> JavaScript
     然后将 `ECMAScript 5.1` 修改为 `ECMAScript 6`
+    
+## 后台仓库地址
+    `https://github.com/xinwei2016/node-test.git`
 
 ## 目录说明
 ### 工程相关
