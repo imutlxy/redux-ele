@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
     Modal.warning({
         title: i18n.t('common:warning'),
-        content: i18n.t('common:network_error_tip'),
+        content: '返回的结果缺少 success 字段或者 success 为 false',
         okText: i18n.t('common:ok')
     });
     return Promise.reject(error);

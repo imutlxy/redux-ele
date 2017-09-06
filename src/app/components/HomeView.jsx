@@ -36,14 +36,18 @@ class HomeView extends Component {
     ajxaGetClick = (e) => {
         e.stopPropagation();
         axiosInstance.get('/user', {params: {userName: 'sivan'}}).then(response => {
-            console.log('get 请求接收到的数据', response);
+            if (response.data && response.data.success === true) {
+                console.log('get 请求接收到的数据', response.data.data);
+            }
         });
     }
 
     ajxaPostClick = (e) => {
         e.stopPropagation();
         axiosInstance.post('/user', {data: 123}).then(response => {
-            console.log('post 请求接收到的数据', response);
+            if (response.data && response.data.success === true) {
+                console.log('post 请求接收到的数据', response.data.data);
+            }
         });
     }
 
@@ -63,7 +67,7 @@ class HomeView extends Component {
         let btnStyle = {
             display: 'block',
             margin: 20
-        }
+        };
         return (
             <div>
                 <h1>{t('menuBar:content_test')}</h1>
