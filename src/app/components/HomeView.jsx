@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {translate} from 'react-i18next';
-import {Button} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
+const FormItem = Form.Item;
 
 import Constants from '../constants';
 import i18n from '../i18n';
@@ -61,20 +62,63 @@ class HomeView extends Component {
         onClickAction(gotoAction, this.props);
     }
 
+    login = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                axiosInstance.post('/signin', values).then(response => {
+                    let data  = response.data.data;
+                    if (data.status === 200) {
+                        message.success(data.msg);
+                    } else {
+                        message.error(data.msg);
+                    }
+                });
+            }
+        });
+    }
+
     render() {
         let self = this;
+        const {getFieldDecorator} = self.props.form;
         const {t} = self.props;
-        let btnStyle = {
-            display: 'block',
-            margin: 20
-        };
         return (
-            <div>
+            <div className='home-view'>
                 <h1>{t('menuBar:content_test')}</h1>
-                <Button style={btnStyle} type="primary" onClick={self.handleTransLan}>点击切换语言</Button>
-                <Button style={btnStyle} type="primary" onClick={self.ajxaGetClick}>点击发起 get 请求</Button>
-                <Button style={btnStyle} type="primary" onClick={self.ajxaPostClick}>点击发起 post 请求</Button>
-                <Button style={btnStyle} type="primary" onClick={self.gotoBtnClick}>跳转到 about</Button>
+                <Button className='btn' type='primary' onClick={self.handleTransLan}>点击切换语言</Button>
+                <Button className='btn' type='primary' onClick={self.ajxaGetClick}>点击发起 get 请求</Button>
+                <Button className='btn' type='primary' onClick={self.ajxaPostClick}>点击发起 post 请求</Button>
+                <Button className='btn' type='primary' onClick={self.gotoBtnClick}>跳转到 about</Button>
+                <Form onSubmit={this.login} className='login-form'>
+                    <FormItem>
+                        {getFieldDecorator('userName', {
+                            rules: [{required: true, message: 'Please input your username!'}]
+                        })(
+                            <Input prefix={<Icon type='user' style={{fontSize: 13}}/>} placeholder='Username'/>
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('password', {
+                            rules: [{required: true, message: 'Please input your Password!'}]
+                        })(
+                            <Input prefix={<Icon type='lock' style={{fontSize: 13}}/>} type='password'
+                                   placeholder='Password'/>
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('remember', {
+                            valuePropName: 'checked',
+                            initialValue: true
+                        })(
+                            <Checkbox>Remember me</Checkbox>
+                        )}
+                        {/*<a className='login-form-forgot' href=''>Forgot password</a>*/}
+                        <Button type='primary' htmlType='submit' className='login-form-button'>
+                            Log in
+                        </Button>
+                        {/*Or <a href=''>register now!</a>*/}
+                    </FormItem>
+                </Form>
             </div>
         );
     }
@@ -90,4 +134,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(AppActionRouter, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(HomeView));

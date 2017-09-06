@@ -4,7 +4,7 @@ import {Modal, message} from 'antd';
 import {i18n} from '../i18n';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'http://localhost:9999',
     timeout: 10000, // 请求时间超过10秒视为超时
     withCredentials: true
 });

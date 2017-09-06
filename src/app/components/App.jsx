@@ -13,6 +13,7 @@ import {i18n, locales} from '../i18n';
 import {merge} from '../utils/object';
 import routes from './routes';
 import 'antd/dist/antd.css';
+import '../style/_content.scss';
 
 /**
  * App View
