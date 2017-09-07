@@ -1,6 +1,8 @@
 const menuBar = {
     click_test: '点击',
-    content_test: '中文'
+    content_test: '中文',
+    login: '登录',
+    sign_up: '注册'
 };
 
 const about = {

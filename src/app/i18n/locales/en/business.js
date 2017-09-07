@@ -1,6 +1,8 @@
 const menuBar = {
     click_test: 'click',
-    content_test: 'english'
+    content_test: 'english',
+    login: 'Login',
+    sign_up: 'Register'
 };
 
 const about = {
