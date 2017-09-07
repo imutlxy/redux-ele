@@ -17,6 +17,9 @@ const AppActionRouter = appConfig.router;
 class HomeView extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            signOutBtnDisabled: true
+        };
     }
 
     handleTransLan = (e) => {
@@ -66,14 +69,28 @@ class HomeView extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                axiosInstance.post('/signin', values).then(response => {
+                axiosInstance.post('/signIn', values).then(response => {
                     let data  = response.data;
                     if (data.status === 200) {
                         message.success(data.msg);
+                        this.setState({signOutBtnDisabled: false});
                     } else {
                         message.error(data.msg || '网络回应错误');
                     }
                 });
+            }
+        });
+    }
+
+    signOutClick = (e) => {
+        e.preventDefault();
+        axiosInstance.get('/signOut').then(response => {
+            let data  = response.data;
+            if (data.status === 200) {
+                message.success(data.msg);
+                this.setState({signOutBtnDisabled: true});
+            } else {
+                message.error(data.msg || '网络回应错误');
             }
         });
     }
@@ -89,36 +106,39 @@ class HomeView extends Component {
                 <Button className='btn' type='primary' onClick={self.ajxaGetClick}>点击发起 get 请求</Button>
                 <Button className='btn' type='primary' onClick={self.ajxaPostClick}>点击发起 post 请求</Button>
                 <Button className='btn' type='primary' onClick={self.gotoBtnClick}>跳转到 about</Button>
-                <Form onSubmit={this.login} className='login-form'>
-                    <FormItem>
-                        {getFieldDecorator('userName', {
-                            rules: [{required: true, message: 'Please input your username!'}]
-                        })(
-                            <Input prefix={<Icon type='user' style={{fontSize: 13}}/>} placeholder='Username'/>
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        {getFieldDecorator('password', {
-                            rules: [{required: true, message: 'Please input your Password!'}]
-                        })(
-                            <Input prefix={<Icon type='lock' style={{fontSize: 13}}/>} type='password'
-                                   placeholder='Password'/>
-                        )}
-                    </FormItem>
-                    <FormItem>
-                        {getFieldDecorator('remember', {
-                            valuePropName: 'checked',
-                            initialValue: true
-                        })(
-                            <Checkbox>Remember me</Checkbox>
-                        )}
-                        {/*<a className='login-form-forgot' href=''>Forgot password</a>*/}
-                        <Button type='primary' htmlType='submit' className='login-form-button'>
-                            Log in
-                        </Button>
-                        {/*Or <a href=''>register now!</a>*/}
-                    </FormItem>
-                </Form>
+                <div className='login-form'>
+                    {this.state.signOutBtnDisabled ? (
+                        <Form onSubmit={this.login}>
+                            <FormItem>
+                                {getFieldDecorator('userName', {
+                                    rules: [{required: true, message: 'Please input your username!'}]
+                                })(
+                                    <Input prefix={<Icon type='user' style={{fontSize: 13}}/>} placeholder='Username'/>
+                                )}
+                            </FormItem>
+                            <FormItem>
+                                {getFieldDecorator('password', {
+                                    rules: [{required: true, message: 'Please input your Password!'}]
+                                })(
+                                    <Input prefix={<Icon type='lock' style={{fontSize: 13}}/>} type='password'
+                                           placeholder='Password'/>
+                                )}
+                            </FormItem>
+                            <FormItem>
+                                {getFieldDecorator('remember', {
+                                    valuePropName: 'checked',
+                                    initialValue: true
+                                })(
+                                    <Checkbox>Remember me</Checkbox>
+                                )}
+                                {/*<a className='login-form-forgot' href=''>Forgot password</a>*/}
+                                <Button type='primary' htmlType='submit' className='login-form-button'>
+                                    Log in
+                                </Button>
+                                {/*Or <a href=''>register now!</a>*/}
+                            </FormItem>
+                        </Form>) : (<Button className='btn' type='primary' onClick={self.signOutClick}>登出</Button>)}
+                </div>
             </div>
         );
     }
