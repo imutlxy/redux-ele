@@ -17,7 +17,6 @@ class HomeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            signOutBtnDisabled: true
         };
     }
 
@@ -75,12 +74,16 @@ class HomeView extends Component {
     render() {
         let self = this;
         const {t} = self.props;
+        const userName = sessionStorage.getItem('userName');
         return (
             <div className='home-view'>
                 <h1>{t('menuBar:content_test')}</h1>
                 <Button className='btn' type='primary' onClick={self.handleTransLan}>点击切换语言</Button>
                 <Button className='btn' type='primary' onClick={self.gotoBtnClick}>跳转到 about</Button>
                 <div className='login-form'>
+                    <h2>{userName ? `${userName} 欢迎你` : ''}</h2>
+                    <br/>
+                    <br/>
                     <Button className='btn' type='primary' onClick={self.signOutClick}>登出</Button>
                 </div>
             </div>

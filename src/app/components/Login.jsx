@@ -34,6 +34,7 @@ class Login extends Component {
                     let data  = response.data;
                     if (data.status === 200) {
                         message.success(data.msg);
+                        sessionStorage.setItem('userName', data.name);
                         self.gotoHomeView();
                     } else {
                         message.error(data.msg || '网络回应错误');

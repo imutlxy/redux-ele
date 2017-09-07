@@ -24,7 +24,7 @@ class Inbox extends Component {
         const {onClickAction} = this.props;
         let gotoAction = {
             type: GOTO,
-            content: '/'
+            content: '/home'
         };
         onClickAction(gotoAction, this.props);
     }
