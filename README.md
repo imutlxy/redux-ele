@@ -1,10 +1,10 @@
 # 练习 react-redux，react-router
 
-## 使用主要类库包括:
-* react
-* antd
-* Redux
-* react-router
+## 主要包含的功能:
+* 接入了 react-redux store
+* 接入了 react-router，并通过中间件注入到 store 中，统一通过触发 action 实现路由跳转
+* 接入了 react-i18next 实现国际化
+* 分离 action、reducer、middleware 到各模块中，最后合并并注入到 store 中
  
 ## 启动
 ```
