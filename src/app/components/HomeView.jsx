@@ -67,11 +67,11 @@ class HomeView extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 axiosInstance.post('/signin', values).then(response => {
-                    let data  = response.data.data;
+                    let data  = response.data;
                     if (data.status === 200) {
                         message.success(data.msg);
                     } else {
-                        message.error(data.msg);
+                        message.error(data.msg || '网络回应错误');
                     }
                 });
             }

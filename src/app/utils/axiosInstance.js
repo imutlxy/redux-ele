@@ -15,27 +15,23 @@ axiosInstance.interceptors.request.use(function (config) {
 }, function (error) {
     Modal.warning({
         title: i18n.t('common:warning'),
-        content: i18n.t('common:network_error_tip'),
+        content: i18n.t('common:network_error_req'),
         okText: i18n.t('common:ok')
     });
     return Promise.reject(error);
 });
 //回应拦截
 axiosInstance.interceptors.response.use(function (response) {
-    if (response.data && response.data.success === true) {
+    if (response.status === 200 && response.data) {
         return response;
     } else {
-        if (response.data && response.data.msg) {
-            message.error(response.data.msg);
-        } else {
-            message.error(i18n.t('common:network_error_tip'));
-        }
+        message.error('返回的结果中 status 不是 200 或没有 data 字段或data字段为null或 \'\'或 false');
         return Promise.reject(response);
     }
 }, function (error) {
     Modal.warning({
         title: i18n.t('common:warning'),
-        content: '返回的结果缺少 success 字段或者 success 为 false',
+        content: i18n.t('common:network_error_res'),
         okText: i18n.t('common:ok')
     });
     return Promise.reject(error);

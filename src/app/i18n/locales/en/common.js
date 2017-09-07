@@ -9,7 +9,8 @@ const common = {
     quit: 'Quit',
     next: 'Next',
     return: 'Back',
-    network_error_tip: 'Network error'
+    network_error_req: 'Network request error',
+    network_error_res: 'Network response error'
 };
 
 export default {

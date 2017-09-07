@@ -12,7 +12,8 @@ const common = {
     quit: '退出',
     next: '下一项',
     return: '上一项',
-    network_error_tip: '网络请求错误'
+    network_error_req: '网络请求错误',
+    network_error_res: '网络回应错误'
 };
 
 export default {
