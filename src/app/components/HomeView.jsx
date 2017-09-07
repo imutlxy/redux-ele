@@ -37,24 +37,6 @@ class HomeView extends Component {
         onClickAction(changeActiveKeyAction, this.props);
     }
 
-    ajxaGetClick = (e) => {
-        e.stopPropagation();
-        axiosInstance.get('/user', {params: {userName: 'sivan'}}).then(response => {
-            if (response.data && response.data.success === true) {
-                console.log('get 请求接收到的数据', response.data.data);
-            }
-        });
-    }
-
-    ajxaPostClick = (e) => {
-        e.stopPropagation();
-        axiosInstance.post('/user', {data: 123}).then(response => {
-            if (response.data && response.data.success === true) {
-                console.log('post 请求接收到的数据', response.data.data);
-            }
-        });
-    }
-
     gotoBtnClick = (e) => {
         e.stopPropagation();
         const {onClickAction} = this.props;
@@ -65,6 +47,9 @@ class HomeView extends Component {
         onClickAction(gotoAction, this.props);
     }
 
+    /**
+     * 登录
+     */
     login = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -82,6 +67,9 @@ class HomeView extends Component {
         });
     }
 
+    /**
+     * 登出
+     */
     signOutClick = (e) => {
         e.preventDefault();
         axiosInstance.get('/signOut').then(response => {
@@ -95,6 +83,26 @@ class HomeView extends Component {
         });
     }
 
+    /**
+     * 注册
+     */
+    register = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                axiosInstance.post('/signUp', values).then(response => {
+                    let data  = response.data;
+                    if (data.status === 200) {
+                        message.success(data.msg);
+                        this.setState({signOutBtnDisabled: false});
+                    } else {
+                        message.error(data.msg || '网络回应错误');
+                    }
+                });
+            }
+        });
+    }
+
     render() {
         let self = this;
         const {getFieldDecorator} = self.props.form;
@@ -103,41 +111,58 @@ class HomeView extends Component {
             <div className='home-view'>
                 <h1>{t('menuBar:content_test')}</h1>
                 <Button className='btn' type='primary' onClick={self.handleTransLan}>点击切换语言</Button>
-                <Button className='btn' type='primary' onClick={self.ajxaGetClick}>点击发起 get 请求</Button>
-                <Button className='btn' type='primary' onClick={self.ajxaPostClick}>点击发起 post 请求</Button>
                 <Button className='btn' type='primary' onClick={self.gotoBtnClick}>跳转到 about</Button>
                 <div className='login-form'>
                     {this.state.signOutBtnDisabled ? (
-                        <Form onSubmit={this.login}>
-                            <FormItem>
-                                {getFieldDecorator('userName', {
-                                    rules: [{required: true, message: 'Please input your username!'}]
-                                })(
-                                    <Input prefix={<Icon type='user' style={{fontSize: 13}}/>} placeholder='Username'/>
-                                )}
-                            </FormItem>
-                            <FormItem>
-                                {getFieldDecorator('password', {
-                                    rules: [{required: true, message: 'Please input your Password!'}]
-                                })(
-                                    <Input prefix={<Icon type='lock' style={{fontSize: 13}}/>} type='password'
-                                           placeholder='Password'/>
-                                )}
-                            </FormItem>
-                            <FormItem>
-                                {getFieldDecorator('remember', {
-                                    valuePropName: 'checked',
-                                    initialValue: true
-                                })(
-                                    <Checkbox>Remember me</Checkbox>
-                                )}
-                                {/*<a className='login-form-forgot' href=''>Forgot password</a>*/}
-                                <Button type='primary' htmlType='submit' className='login-form-button'>
-                                    Log in
-                                </Button>
-                                {/*Or <a href=''>register now!</a>*/}
-                            </FormItem>
-                        </Form>) : (<Button className='btn' type='primary' onClick={self.signOutClick}>登出</Button>)}
+                        <div>
+                            <Form onSubmit={this.login}>
+                                <FormItem>
+                                    {getFieldDecorator('userName', {
+                                        rules: [{required: true, message: 'Please input your username!'}]
+                                    })(
+                                        <Input prefix={<Icon type='user' style={{fontSize: 13}}/>} placeholder='Username'/>
+                                    )}
+                                </FormItem>
+                                <FormItem>
+                                    {getFieldDecorator('password', {
+                                        rules: [{required: true, message: 'Please input your Password!'}]
+                                    })(
+                                        <Input prefix={<Icon type='lock' style={{fontSize: 13}}/>} type='password'
+                                               placeholder='Password'/>
+                                    )}
+                                </FormItem>
+                                <FormItem>
+                                    {getFieldDecorator('remember', {
+                                        valuePropName: 'checked',
+                                        initialValue: true
+                                    })(
+                                        <Checkbox>Remember me</Checkbox>
+                                    )}
+                                    {/*<a className='login-form-forgot' href=''>Forgot password</a>*/}
+                                    <Button type='primary' htmlType='submit' className='login-form-button'>登录</Button>
+                                </FormItem>
+                            </Form>
+                            <Form onSubmit={this.register}>
+                                <FormItem>
+                                    {getFieldDecorator('userName', {
+                                        rules: [{required: true, message: 'Please input your username!'}]
+                                    })(
+                                        <Input prefix={<Icon type='user' style={{fontSize: 13}}/>} placeholder='Username'/>
+                                    )}
+                                </FormItem>
+                                <FormItem>
+                                    {getFieldDecorator('password', {
+                                        rules: [{required: true, message: 'Please input your Password!'}]
+                                    })(
+                                        <Input prefix={<Icon type='lock' style={{fontSize: 13}}/>} type='password'
+                                               placeholder='Password'/>
+                                    )}
+                                </FormItem>
+                                <FormItem>
+                                    <Button type='primary' htmlType='submit' className='login-form-button'>注册</Button>
+                                </FormItem>
+                            </Form>
+                        </div>) : (<Button className='btn' type='primary' onClick={self.signOutClick}>登出</Button>)}
                 </div>
             </div>
         );
