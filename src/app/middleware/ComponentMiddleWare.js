@@ -1,5 +1,5 @@
 /**
- * 组件操作拦截器中间件。此处组件包括全局所有组件。工具栏，侧边栏，content 范围内组件。
+ * 组件操作拦截器中间件。此处组件包括全局所有组件
  */
 export function componentMiddleWare(preMiddleWares, postMiddleWares) {
     return function ({getState}) {

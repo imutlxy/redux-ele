@@ -8,6 +8,8 @@ import Constants from '../constants';
 import i18n from '../i18n';
 import appConfig from '../config';
 import {axiosInstance} from '../utils/axiosInstance';
+import {authInstance} from '../auth';
+import Socket from '../utils/Socket';
 
 const {DROP_TO_CONTENT, GOTO} = Constants;
 const AppActionRouter = appConfig.router;
@@ -71,17 +73,28 @@ class HomeView extends Component {
         });
     }
 
+    connectSocket = (e) => {
+        e.preventDefault();
+        // Socket.getInstance().
+    }
+
+    disConnectSocket = (e) => {
+        e.preventDefault();
+        Socket.getInstance().disconnect();
+    }
+
     render() {
         let self = this;
         const {t} = self.props;
-        const userName = sessionStorage.getItem('userName');
         return (
             <div className='home-view'>
                 <h1>{t('menuBar:content_test')}</h1>
                 <Button className='btn' type='primary' onClick={self.handleTransLan}>点击切换语言</Button>
                 <Button className='btn' type='primary' onClick={self.gotoBtnClick}>跳转到 about</Button>
+                <Button className='btn' type='primary' onClick={self.connectSocket}>开始 Socket 连接</Button>
+                <Button className='btn' type='primary' onClick={self.disConnectSocket}>断开 Socket 连接</Button>
                 <div className='login-form'>
-                    <h2>{userName ? `${userName} 欢迎你` : ''}</h2>
+                    <h2>{authInstance.userId && authInstance.userName ? `${authInstance.userName} 欢迎你` : ''}</h2>
                     <br/>
                     <br/>
                     <Button className='btn' type='primary' onClick={self.signOutClick}>登出</Button>

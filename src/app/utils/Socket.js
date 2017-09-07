@@ -1,5 +1,4 @@
 /**
- * Created by wangtao on 23/03/2017.
  * stompSocket 封装。
  * 主要解决问题：
  * 1、将 Stomp 原始 API 进行封装。
@@ -8,9 +7,10 @@
 import {Stomp} from 'stompjs/lib/stomp';
 import SockJs from 'sockjs-client';
 
+import {authInstance} from '../auth';
+
 let socketInstance = null;
 
-let reLinkCount = 0;
 /**
  * 创建 WebSocket Promise
  * @param {object} scope
@@ -18,24 +18,14 @@ let reLinkCount = 0;
  */
 const createPromise = (scope) => {
     let socket = Stomp.over(new SockJs(scope.url));
-    socket.heartbeat.outgoing = scope.heartBeatOutTime;
-    socket.heartbeat.incoming = scope.heartBeatInTime;
+    socket.heartbeat.outgoing = scope.heartBeatOutTime || 10000; // 接收频率 默认为10000ms
+    socket.heartbeat.incoming = scope.heartBeatInTime || 10000;  // 发送频率 默认为10000ms
     socket.debug = false;
     return new Promise((resolve, reject) => {
-        socket.connect({}, function (frame) {
-            socket.send(`/online/${123}`, {}, JSON.stringify({}));
+        socket.connect({}, (frame) => {
+            socket.send(`/socketOnline/${authInstance.userId}`, {}, JSON.stringify({}));
             return resolve(socket);
-        }, function (err) {
-            scope.closeHandler(err);
-            if (reLinkCount < 3) {
-                setTimeout(function () {
-                    scope.socketPromise = createPromise(scope);
-                    scope.events.forEach((e) => {
-                        scope.applyEvent(e.url, e.callback);
-                    });
-                }, 4000);
-            }
-            reLinkCount++;
+        }, (err) => {
             return reject('Connection Error!');
         });
     });
@@ -48,7 +38,11 @@ class Socket {
         self.url = url;
         self.heartBeatOutTime = heartBeatOutTime;
         self.heartBeatInTime = heartBeatInTime;
-        self.socketPromise = createPromise(self);
+    }
+    connect() {
+        if (!this.socketPromise) {
+            this.socketPromise = createPromise(this);
+        }
     }
 
     closeHandler(err) {
@@ -119,31 +113,13 @@ class Socket {
     onClose(closeHandler) {
         this.closeHandler = closeHandler;
     }
-
-    /**
-     * 发送socket，后端获取roomId并做判断处理
-     * @param action
-     */
-    sendAction(action) {
-        if (this.onLine){
-            const simpleAction = Object.assign({}, action);
-            delete simpleAction.sendSocket;
-            if (simpleAction.view) {
-                delete simpleAction.view;
-            }
-            this.emit('/transferData', {
-                content: simpleAction,
-                fromUserId: {}
-            });
-        }
-    }
 }
 
 /**
  * 建立 WebSocket 连接
  */
 function createSocket() {
-    socketInstance = new Socket('1111111', 0, 0);
+    socketInstance = new Socket('http://localhost:9999', 1000, 1000);
 }
 
 function getInstance() {

@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import {I18nextProvider} from 'react-i18next';
 import {syncHistoryWithStore} from 'react-router-redux';
-import {hashHistory, Router, Route, IndexRoute} from 'react-router';
+import {hashHistory} from 'react-router';
 
-import actions from '../actions';
-import reducers from '../reducers';
+import {default as appActions} from '../actions';
+import {default as appReducers} from '../reducers';
 import {default as Store} from '../config/ConfigureStore';
 import appMiddleWares from '../middleware/AppMiddleWare';
 
@@ -39,14 +39,16 @@ class App extends Component {
         let storeOptions = {};
 
         const defaultStates = {};
-        const defaultActions = Object.assign({}, actions);
-        let defaultReducers = Object.assign({}, reducers);
+        const allActions = Object.assign({}, appActions);  //此处可以并入其它模块中的 action
+        const allReducers = Object.assign({}, appReducers);  //此处可以并入其它模块中的 reducer
+        const preMiddleWares = Object.assign({}, appMiddleWares.preMiddleWares);  //此处可以并入其它模块中的 preMiddleWares
+        const postMiddleWares = Object.assign({}, appMiddleWares.postMiddleWares);  //此处可以并入其它模块中的 postMiddleWares
 
         storeOptions.initialStates = defaultStates;
-        storeOptions.actions = defaultActions;
-        storeOptions.reducers = defaultReducers;
-        storeOptions.preMiddleWares = appMiddleWares.preMiddleWares;
-        storeOptions.postMiddleWares = appMiddleWares.postMiddleWares;
+        storeOptions.actions = allActions;
+        storeOptions.reducers = allReducers;
+        storeOptions.preMiddleWares = preMiddleWares;
+        storeOptions.postMiddleWares = postMiddleWares;
 
         const store = Store.configureStore(storeOptions);
         const history = syncHistoryWithStore(hashHistory, store);

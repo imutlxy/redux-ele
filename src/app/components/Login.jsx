@@ -8,6 +8,8 @@ import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
 import appConfig from '../config';
 import Constants from '../constants';
 import {axiosInstance} from '../utils/axiosInstance';
+import {sessionStorageUtil} from '../utils/StorageUtil';
+import {authInstance} from '../auth';
 
 const FormItem = Form.Item;
 const {GOTO} = Constants;
@@ -34,7 +36,9 @@ class Login extends Component {
                     let data  = response.data;
                     if (data.status === 200) {
                         message.success(data.msg);
-                        sessionStorage.setItem('userName', data.name);
+                        sessionStorageUtil.set({name: data.name, id: data.id});
+                        authInstance.userId = data.id;
+                        authInstance.userName = data.name;
                         self.gotoHomeView();
                     } else {
                         message.error(data.msg || '网络回应错误');
@@ -91,7 +95,7 @@ class Login extends Component {
                     })(
                         <Checkbox>Remember me</Checkbox>
                     )}
-                    <Button type='primary' htmlType='submit' className='login-form-button'>{t('menuBar:login')}</Button>
+                    <Button type='primary' htmlType='submit' className='login-form-button btn'>{t('menuBar:login')}</Button>
                     <Button type='primary' className='btn' onClick={this.gotoSignUpPage}>{t('menuBar:sign_up')}</Button>
                 </FormItem>
             </Form>
