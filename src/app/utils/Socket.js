@@ -6,6 +6,7 @@
  */
 import {Stomp} from 'stompjs/lib/stomp';
 import SockJs from 'sockjs-client';
+//STOMP 简单(流)文本定向消息协议，它提供了一个可互操作的连接格式，允许STOMP客户端与任意STOMP消息代理（Broker）进行交互
 
 import {authInstance} from '../auth';
 
@@ -21,14 +22,7 @@ const createPromise = (scope) => {
     socket.heartbeat.outgoing = scope.heartBeatOutTime || 10000; // 接收频率 默认为10000ms
     socket.heartbeat.incoming = scope.heartBeatInTime || 10000;  // 发送频率 默认为10000ms
     socket.debug = false;
-    return new Promise((resolve, reject) => {
-        socket.connect({}, (frame) => {
-            socket.send(`/socketOnline/${authInstance.userId}`, {}, JSON.stringify({}));
-            return resolve(socket);
-        }, (err) => {
-            return reject('Connection Error!');
-        });
-    });
+    return socket;
 };
 
 class Socket {
@@ -38,11 +32,16 @@ class Socket {
         self.url = url;
         self.heartBeatOutTime = heartBeatOutTime;
         self.heartBeatInTime = heartBeatInTime;
-    }
-    connect() {
-        if (!this.socketPromise) {
-            this.socketPromise = createPromise(this);
+        if (!self.socketPromise) {
+            self.socketPromise = createPromise(self);
         }
+    }
+
+    connect() {
+        // let self = this;
+        // if (!self.socketPromise) {
+        //     self.socketPromise = createPromise(self);
+        // }
     }
 
     closeHandler(err) {

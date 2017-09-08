@@ -12,8 +12,8 @@ reducers[DROP_TO_CONTENT] = function (state, action) {
     return newArr.toJS();
 };
 
-reducers[GOTO] = function (state, action) {
-    return state;
-};
+// reducers[GOTO] = function (state, action) {
+//     return state;
+// };
 
 export default reducers;

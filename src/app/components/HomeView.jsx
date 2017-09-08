@@ -9,7 +9,6 @@ import i18n from '../i18n';
 import appConfig from '../config';
 import {axiosInstance} from '../utils/axiosInstance';
 import {authInstance} from '../auth';
-import Socket from '../utils/Socket';
 
 const {DROP_TO_CONTENT, GOTO} = Constants;
 const AppActionRouter = appConfig.router;
@@ -64,23 +63,13 @@ class HomeView extends Component {
         let self = this;
         axiosInstance.get('/signOut').then(response => {
             let data  = response.data;
-            if (data.status === 200) {
-                message.success(data.msg);
+            if (data.status === 404) {
+                message.warning(data.msg);
                 self.gotoLoginPage();
             } else {
                 message.error(data.msg || '网络回应错误');
             }
         });
-    }
-
-    connectSocket = (e) => {
-        e.preventDefault();
-        // Socket.getInstance().
-    }
-
-    disConnectSocket = (e) => {
-        e.preventDefault();
-        Socket.getInstance().disconnect();
     }
 
     render() {
@@ -91,8 +80,6 @@ class HomeView extends Component {
                 <h1>{t('menuBar:content_test')}</h1>
                 <Button className='btn' type='primary' onClick={self.handleTransLan}>点击切换语言</Button>
                 <Button className='btn' type='primary' onClick={self.gotoBtnClick}>跳转到 about</Button>
-                <Button className='btn' type='primary' onClick={self.connectSocket}>开始 Socket 连接</Button>
-                <Button className='btn' type='primary' onClick={self.disConnectSocket}>断开 Socket 连接</Button>
                 <div className='login-form'>
                     <h2>{authInstance.userId && authInstance.userName ? `${authInstance.userName} 欢迎你` : ''}</h2>
                     <br/>
