@@ -9,15 +9,8 @@
             "import",
             [
                 {
-                    "libraryName": "antd"
-                },
-                {
-                    "libraryName": "uwd",
-                    "libraryDirectory": "lib"
-                },
-                {
-                    "libraryName": "umd",
-                    "libraryDirectory": "lib"
+                    "style": "css",
+                    "libraryName": "antd-mobile"
                 }
             ]
         ],

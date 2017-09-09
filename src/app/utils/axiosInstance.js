@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Modal, message} from 'antd';
+import {Toast} from 'antd';
 
 import {i18n} from '../i18n';
 
@@ -13,11 +13,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(function (config) {
     return config;
 }, function (error) {
-    Modal.warning({
-        title: i18n.t('common:warning'),
-        content: i18n.t('common:network_error_req'),
-        okText: i18n.t('common:ok')
-    });
+    Toast.fail(i18n.t('common:network_error_req'), 2);
     return Promise.reject(error);
 });
 //回应拦截
@@ -25,15 +21,11 @@ axiosInstance.interceptors.response.use(function (response) {
     if (response.status === 200 && response.data) {
         return response;
     } else {
-        message.error('返回的结果中 status 不是 200 或没有 data 字段或data字段为null或 \'\'或 false');
+        Toast.fail('返回的结果中 status 不是 200 或没有 data 字段或 data 字段为 null 或 \'\' 或 false', 2);
         return Promise.reject(response);
     }
 }, function (error) {
-    Modal.warning({
-        title: i18n.t('common:warning'),
-        content: i18n.t('common:network_error_res'),
-        okText: i18n.t('common:ok')
-    });
+    Toast.fail(i18n.t('common:network_error_req'), 2);
     return Promise.reject(error);
 });
 

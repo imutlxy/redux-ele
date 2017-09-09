@@ -1,31 +1,20 @@
 import {Socket} from './Socket';
-import {appendParamsToUrl, browser, parseQueryString, stringifyURLParams} from './util';
+import util from './util';
 import {axiosInstance} from './axiosInstance';
 import {default as DataTransmitter} from './DataTransmitter';
 import {localStorageUtil, sessionStorageUtil} from './StorageUtil';
-
-let utils = {
-    Socket: Socket,
-    browser: browser,
-    appendParamsToUrl: appendParamsToUrl,
-    parseQueryString: parseQueryString,
-    stringifyURLParams: stringifyURLParams,
-    axiosInstance: axiosInstance,
-    DataTransmitter: DataTransmitter,
-    sessionStorageUtil,
-    localStorageUtil
-};
+import {mapStateToProps, mapDispatchToProps} from './connectUtil';
 
 export {
     Socket,
-    browser,
-    appendParamsToUrl,
-    parseQueryString,
-    stringifyURLParams,
+    util,
     axiosInstance,
+    DataTransmitter,
     sessionStorageUtil,
-    localStorageUtil
+    localStorageUtil,
+    mapStateToProps,
+    mapDispatchToProps
 };
 
-export default utils;
+export default util;
 

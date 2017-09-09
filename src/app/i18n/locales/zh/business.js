@@ -5,12 +5,16 @@ const menuBar = {
     sign_up: '注册'
 };
 
-const about = {
+const order = {
     about_test: '关于页'
 };
 
-const inbox = {
+const search = {
     inbox_test: 'Inbox页'
+};
+
+const me = {
+    me_test: '我的页面'
 };
 
 const settings = {
@@ -26,9 +30,18 @@ const settings = {
     fontLarge: '14px'
 };
 
+const footer = {
+    footerMe: '我的',
+    footerHome: '首页',
+    footerOrder: '订单',
+    footerSearch: '搜索'
+};
+
 export default {
     menuBar,
-    about,
-    inbox,
+    order,
+    search,
+    me,
+    footer,
     settings
 };

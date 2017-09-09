@@ -26,6 +26,14 @@ function getDefaultModules() {
                 use: 'eslint-loader'//js,jsx 预处理，先通过 eslint 语法校验
             },
             {
+                test: /\.(svg)$/i,
+                loader: 'svg-sprite-loader',
+                include: [
+                    require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
+                    // path.resolve(__dirname, 'src/my-project-svg-foler'),  // folder of svg files in your project
+                ]
+            },
+            {
                 test: /\.md$/,
                 use: ['html-loader', 'markdown-loader']
             },
@@ -149,7 +157,6 @@ const entries = files.reduce(function (memo, file) {
         'redux',
         'redux-thunk',
         'react-router',
-        'react-router-dom',
         'react-router-redux',
         'sockjs-client',
         'webstomp-client',

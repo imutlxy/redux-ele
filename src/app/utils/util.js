@@ -1,4 +1,12 @@
-export function browser(navigator) {
+
+import Constants from '../constants';
+
+
+const {GOTO} = Constants;
+
+let util = {};
+
+util.browser = (navigator) => {
     let tem;
     const ua = navigator.userAgent;
     let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
@@ -18,7 +26,7 @@ export function browser(navigator) {
         M.splice(1, 1, tem[1]);
     }
     return M.join(' ');
-}
+};
 
 /**
  * 解析URL参数
@@ -29,7 +37,7 @@ export function browser(navigator) {
  *      => {key0: "", key1: "1", key2: "参数"}
  *      2. parseQueryString() => 返回当前地址栏的解析结果
  */
-export function parseQueryString(url) {
+util.parseQueryString = (url) => {
     url = url || window.location.href;
     const queryObject = {};
     const startIndex = url.indexOf('?');
@@ -43,7 +51,7 @@ export function parseQueryString(url) {
         });
     }
     return queryObject;
-}
+};
 
 /**
  * JSON 对象转成 URLParams 形式
@@ -53,7 +61,7 @@ export function parseQueryString(url) {
  *      stringifyToQueryString({key0: "", key1: "1", key2: "参数"})
  *      => key0=&key1=1&key2=%E5%8F%82%E6%95%B0
  */
-export function stringifyURLParams(data) {
+util.stringifyURLParams = (data) => {
     let paramsArray = [];
     for (let prop in data) {
         if (data.hasOwnProperty(prop)) {
@@ -61,7 +69,7 @@ export function stringifyURLParams(data) {
         }
     }
     return paramsArray.join('&');
-}
+};
 
 /**
  * 追加 params 到 URL
@@ -75,7 +83,7 @@ export function stringifyURLParams(data) {
  * http://www.example.com/?key0=&key1=1
  * http://www.example.com/search?key0=&key1=1
  */
-export function appendParamsToUrl(url, params) {
+util.appendParamsToUrl = (url, params) => {
     const startIndex = url.indexOf('?');
     // 不存在 "?"
     if (startIndex === -1) {
@@ -87,8 +95,8 @@ export function appendParamsToUrl(url, params) {
         // "?" 不是URL最后一个字符
         url += '&';
     }
-    return url + stringifyURLParams(params);
-}
+    return url + util.stringifyURLParams(params);
+};
 
 /**
  * 获取没有?的URL
@@ -97,31 +105,47 @@ export function appendParamsToUrl(url, params) {
  *
  * http://www.example.com/search?key0=&key1=1 => http://www.example.com/search
  */
-export function getShortUrl(url) {
+util.getShortUrl = (url) => {
     url = url || window.location.href;
     const startIndex = url.indexOf('?');
     if (startIndex === -1) {
         return url;
     }
     return url.substr(0, startIndex);
-}
+};
 
 /**
  * 从 URL 中移除指定的key，返回新的 URL
  * @param {string} key
  * @param {string} [url]
  */
-export function removeKeyFromUrl(key, url) {
+util.removeKeyFromUrl = (key, url) => {
     url = url || window.location.href;
-    const qsObj = parseQueryString();
+    const qsObj = util.parseQueryString();
     delete qsObj[key];
-    return appendParamsToUrl(getShortUrl(url), qsObj);
-}
+    return util.appendParamsToUrl(util.getShortUrl(url), qsObj);
+};
 
-/*
+/**
  返回 YYYY-MM-DD-HH.mm.ss 格式时间
  */
-export function generateDate() {
+util.generateDate = () => {
     const date = new Date();
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`;
-}
+};
+
+/**
+ 返回 YYYY-MM-DD-HH.mm.ss 格式时间
+ */
+util.transformRouter = (props, url) => {
+    if (props && props.onClickAction) {
+        const {onClickAction} = props;
+        let gotoAction = {
+            type: GOTO,
+            content: url
+        };
+        onClickAction(gotoAction, props);
+    }
+};
+
+export default util;

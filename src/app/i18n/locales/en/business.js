@@ -5,12 +5,16 @@ const menuBar = {
     sign_up: 'Register'
 };
 
-const about = {
-    about_test: 'About page'
+const order = {
+    about_test: 'Order page'
 };
 
-const inbox = {
-    inbox_test: 'Inbox page'
+const search = {
+    inbox_test: 'Search page'
+};
+
+const me = {
+    me_test: 'me page'
 };
 
 const settings = {
@@ -26,9 +30,18 @@ const settings = {
     fontLarge: '14px'
 };
 
+const footer = {
+    footerMe: 'me',
+    footerHome: 'home',
+    footerOrder: 'order',
+    footerSearch: 'search'
+};
+
 export default {
     menuBar,
-    about,
-    inbox,
-    settings
+    order,
+    search,
+    me,
+    settings,
+    footer
 };

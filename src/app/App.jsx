@@ -4,16 +4,16 @@ import {I18nextProvider} from 'react-i18next';
 import {syncHistoryWithStore} from 'react-router-redux';
 import {hashHistory} from 'react-router';
 
-import {default as appActions} from '../actions';
-import {default as appReducers} from '../reducers';
-import {default as Store} from '../config/ConfigureStore';
-import appMiddleWares from '../middleware/AppMiddleWare';
+import {default as appActions} from './actions';
+import {default as appReducers} from './reducers';
+import {default as Store} from './config/ConfigureStore';
+import appMiddleWares from './middleware/AppMiddleWare';
 
-import {i18n, locales} from '../i18n';
-import {merge} from '../utils/object';
+import {i18n, locales} from './i18n';
+import {merge} from './utils/object';
 import routes from './routes';
-import 'antd/dist/antd.css';
-import '../style/_content.scss';
+// import 'antd/dist/antd.css';
+import './style/_content.scss';
 
 /**
  * App View
