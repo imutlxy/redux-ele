@@ -24,4 +24,4 @@ git config core.safecrlf true  //打开 git 提交换行符混用校验功能
 Setting -> Languages & Frameworks -> JavaScript -> 修改为 **ECMAScript 6**
     
 ## 后台仓库地址
-[node-test](https://github.com/liangxinwei/node-ele)
+[node-ele](https://github.com/liangxinwei/node-ele)
