@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 
 import Constants from '../constants';
 
-const {DROP_TO_CONTENT, GOTO} = Constants;
+const {DROP_TO_CONTENT, GOTO, GO_BACK, GO_FORWARD} = Constants;
 
 let reducers = {};
 
@@ -13,6 +13,14 @@ reducers[DROP_TO_CONTENT] = function (state, action) {
 };
 
 // reducers[GOTO] = function (state, action) {
+//     return state;
+// };
+
+// reducers[GO_BACK] = function (state, action) {
+//     return state;
+// };
+
+// reducers[GO_FORWARD] = function (state, action) {
 //     return state;
 // };
 

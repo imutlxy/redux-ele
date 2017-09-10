@@ -1,7 +1,9 @@
 import Me from './Me';
+import Setting from './Setting';
 
 export {
-    Me
+    Me,
+    Setting
 };
 
 export default Me;

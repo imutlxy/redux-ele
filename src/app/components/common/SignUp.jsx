@@ -1,24 +1,20 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {Button} from 'antd-mobile';
 
-import {Button} from 'antd';
-
-import appConfig from '../../config';
 import Constants from '../../constants';
-import {axiosInstance} from '../../utils/axiosInstance';
-import {sessionStorageUtil} from '../../utils/StorageUtil';
+import {util, axiosInstance, mapStateToProps, mapDispatchToProps, sessionStorageUtil} from '../../utils';
 import {authInstance} from '../../auth';
 
 // const FormItem = Form.Item;
 const {GOTO} = Constants;
-const AppActionRouter = appConfig.router;
 
 /**
  * 注册页
  */
 @translate(['menuBar'], {wait: true})
+@connect(mapStateToProps, mapDispatchToProps)
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -49,12 +45,12 @@ class SignUp extends Component {
     }
 
     gotoHomeView = () => {
-        const {onClickAction} = this.props;
-        let gotoAction = {
-            type: GOTO,
-            content: '/home'
-        };
-        onClickAction(gotoAction, this.props);
+        // const {onClickAction} = this.props;
+        // let gotoAction = {
+        //     type: GOTO,
+        //     content: '/home'
+        // };
+        // onClickAction(gotoAction, this.props);
     }
 
     render() {
@@ -87,22 +83,4 @@ class SignUp extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    if (state) {
-        return {
-            store: state.appReducer || {},
-            routerStore: (state.routing && state.routing.locationBeforeTransitions) || {}
-        };
-    } else {
-        return {
-            store: {},
-            routerStore: {}
-        };
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(AppActionRouter, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default SignUp;

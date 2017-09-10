@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Toast} from 'antd';
+import {Toast} from 'antd-mobile';
 
 import {i18n} from '../i18n';
 

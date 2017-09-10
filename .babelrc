@@ -9,7 +9,7 @@
             "import",
             [
                 {
-                    "style": "css",
+                    "style": true,
                     "libraryName": "antd-mobile"
                 }
             ]

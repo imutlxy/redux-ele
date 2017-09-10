@@ -1,8 +1,7 @@
-
+import i18n from '../i18n';
 import Constants from '../constants';
 
-
-const {GOTO} = Constants;
+const {GOTO, GO_BACK, GO_FORWARD} = Constants;
 
 let util = {};
 
@@ -29,105 +28,14 @@ util.browser = (navigator) => {
 };
 
 /**
- * 解析URL参数
- * @param {string} [url]
- * @returns {Object}
- * Usage:
- *      1. parseQueryString('http://www.example.com/search?key0=&key1=1&key2=%E5%8F%82%E6%95%B0')
- *      => {key0: "", key1: "1", key2: "参数"}
- *      2. parseQueryString() => 返回当前地址栏的解析结果
+ * 获取用户偏好设置
  */
-util.parseQueryString = (url) => {
-    url = url || window.location.href;
-    const queryObject = {};
-    const startIndex = url.indexOf('?');
-    if (startIndex > -1) {
-        const queryString = url.substring(startIndex + 1);
-        const queryArray = queryString.split('&');
-        queryArray.forEach(function (item) {
-            const arr = item.split('=');
-            const key = decodeURIComponent(arr[0]);
-            queryObject[key] = decodeURIComponent(arr[1]);
-        });
-    }
-    return queryObject;
+util.setLanguage = (lan) => {
+    i18n.changeLanguage(lan || 'zh');
 };
 
 /**
- * JSON 对象转成 URLParams 形式
- * @param {Object} data
- * @returns {string} QueryString
- * Usage:
- *      stringifyToQueryString({key0: "", key1: "1", key2: "参数"})
- *      => key0=&key1=1&key2=%E5%8F%82%E6%95%B0
- */
-util.stringifyURLParams = (data) => {
-    let paramsArray = [];
-    for (let prop in data) {
-        if (data.hasOwnProperty(prop)) {
-            paramsArray.push(encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop]));
-        }
-    }
-    return paramsArray.join('&');
-};
-
-/**
- * 追加 params 到 URL
- * @param {string} url
- * @param {Object} params
- *
- * http://www.example.com
- * http://www.example.com/
- * http://www.example.com/? => http://www.example.com/?key0=0
- * http://www.example.com/?key0=
- * http://www.example.com/?key0=&key1=1
- * http://www.example.com/search?key0=&key1=1
- */
-util.appendParamsToUrl = (url, params) => {
-    const startIndex = url.indexOf('?');
-    // 不存在 "?"
-    if (startIndex === -1) {
-        if (url.slice(-1) !== '/') {
-            url += '/';
-        }
-        url += '?';
-    } else if (startIndex !== url.length - 1) {
-        // "?" 不是URL最后一个字符
-        url += '&';
-    }
-    return url + util.stringifyURLParams(params);
-};
-
-/**
- * 获取没有?的URL
- * @param {string} [url]
- * @returns {string}
- *
- * http://www.example.com/search?key0=&key1=1 => http://www.example.com/search
- */
-util.getShortUrl = (url) => {
-    url = url || window.location.href;
-    const startIndex = url.indexOf('?');
-    if (startIndex === -1) {
-        return url;
-    }
-    return url.substr(0, startIndex);
-};
-
-/**
- * 从 URL 中移除指定的key，返回新的 URL
- * @param {string} key
- * @param {string} [url]
- */
-util.removeKeyFromUrl = (key, url) => {
-    url = url || window.location.href;
-    const qsObj = util.parseQueryString();
-    delete qsObj[key];
-    return util.appendParamsToUrl(util.getShortUrl(url), qsObj);
-};
-
-/**
- 返回 YYYY-MM-DD-HH.mm.ss 格式时间
+ * 返回 YYYY-MM-DD-HH.mm.ss 格式时间
  */
 util.generateDate = () => {
     const date = new Date();
@@ -135,7 +43,7 @@ util.generateDate = () => {
 };
 
 /**
- 返回 YYYY-MM-DD-HH.mm.ss 格式时间
+ * 导航到 url 页
  */
 util.transformRouter = (props, url) => {
     if (props && props.onClickAction) {
@@ -143,6 +51,34 @@ util.transformRouter = (props, url) => {
         let gotoAction = {
             type: GOTO,
             content: url
+        };
+        onClickAction(gotoAction, props);
+    }
+};
+
+/**
+ * 后退
+ */
+util.goBack = (props) => {
+    if (props && props.onClickAction) {
+        const {onClickAction} = props;
+        let gotoAction = {
+            type: GO_BACK,
+            content: ''
+        };
+        onClickAction(gotoAction, props);
+    }
+};
+
+/**
+ * 前进
+ */
+util.goForward = (props) => {
+    if (props && props.onClickAction) {
+        const {onClickAction} = props;
+        let gotoAction = {
+            type: GO_FORWARD,
+            content: ''
         };
         onClickAction(gotoAction, props);
     }

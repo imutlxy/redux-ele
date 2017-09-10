@@ -1,7 +1,7 @@
-// import SignUp from './SignUp';
-// import Login from './Login';
-//
-// export {
-//     SignUp,
-//     Login
-// };
+import Header from './Header';
+
+export {
+    Header
+};
+
+export default Header;

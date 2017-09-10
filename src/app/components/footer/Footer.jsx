@@ -3,8 +3,11 @@ import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 import classNames from 'classnames';
 
+import Constants from '../../constants';
 import {util, mapStateToProps, mapDispatchToProps} from '../../utils';
 import './style/index.scss';
+
+const {GOTO} = Constants;
 
 @translate(['footer'], {wait: true})
 @connect(mapStateToProps, mapDispatchToProps)
@@ -30,7 +33,7 @@ class Footer extends Component {
                 })} onClick={(e) => {
                     self.handleMenuBarClick(e, '/home');
                 }}>
-                    <i className="fa fa-home" aria-hidden="true"/>
+                    <i className='fa fa-home'/>
                     <span>{t('footer:footerHome')}</span>
                 </div>
                 <div className={classNames({
@@ -39,7 +42,7 @@ class Footer extends Component {
                 })} onClick={(e) => {
                     self.handleMenuBarClick(e, '/search');
                 }}>
-                    <i className="fa fa-search" aria-hidden="true"/>
+                    <i className='fa fa-search'/>
                     <span>{t('footer:footerSearch')}</span>
                 </div>
                 <div className={classNames({
@@ -48,7 +51,7 @@ class Footer extends Component {
                 })} onClick={(e) => {
                     self.handleMenuBarClick(e, '/order');
                 }}>
-                    <i className="fa fa-bars" aria-hidden="true"/>
+                    <i className='fa fa-bars'/>
                     <span>{t('footer:footerOrder')}</span>
                 </div>
                 <div className={classNames({
@@ -57,7 +60,7 @@ class Footer extends Component {
                 })} onClick={(e) => {
                     self.handleMenuBarClick(e, '/me');
                 }}>
-                    <i className="fa fa-user-o" aria-hidden="true"/>
+                    <i className='fa fa-user-o'/>
                     <span>{t('footer:footerMe')}</span>
                 </div>
             </div>

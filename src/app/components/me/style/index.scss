@@ -1,0 +1,49 @@
+@import '../../../style/_variables.scss';
+
+.app-me {
+    padding-top: 1rem;
+    .app-me-avatar-panel {
+        height: 2rem;
+        background-color: #{$common-bg};
+        .am-list-body {
+            height: 100%;
+            background-color: transparent;
+            .am-list-item {
+                height: 100%;
+                background-color: transparent;
+                .am-list-thumb {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    padding-left: .4rem;
+                    .am-icon {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .am-list-line .am-list-content {
+                    color: #{$header-font-color};
+                    font-size: .4rem;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .app-me-list {
+        margin-top: .2rem;
+        .am-list-body {
+            height: .8rem;
+            .am-list-item {
+                height: 100%;
+                min-height: 100%;
+            }
+        }
+    }
+    .app-me-setting-signup-btn {
+        width: 95%;
+        border-radius: .1rem;
+        margin: 2rem auto .5rem auto;
+        height: .9rem;
+        font-size: .5rem;
+        line-height: .9rem;
+    }
+}

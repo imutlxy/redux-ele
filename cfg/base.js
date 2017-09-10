@@ -19,12 +19,10 @@ module.exports = {
         disableHostCheck: true
     },
     resolve: {
-        alias: {
-            antd: path.join(__dirname, './../node_modules/antd-mobile/')
-        },
-        //import文件的查找方式，如果不存在文件后缀，依次尝试 js jsx 后缀
-        extensions: ['.js', '.jsx'],
-        modules: [defaultSettings.srcPath, 'node_modules']
+        mainFiles: ['index.web', 'index'],
+        extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json', '.react.js'],
+        modules: [defaultSettings.srcPath, 'node_modules', path.join(__dirname, '../node_modules')],
+        mainFields: ['browser', 'jsnext:main', 'main']
     },
     module: {},
     externals : {

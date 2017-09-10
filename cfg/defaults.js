@@ -3,13 +3,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
-const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const marked = require('marked');
-const renderer = new marked.Renderer();
 
 const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
 
@@ -29,8 +27,8 @@ function getDefaultModules() {
                 test: /\.(svg)$/i,
                 loader: 'svg-sprite-loader',
                 include: [
-                    require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
-                    // path.resolve(__dirname, 'src/my-project-svg-foler'),  // folder of svg files in your project
+                    require.resolve('antd-mobile').replace(/warn\.js$/, '') // antd-mobile 内置svg
+                    //path.resolve(__dirname, 'src/my-project-svg-foler'),  // 业务代码本地私有 svg 存放目录
                 ]
             },
             {
@@ -109,7 +107,7 @@ function getDefaultModules() {
             },
             // 字体文件(eg: .ttf/.ttf?v=123)
             {
-                test: /\.(woff|woff2|eot|ttf|otf|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(woff|woff2|eot|ttf|otf)(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'file-loader',
                 options: {
                     name: 'assets/media/[name].[hash:8].[ext]'

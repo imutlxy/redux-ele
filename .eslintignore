@@ -2,9 +2,12 @@ node_modules/**
 src/vendor/**
 dist/**
 lib/**
+**/*.scss
 **/*.map
 **/*.css
 **/*.html
+**/*.ejs
+**/*.json
 **/*.md
 **/*.svg
 **/*.png

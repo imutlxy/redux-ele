@@ -8,7 +8,7 @@ import {
     SignUp,
     Login,
     Me,
-    Footer
+    Setting
 } from '../components';
 
 const routes = (history) => {
@@ -19,6 +19,7 @@ const routes = (history) => {
             <Route path="/search" component={Search}/>
             <Route path="/order" component={Order}/>
             <Route path="/me" component={Me}/>
+            <Route path="/me/setting" component={Setting}/>
         </Router>
     );
 };
