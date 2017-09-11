@@ -8,8 +8,9 @@
  
 ## 启动
 ```
-npm i
-npm run lintfix // 默认换行符是 LF，如果被 git 或 编辑器自动换成 CRLF，就运行
+npm install -g cnpm --registry=https://registry.npm.taobao.org // 全局安装 cnpm，已安装请跳过
+cnpm i
+npm run lintfix // 默认换行符是 LF，如果被 git 或 编辑器自动换成 CRLF，则运行
 npm start
 ```
 
