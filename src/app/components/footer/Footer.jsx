@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 import Constants from '../../constants';
 import {util, mapStateToProps, mapDispatchToProps} from '../../utils';
-import './style/index.scss';
 
 const {GOTO} = Constants;
 

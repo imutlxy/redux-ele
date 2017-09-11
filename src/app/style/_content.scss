@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+@import '../components/header/style/index.scss';
+@import '../components/home/style/index.scss';
+@import '../components/search/style/index.scss';
+@import '../components/order/style/index.scss';
+@import '../components/me/style/index.scss';
+@import '../components/footer/style/index.scss';
+
 .login-form {
     width: 400px;
     height: 300px;

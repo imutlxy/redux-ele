@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 
 import {util, mapStateToProps, mapDispatchToProps} from '../../utils';
-import './style/index.scss';
 
 @translate(['footer'], {wait: true})
 @connect(mapStateToProps, mapDispatchToProps)

@@ -5,21 +5,27 @@ import {
     Order,
     HomeView,
     Search,
-    SignUp,
-    Login,
     Me,
-    Setting
+    Setting,
+    Login,
+    OwnerPage
 } from '../components';
 
 const routes = (history) => {
     return (
         <Router history={history}>
             <Route path="/" component={HomeView}/>
+
             <Route path="/home" component={HomeView}/>
+
             <Route path="/search" component={Search}/>
+
             <Route path="/order" component={Order}/>
+
             <Route path="/me" component={Me}/>
             <Route path="/me/setting" component={Setting}/>
+            <Route path="/me/logIn" component={Login}/>
+            <Route path="/me/ownerPage" component={OwnerPage}/>
         </Router>
     );
 };

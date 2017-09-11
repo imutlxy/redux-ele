@@ -8,7 +8,6 @@ import {util, axiosInstance, mapStateToProps, mapDispatchToProps} from '../../ut
 import {authInstance} from '../../auth';
 import Header from '../header';
 import Footer from '../footer';
-import './style/index.scss';
 
 const {DROP_TO_CONTENT, GOTO} = Constants;
 const Item = List.Item;
@@ -21,6 +20,9 @@ const Item = List.Item;
 class Me extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            avatarText: '登录/注册'
+        };
     }
 
     componentDidMount() {
@@ -29,6 +31,15 @@ class Me extends Component {
     handleSettingClick= (e) => {
         e.preventDefault();
         util.transformRouter(this.props, '/me/setting');
+    }
+
+    handleAvatarClick = (e) => {
+        e.preventDefault();
+        if (authInstance.userName) {
+            util.transformRouter(this.props, '/me/ownerPage');
+        } else {
+            util.transformRouter(this.props, '/me/logIn');
+        }
     }
 
     render() {
@@ -41,15 +52,9 @@ class Me extends Component {
                     <Item
                         thumb={<Icon type='loading' />}
                         arrow='horizontal'
-                        onClick={self.handleSettingClick}
-                    >登录/注册</Item>
+                        onClick={self.handleAvatarClick}
+                    >{ authInstance.userName ? `欢迎您，${authInstance.userName}` : '登录/注册'}</Item>
                 </List>
-                {/*<Button className='am-button' onClick={self.handleTransLan}>点击切换语言</Button>*/}
-                {/*<div className='login-form'>*/}
-                    {/*<h2>{authInstance.userId && authInstance.userName ? `${authInstance.userName} 欢迎你` : ''}</h2>*/}
-                    {/*<br/>*/}
-                    {/*<Button className='btn' onClick={self.signOutClick}>登出</Button>*/}
-                {/*</div>*/}
                 <List className='app-me-list'>
                     <Item
                         thumb='https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
@@ -60,7 +65,6 @@ class Me extends Component {
                 <List className='app-me-list'>
                     <Item thumb='https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png' arrow='horizontal'>服务中心</Item>
                 </List>
-
                 <Footer />
             </div>
         );
