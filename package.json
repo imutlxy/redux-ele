@@ -21,7 +21,7 @@
     "lintfix": "eslint ./**/* --fix --ext '.js,.jsx'",
     "test": "casperjs test ./test",
     "build": "webpack",
-    "dist": "npm run build & webpack --env=dist",
+    "dist": "webpack --env=dist",
     "postdist": "copyfiles -f ./src/*.css ./dist/",
     "start": "node server.js --env=dev",
     "serve": "node server.js --env=dev",
