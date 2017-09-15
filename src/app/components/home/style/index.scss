@@ -1,0 +1,14 @@
+@import '../../../style/_variables.scss';
+
+.app-home {
+    .am-wingblank.am-wingblank-lg {
+        margin: 1rem 0 .3rem 0;
+        height: 3rem;
+        .am-carousel {
+            height:100%;
+            .slider-frame {
+                height:100%;
+            }
+        }
+    }
+}

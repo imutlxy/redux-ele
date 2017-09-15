@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
-import {Toast} from 'antd-mobile';
+import {Toast, Carousel, WhiteSpace, WingBlank} from 'antd-mobile';
 
 import Constants from '../../constants';
 import {authInstance} from '../../auth';
@@ -16,6 +16,8 @@ class HomeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: ['', '', ''],
+            initialHeight: 200
         };
     }
 
@@ -40,8 +42,32 @@ class HomeView extends Component {
         let self = this;
         const {t} = self.props;
         return (
-            <div className='home-view'>
-                <h1>{t('menuBar:content_test')}</h1>
+            <div className='app-home'>
+                <div className='app-header'>首页</div>
+                <WingBlank>
+                    <Carousel
+                        className="my-carousel"
+                        autoplay={true}
+                        infinite
+                        swipeSpeed={35}
+                    >
+                        {this.state.data.map(ii => (
+                            <a href="http://www.baidu.com" key={ii}>
+                                <img
+                                    src={`https://zos.alipayobjects.com/rmsportal/${ii || 'QcWDkUhvYIVEcvtosxMF'}.png`}
+                                    alt="icon"
+                                    onLoad={() => {
+                                        // fire window resize event to change height
+                                        window.dispatchEvent(new Event('resize'));
+                                        this.setState({
+                                            initialHeight: null
+                                        });
+                                    }}
+                                />
+                            </a>
+                        ))}
+                    </Carousel>
+                </WingBlank>
                 <Footer />
             </div>
         );

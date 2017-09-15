@@ -7,19 +7,8 @@
 @import '../components/me/style/index.scss';
 @import '../components/footer/style/index.scss';
 
-.login-form {
-    width: 400px;
-    height: 300px;
-    margin: 0 auto;
-    padding-top: 300px;
-}
-.btn {
-    margin-right: 30px;
-    margin-top: 10px;
+#app > div {
+    height: 100%;
 }
 
-.home-view {
-    box-sizing: border-box;
-    margin: 50px auto;
-}
 
