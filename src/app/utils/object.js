@@ -50,3 +50,15 @@ export function merge(obj1, obj2) {
     }
     return newObj;
 }
+
+export function isObjectEqual(obj1, obj2) {
+    let result = false;
+    if (obj1 && obj2 && Object.keys(obj1).length === Object.keys(obj2).length) {
+        for (let key in obj1) {
+            if (obj1[key] === obj2[key]) {
+                result = true;
+            }
+        }
+    }
+    return result;
+}

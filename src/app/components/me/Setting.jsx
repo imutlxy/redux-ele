@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
-import {List, InputItem, Switch, Toast, Button} from 'antd-mobile';
+import {List, Switch, Toast, Button} from 'antd-mobile';
 import {createForm} from 'rc-form';
 
 import Constants from '../../constants';
-import {util, axiosInstance, mapStateToProps, mapDispatchToProps} from '../../utils';
+import {util, axiosInstance, mapStateToProps, mapDispatchToProps, sessionStorageUtil} from '../../utils';
+import {isObjectEqual} from '../../utils/object';
 import {authInstance} from '../../auth';
 import Header from '../header';
 
@@ -21,17 +22,14 @@ const Item = List.Item;
 class Setting extends Component {
     constructor(props) {
         super(props);
-    }
-
-    handleTransLan = (e) => {
-        e.stopPropagation();
-        util.setLanguage('zh');
-        this.props.form.validateFields((error, value) => {
-            console.log(error, value);
-        });
+        const {i18n} = props;
+        this.state = {
+            language: i18n.language
+        };
     }
 
     componentDidMount() {
+        this.originSetting = this.props.form.getFieldsValue();
     }
 
     /**
@@ -41,7 +39,7 @@ class Setting extends Component {
         e.preventDefault();
         let self = this;
         axiosInstance.get('/signOut').then(response => {
-            let data  = response.data;
+            let data = response.data;
             if (data.status === 200) {
                 authInstance.userId = undefined;
                 authInstance.userName = undefined;
@@ -54,19 +52,71 @@ class Setting extends Component {
         });
     }
 
+    onSubmit = () => {
+        let self = this;
+        self.props.form.validateFields({force: true}, (error) => {
+            if (!error) {
+                const formData = this.props.form.getFieldsValue();
+                let lan = formData['language'] === true ? 'zh' : 'en';
+                let data = {
+                    language: self.state.language,
+                    id: authInstance.userId,
+                    name: authInstance.userName
+                };
+                if (formData && authInstance.userId && !isObjectEqual(formData, self.originSetting)) {
+                    axiosInstance.post('/user/setting', data).then(response => {
+                        let data = response.data;
+                        if (data.status === 200) {
+                            sessionStorageUtil.set({language: lan});
+                            authInstance.language = data.name;
+                            util.setLanguage(lan);
+                            util.goBack(self.props);
+                        } else {
+                            Toast.fail(data.msg || '网络回应错误');
+                        }
+                    });
+                } else {
+                    Toast.fail('未修改任何信息或先去登录');
+                }
+            }
+        });
+    }
+
+    switchLanguage = (checked) => {
+        this.setState({language: checked ? 'zh' : 'en'});
+    }
+
     render() {
         let self = this;
         const {getFieldProps} = self.props.form;
-        const {t} = this.props;
+        const {t} = self.props;
+        const {language} = self.state;
+        const disabled = authInstance.userName === undefined;
         return (
             <div className='app-me'>
                 <Header title='设置'/>
                 <List className='app-me-list'>
-                    <Item extra={<Switch {...getFieldProps('1', { initialValue: true, valuePropName: 'checked' })} />}
+                    <Item
+                        extra={<Switch
+                            disabled={disabled}
+                            checked={language === 'zh'}
+                            {...getFieldProps('language')}
+                            onClick={self.switchLanguage}/>}
                     >中英文切换</Item>
                 </List>
+                <List className='app-me-list'>
+                    <Item>
+                        <Button
+                            disabled={disabled}
+                            className='app-me-setting-submit-btn'
+                            onClick={this.onSubmit}
+                        >
+                            确认修改
+                        </Button>
+                    </Item>
+                </List>
                 <Button
-                    disabled={authInstance.userName === undefined}
+                    disabled={disabled}
                     className='app-me-setting-signup-btn'
                     onClick={self.signOutClick}
                 >

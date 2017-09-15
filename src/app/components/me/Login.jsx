@@ -21,15 +21,12 @@ class Login extends Component {
         super(props);
     }
 
-    componentDidMount() {
-    }
-
     onSubmit = () => {
         let self = this;
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                if (formData.userName && formData.password && formData.account) {
+                if (formData.name && formData.password && formData.account) {
                     axiosInstance.post('/signIn', formData).then(response => {
                         let data  = response.data;
                         if (data.status === 200) {
@@ -66,7 +63,7 @@ class Login extends Component {
                 <Header title='登录/注册'/>
                 <form>
                     <List className='app-me-list'>
-                        <InputItem {...getFieldProps('userName')} placeholder='请输入昵称'>昵称</InputItem>
+                        <InputItem {...getFieldProps('name')} placeholder='请输入昵称'>昵称</InputItem>
                         <InputItem {...getFieldProps('account')} placeholder='请输入手机号'>手机号</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
                         <Item>

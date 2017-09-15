@@ -53,7 +53,7 @@ class Me extends Component {
                         thumb={<Icon type='loading' />}
                         arrow='horizontal'
                         onClick={self.handleAvatarClick}
-                    >{ authInstance.userName ? `欢迎您，${authInstance.userName}` : '登录/注册'}</Item>
+                    >{authInstance.userName ? `欢迎您，${authInstance.userName}` : '登录/注册'}</Item>
                 </List>
                 <List className='app-me-list'>
                     <Item
