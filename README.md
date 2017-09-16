@@ -1,7 +1,4 @@
-# 练习 react-redux，react-router
-
-## 目标:
-* 仿饿了么 app
+# 仿饿了么 app
 
 ## 使用的技术:
 * 接入了 react-redux store

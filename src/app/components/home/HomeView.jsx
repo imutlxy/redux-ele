@@ -6,6 +6,7 @@ import {Toast, Carousel, WhiteSpace, WingBlank} from 'antd-mobile';
 import Constants from '../../constants';
 import {authInstance} from '../../auth';
 import Footer from './../footer';
+import CategoryCarousel from './CategoryCarousel';
 import {util, axiosInstance, sessionStorageUtil, mapStateToProps, mapDispatchToProps} from '../../utils';
 
 const {DROP_TO_CONTENT} = Constants;
@@ -44,30 +45,8 @@ class HomeView extends Component {
         return (
             <div className='app-home'>
                 <div className='app-header'>{t('title')}</div>
-                <WingBlank>
-                    <Carousel
-                        className="my-carousel"
-                        autoplay={true}
-                        infinite
-                        swipeSpeed={35}
-                    >
-                        {this.state.data.map(ii => (
-                            <a href="http://www.baidu.com" key={ii}>
-                                <img
-                                    src={`https://zos.alipayobjects.com/rmsportal/${ii || 'QcWDkUhvYIVEcvtosxMF'}.png`}
-                                    alt="icon"
-                                    onLoad={() => {
-                                        // fire window resize event to change height
-                                        window.dispatchEvent(new Event('resize'));
-                                        this.setState({
-                                            initialHeight: null
-                                        });
-                                    }}
-                                />
-                            </a>
-                        ))}
-                    </Carousel>
-                </WingBlank>
+                <CategoryCarousel />
+                <div className='nearby-merchants'>附近商家</div>
                 <Footer />
             </div>
         );

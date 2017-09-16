@@ -1,13 +1,19 @@
 @import '../../../style/_variables.scss';
 
 .app-home {
-    .am-wingblank.am-wingblank-lg {
-        margin: 1rem 0 .3rem 0;
-        height: 3rem;
-        .am-carousel {
-            height:100%;
-            .slider-frame {
-                height:100%;
+    .category-carousel {
+        margin-top: 1rem;
+        margin-bottom: .3rem;
+        .am-flexbox .am-flexbox-item .am-grid-item-content {
+            .am-grid-item-content {
+                .am-grid-icon {
+                    width: 50%;
+                    height: 50%;
+                }
+            }
+            .am-grid-text {
+                color: #aaaaaa;
+                font-size: .3rem;
             }
         }
     }
