@@ -33,7 +33,7 @@ class Footer extends Component {
                     self.handleMenuBarClick(e, '/home');
                 }}>
                     <i className='fa fa-home'/>
-                    <span>{t('footer:footerHome')}</span>
+                    <span>{t('footer:home')}</span>
                 </div>
                 <div className={classNames({
                     'app-footer-item': true,
@@ -42,7 +42,7 @@ class Footer extends Component {
                     self.handleMenuBarClick(e, '/search');
                 }}>
                     <i className='fa fa-search'/>
-                    <span>{t('footer:footerSearch')}</span>
+                    <span>{t('footer:search')}</span>
                 </div>
                 <div className={classNames({
                     'app-footer-item': true,
@@ -51,7 +51,7 @@ class Footer extends Component {
                     self.handleMenuBarClick(e, '/order');
                 }}>
                     <i className='fa fa-bars'/>
-                    <span>{t('footer:footerOrder')}</span>
+                    <span>{t('footer:order')}</span>
                 </div>
                 <div className={classNames({
                     'app-footer-item': true,
@@ -60,7 +60,7 @@ class Footer extends Component {
                     self.handleMenuBarClick(e, '/me');
                 }}>
                     <i className='fa fa-user-o'/>
-                    <span>{t('footer:footerMe')}</span>
+                    <span>{t('footer:me')}</span>
                 </div>
             </div>
         );

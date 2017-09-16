@@ -24,8 +24,8 @@ class Search extends Component {
         const {t} = this.props;
         return (
             <div className='app-search'>
-                <Header title='搜索'/>
-                <h1>{t('search:inbox_test')}</h1>
+                <Header title={t('title')}/>
+                <h1>搜索</h1>
                 <Footer />
             </div>
         );

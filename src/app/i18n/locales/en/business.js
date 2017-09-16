@@ -1,20 +1,22 @@
-const menuBar = {
-    click_test: 'click',
-    content_test: 'english',
-    login: 'Login',
-    sign_up: 'Register'
+const home = {
+    title: 'Home Page'
 };
 
 const order = {
-    about_test: 'Order page'
+    title: 'My Order'
 };
 
 const search = {
-    inbox_test: 'Search page'
+    title: 'Search page'
 };
 
 const me = {
-    me_test: 'me page'
+    title: 'My Page',
+    login: 'Login',
+    forgotPwd: 'forgot password',
+    change: 'change it',
+    setting: 'Setting',
+    serviceCenter: 'Service Center'
 };
 
 const settings = {
@@ -31,14 +33,14 @@ const settings = {
 };
 
 const footer = {
-    footerMe: 'me',
-    footerHome: 'home',
-    footerOrder: 'order',
-    footerSearch: 'search'
+    me: 'me',
+    home: 'home',
+    order: 'order',
+    search: 'search'
 };
 
 export default {
-    menuBar,
+    home,
     order,
     search,
     me,

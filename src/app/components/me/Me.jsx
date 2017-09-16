@@ -47,7 +47,7 @@ class Me extends Component {
         const {t} = this.props;
         return (
             <div className='app-me'>
-                <Header title='我的'/>
+                <Header title={t('title')}/>
                 <List className='app-me-avatar-panel'>
                     <Item
                         thumb={<Icon type='loading' />}
@@ -60,10 +60,10 @@ class Me extends Component {
                         thumb='https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
                         arrow='horizontal'
                         onClick={self.handleSettingClick}
-                    >我的设置</Item>
+                    >{t('setting')}</Item>
                 </List>
                 <List className='app-me-list'>
-                    <Item thumb='https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png' arrow='horizontal'>服务中心</Item>
+                    <Item thumb='https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png' arrow='horizontal'>{t('serviceCenter')}</Item>
                 </List>
                 <Footer />
             </div>

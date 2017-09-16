@@ -10,7 +10,7 @@ import {util, axiosInstance, sessionStorageUtil, mapStateToProps, mapDispatchToP
 
 const {DROP_TO_CONTENT} = Constants;
 
-@translate(['menuBar'], {wait: true})
+@translate(['home'], {wait: true})
 @connect(mapStateToProps, mapDispatchToProps)
 class HomeView extends Component {
     constructor(props) {
@@ -43,7 +43,7 @@ class HomeView extends Component {
         const {t} = self.props;
         return (
             <div className='app-home'>
-                <div className='app-header'>首页</div>
+                <div className='app-header'>{t('title')}</div>
                 <WingBlank>
                     <Carousel
                         className="my-carousel"

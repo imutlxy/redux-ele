@@ -1,20 +1,22 @@
-const menuBar = {
-    click_test: '点击',
-    content_test: '中文',
-    login: '登录',
-    sign_up: '注册'
+const home = {
+    title: '首页'
 };
 
 const order = {
-    about_test: '关于页'
+    title: '我的订单'
 };
 
 const search = {
-    inbox_test: 'Inbox页'
+    title: '搜索页面'
 };
 
 const me = {
-    me_test: '我的页面'
+    title: '我的页面',
+    login: '登录',
+    forgotPwd: '忘记密码',
+    change: '换一张',
+    setting: '设置',
+    serviceCenter: '服务中心'
 };
 
 const settings = {
@@ -31,14 +33,14 @@ const settings = {
 };
 
 const footer = {
-    footerMe: '我的',
-    footerHome: '首页',
-    footerOrder: '订单',
-    footerSearch: '搜索'
+    me: '我的',
+    home: '首页',
+    order: '订单',
+    search: '搜索'
 };
 
 export default {
-    menuBar,
+    home,
     order,
     search,
     me,

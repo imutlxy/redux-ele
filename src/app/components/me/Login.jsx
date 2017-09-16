@@ -79,7 +79,7 @@ class Login extends Component {
         const {verificationCodeUrl} = self.state;
         return (
             <div className='app-me'>
-                <Header title='登录/注册'/>
+                <Header title={t('login')}/>
                 <form>
                     <List className='app-me-list'>
                         <InputItem {...getFieldProps('name')} placeholder='请输入昵称'>昵称</InputItem>
@@ -88,12 +88,12 @@ class Login extends Component {
                         <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
                         <div className='am-list-item am-input-item verification-code-area'>
                             <img src={verificationCodeUrl}/>
-                            <span onClick={self.getVerificationCodeUrl}>换一张</span>
+                            <span onClick={self.getVerificationCodeUrl}>{t('change')}</span>
                         </div>
                         <Item>
-                            <Button type='primary' onClick={this.onSubmit} inline>确认</Button>
-                            <Button onClick={this.onReset} inline>重置</Button>
-                            <Button size='middle' onClick={this.handleForgotPwd} inline>忘记密码</Button>
+                            <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
+                            <Button onClick={this.onReset} inline>{t('common:reset')}</Button>
+                            <Button size='middle' onClick={this.handleForgotPwd} inline>{t('forgotPwd')}</Button>
                         </Item>
                     </List>
                 </form>

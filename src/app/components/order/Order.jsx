@@ -24,8 +24,8 @@ class Order extends Component {
         const {t} = this.props;
         return (
             <div className='app-order'>
-                <Header title='我的订单'/>
-                <h1>{t('order:about_test')}</h1>
+                <Header title={t('title')}/>
+                <h1>我的订单</h1>
                 <Footer />
             </div>
         );

@@ -29,7 +29,10 @@ class Setting extends Component {
     }
 
     componentDidMount() {
-        this.originSetting = this.props.form.getFieldsValue();
+        // this.originSetting = this.props.form.getFieldsValue();
+        this.originSetting = {
+            language: this.props.i18n.language
+        };
     }
 
     /**
@@ -57,13 +60,19 @@ class Setting extends Component {
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                let lan = formData['language'] === true ? 'zh' : 'en';
-                let data = {
-                    language: self.state.language,
-                    id: authInstance.userId,
-                    name: authInstance.userName
-                };
-                if (formData && authInstance.userId && !isObjectEqual(formData, self.originSetting)) {
+                if (!authInstance.userId) {
+                    Toast.fail('请先去登录');
+                }
+                // else if (!isObjectEqual(formData, self.originSetting)) {
+                //     Toast.fail('未修改任何信息');
+                // }
+                else {
+                    let lan = formData['language'] === true ? 'zh' : 'en';
+                    let data = {
+                        language: self.state.language,
+                        id: authInstance.userId,
+                        name: authInstance.userName
+                    };
                     axiosInstance.post('/user/setting', data).then(response => {
                         let data = response.data;
                         if (data.status === 200) {
@@ -75,8 +84,6 @@ class Setting extends Component {
                             Toast.fail(data.msg || '网络回应错误');
                         }
                     });
-                } else {
-                    Toast.fail('未修改任何信息或先去登录');
                 }
             }
         });
@@ -91,10 +98,10 @@ class Setting extends Component {
         const {getFieldProps} = self.props.form;
         const {t} = self.props;
         const {language} = self.state;
-        const disabled = authInstance.userName === undefined;
+        const disabled = authInstance.userId === undefined;
         return (
             <div className='app-me'>
-                <Header title='设置'/>
+                <Header title={t('setting')}/>
                 <List className='app-me-list'>
                     <Item
                         extra={<Switch

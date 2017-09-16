@@ -7,6 +7,7 @@ const common = {
     confirm: '确定',
     i_see: '知道了',
     save: '保存',
+    reset: '重置',
     cancel: '取消',
     complete: '完成',
     quit: '退出',

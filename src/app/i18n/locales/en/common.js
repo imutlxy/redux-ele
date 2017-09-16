@@ -5,6 +5,7 @@ const common = {
     i_see: 'OK',
     save: 'Save',
     cancel: 'Cancel',
+    reset: 'reset',
     complete: 'Complete',
     quit: 'Quit',
     next: 'Next',
