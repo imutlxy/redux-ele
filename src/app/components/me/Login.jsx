@@ -19,6 +19,24 @@ const Item = List.Item;
 class Login extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            verificationCodeUrl: ''
+        };
+    }
+
+    getVerificationCodeUrl = (e) => {
+        e && e.stopPropagation();
+        let self = this;
+        axiosInstance.get('/signIn/getCaptchas').then(response => {
+            let data = response.data;
+            if (data.status === 200) {
+                self.setState({verificationCodeUrl: data.code});
+            }
+        });
+    }
+
+    componentWillMount() {
+        this.getVerificationCodeUrl();
     }
 
     onSubmit = () => {
@@ -28,7 +46,7 @@ class Login extends Component {
                 const formData = this.props.form.getFieldsValue();
                 if (formData.name && formData.password && formData.account) {
                     axiosInstance.post('/signIn', formData).then(response => {
-                        let data  = response.data;
+                        let data = response.data;
                         if (data.status === 200) {
                             sessionStorageUtil.set({name: data.name, id: data.id, account: data.account});
                             authInstance.userId = data.id;
@@ -57,7 +75,8 @@ class Login extends Component {
     render() {
         let self = this;
         const {getFieldProps} = self.props.form;
-        const {t} = this.props;
+        const {t} = self.props;
+        const {verificationCodeUrl} = self.state;
         return (
             <div className='app-me'>
                 <Header title='登录/注册'/>
@@ -66,6 +85,11 @@ class Login extends Component {
                         <InputItem {...getFieldProps('name')} placeholder='请输入昵称'>昵称</InputItem>
                         <InputItem {...getFieldProps('account')} placeholder='请输入手机号'>手机号</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
+                        <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
+                        <div className='am-list-item am-input-item verification-code-area'>
+                            <img src={verificationCodeUrl}/>
+                            <span onClick={self.getVerificationCodeUrl}>换一张</span>
+                        </div>
                         <Item>
                             <Button type='primary' onClick={this.onSubmit} inline>确认</Button>
                             <Button onClick={this.onReset} inline>重置</Button>

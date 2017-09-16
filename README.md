@@ -1,11 +1,15 @@
 # 练习 react-redux，react-router
 
-## 主要包含的功能:
+## 目标:
+* 仿饿了么 app
+
+## 使用的技术:
 * 接入了 react-redux store
 * 接入了 react-router，并通过中间件注入到 store 中，统一通过触发 action 实现路由跳转
 * 接入了 react-i18next 实现国际化
 * 分离 action、reducer、middleware 到各模块中，最后合并并注入到 store 中
- 
+* 使用 axios 请求数据
+
 ## 启动
 ```
 npm install -g cnpm --registry=https://registry.npm.taobao.org // 全局安装 cnpm，已安装请跳过

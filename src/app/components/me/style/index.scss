@@ -47,6 +47,16 @@
                 }
             }
         }
+        .verification-code-area {
+            img{
+                width: 1.5rem;
+                height: .8rem;
+            }
+            span {
+                margin-left: .3rem;
+                font-size: .3rem;
+            }
+        }
     }
     .app-me-setting-signup-btn, .app-me-setting-submit-btn {
         width: 95%;
