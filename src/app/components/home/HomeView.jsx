@@ -45,9 +45,25 @@ class HomeView extends Component {
         return (
             <div className='app-home'>
                 <div className='app-header'>{t('title')}</div>
-                <CategoryCarousel />
-                <div className='nearby-merchants'>附近商家</div>
-                <Footer />
+                <CategoryCarousel/>
+                <div className='nearby-merchants'>
+                    <i className='fa fa-bandcamp' style={{fontSize: '.3rem', margin: '.3rem 0'}}>&nbsp;&nbsp;附近商家</i>
+                    <div className='app-seller-list'>
+                        <div className='app-seller-list-left'>
+                            <div className='app-seller-list-left-icon'><img src='../../resource/imgs/favicon.png'/></div>
+                            <div className='app-seller-list-left-desc'>sdf</div>
+                        </div>
+                        <div className='app-seller-list-right'>ewtrwt</div>
+                    </div>
+                    <div className='app-seller-list'>
+                        <div className='app-seller-list-left'>
+                            <div className='app-seller-list-left-icon'><img src='../../resource/imgs/favicon.png'/></div>
+                            <div className='app-seller-list-left-desc'>sdf</div>
+                        </div>
+                        <div className='app-seller-list-right'>ewtrwt</div>
+                    </div>
+                </div>
+                <Footer/>
             </div>
         );
     }
