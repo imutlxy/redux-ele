@@ -1,5 +1,6 @@
 @import '../../../style/_variables.scss';
 
+//首页
 .app-home {
     margin: 1rem auto;
     color: #aaaaaa;
@@ -21,43 +22,46 @@
         margin-top: .2rem;
         padding: 0 .2rem;
         background-color: #fff;
-        .app-seller-list {
-            display: flex;
-            height: 1.5rem;
-            padding: .1rem 0;
-            border-bottom: 1px solid #ccc;
-            .app-seller-list-left {
-                height: 100%;
-                flex: 3;
-                display: flex;
-                .app-seller-list-left-icon {
-                    flex: 2;
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        border: none;
-                    }
-                }
-                .app-seller-list-left-desc {
-                    flex: 4;
-                    padding-left: .2rem;
-                }
-            }
-            .app-seller-list-right {
-                height: 100%;
-                flex: 2;
-                display: flex;
-            }
-        }
     }
 }
 
+//点击加载更多按钮
 .load-more-btn {
     background: none;
     border: none;
     font-size: .2rem;
 }
 
+//商家列表
+.app-seller-list {
+    display: flex;
+    height: 1.5rem;
+    padding: .1rem 0;
+    border-bottom: 1px solid #ccc;
+    .app-seller-list-left {
+        height: 100%;
+        flex: 3;
+        display: flex;
+        .app-seller-list-left-icon {
+            flex: 2;
+            img {
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+        }
+        .app-seller-list-left-desc {
+            flex: 4;
+            padding-left: .2rem;
+        }
+    }
+    .app-seller-list-right {
+        height: 100%;
+        flex: 2;
+        display: flex;
+    }
+}
+//商家详细页
 .app-business-detail {
     padding-top: 1rem;
 }
