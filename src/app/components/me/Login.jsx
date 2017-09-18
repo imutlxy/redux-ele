@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 import {Toast, List, InputItem, Button} from 'antd-mobile';
 import {createForm} from 'rc-form';
 
-import {util, axiosInstance, mapStateToProps, mapDispatchToProps, sessionStorageUtil} from '../../utils';
+import {util, axiosInstance, connectToStore, sessionStorageUtil} from '../../utils';
 import {authInstance} from '../../auth';
 import Header from '../header';
 
@@ -15,7 +14,7 @@ const Item = List.Item;
  */
 @createForm()
 @translate(['me'], {wait: true})
-@connect(mapStateToProps, mapDispatchToProps)
+@connectToStore
 class Login extends Component {
     constructor(props) {
         super(props);

@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 
-import {util, mapStateToProps, mapDispatchToProps} from '../../utils';
+import {util, connectToStore} from '../../utils';
 
 @translate(['footer'], {wait: true})
-@connect(mapStateToProps, mapDispatchToProps)
+@connectToStore
 class Header extends Component {
     constructor(props) {
         super(props);

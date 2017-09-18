@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 import classNames from 'classnames';
 
 import Constants from '../../constants';
-import {util, mapStateToProps, mapDispatchToProps} from '../../utils';
+import {util, connectToStore} from '../../utils';
 
 const {GOTO} = Constants;
 
 @translate(['footer'], {wait: true})
-@connect(mapStateToProps, mapDispatchToProps)
+@connectToStore
 class Footer extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +22,7 @@ class Footer extends Component {
     render() {
         let self = this;
         const {t, routerStore} = self.props;
-        const routerUrl = routerStore && routerStore.pathname;
+        const routerUrl = util.getRouterUrl(routerStore);
         return (
             <div className='app-footer'>
                 <div className={classNames({

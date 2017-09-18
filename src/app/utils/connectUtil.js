@@ -1,23 +1,19 @@
 import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import appConfig from '../config';
 const AppActionRouter = appConfig.router;
 
-function mapStateToProps(state) {
-    if (state) {
-        return {
-            store: state.appReducer || {},
-            routerStore: (state.routing && state.routing.locationBeforeTransitions) || {}
-        };
-    } else {
-        return {
-            store: {},
-            routerStore: {}
-        };
-    }
+export function mapStateToProps(state) {
+    return {
+        store: state.appReducer || {},
+        routerStore: (state.routing && state.routing.locationBeforeTransitions) || {}
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
     return bindActionCreators(AppActionRouter, dispatch);
 }
 
-export {mapStateToProps, mapDispatchToProps};
+export default function connectToStore(component) {
+    return connect(mapStateToProps, mapDispatchToProps)(component);
+}

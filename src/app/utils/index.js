@@ -4,7 +4,7 @@ import urlUtil from './urlUtil';
 import {axiosInstance} from './axiosInstance';
 import {default as DataTransmitter} from './DataTransmitter';
 import {localStorageUtil, sessionStorageUtil} from './StorageUtil';
-import {mapStateToProps, mapDispatchToProps} from './connectUtil';
+import connectToStore from './connectUtil';
 
 export {
     Socket,
@@ -14,8 +14,7 @@ export {
     DataTransmitter,
     sessionStorageUtil,
     localStorageUtil,
-    mapStateToProps,
-    mapDispatchToProps
+    connectToStore
 };
 
 export default util;

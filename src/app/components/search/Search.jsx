@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 import {Button} from 'antd-mobile';
 
 import Constants from '../../constants';
 import Footer from './../footer';
-import {util, mapStateToProps, mapDispatchToProps} from '../../utils';
+import {util, connectToStore} from '../../utils';
 import Header from '../header';
 
 const {GOTO} = Constants;
@@ -14,7 +13,7 @@ const {GOTO} = Constants;
  * Header View
  */
 @translate(['search'], {wait: true})
-@connect(mapStateToProps, mapDispatchToProps)
+@connectToStore
 class Search extends Component {
     constructor(props) {
         super(props);

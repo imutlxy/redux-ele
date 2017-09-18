@@ -1,12 +1,13 @@
 import Order from './order';
-import HomeView from './home';
+import {HomeView, BusinessDetail} from './home';
 import Search from './search';
 import Footer from './footer';
 import {Me, Setting, Login, OwnerPage} from './me';
 
 export {
-    Order,
     HomeView,
+    BusinessDetail,
+    Order,
     Search,
     Footer,
     Me,

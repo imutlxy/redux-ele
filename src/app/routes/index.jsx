@@ -2,8 +2,9 @@ import React from 'react';
 import {Router, Route} from 'react-router';
 
 import {
-    Order,
     HomeView,
+    BusinessDetail,
+    Order,
     Search,
     Me,
     Setting,
@@ -15,13 +16,10 @@ const routes = (history) => {
     return (
         <Router history={history}>
             <Route path="/" component={HomeView}/>
-
             <Route path="/home" component={HomeView}/>
-
+            <Route path="/business/:id" component={BusinessDetail}/>
             <Route path="/search" component={Search}/>
-
             <Route path="/order" component={Order}/>
-
             <Route path="/me" component={Me}/>
             <Route path="/me/setting" component={Setting}/>
             <Route path="/me/logIn" component={Login}/>

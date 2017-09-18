@@ -1,25 +1,21 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
-import {Toast, Carousel, WhiteSpace, WingBlank} from 'antd-mobile';
+import {Toast, Button} from 'antd-mobile';
 
 import Constants from '../../constants';
 import {authInstance} from '../../auth';
 import Footer from './../footer';
 import CategoryCarousel from './CategoryCarousel';
-import {util, axiosInstance, sessionStorageUtil, mapStateToProps, mapDispatchToProps} from '../../utils';
+import {util, axiosInstance, sessionStorageUtil, connectToStore} from '../../utils';
+import BusinessItem from './BusinessItem';
 
 const {DROP_TO_CONTENT} = Constants;
 
 @translate(['home'], {wait: true})
-@connect(mapStateToProps, mapDispatchToProps)
+@connectToStore
 class HomeView extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            data: ['', '', ''],
-            initialHeight: 200
-        };
     }
 
     getUserSetting = () => {
@@ -39,29 +35,23 @@ class HomeView extends Component {
         // this.getUserSetting();
     }
 
+    loadMore = (e) => {
+        e.stopPropagation();
+        console.log('加载更多');
+    }
+
     render() {
         let self = this;
         const {t} = self.props;
+        const businessesInner = [1].map((val, i) => (<BusinessItem url={`/business/${util.getRandomKey()}`} key={i}/>));
         return (
             <div className='app-home'>
                 <div className='app-header'>{t('title')}</div>
                 <CategoryCarousel/>
                 <div className='nearby-merchants'>
                     <i className='fa fa-bandcamp' style={{fontSize: '.3rem', margin: '.3rem 0'}}>&nbsp;&nbsp;附近商家</i>
-                    <div className='app-seller-list'>
-                        <div className='app-seller-list-left'>
-                            <div className='app-seller-list-left-icon'><img src='../../resource/imgs/favicon.png'/></div>
-                            <div className='app-seller-list-left-desc'>sdf</div>
-                        </div>
-                        <div className='app-seller-list-right'>ewtrwt</div>
-                    </div>
-                    <div className='app-seller-list'>
-                        <div className='app-seller-list-left'>
-                            <div className='app-seller-list-left-icon'><img src='../../resource/imgs/favicon.png'/></div>
-                            <div className='app-seller-list-left-desc'>sdf</div>
-                        </div>
-                        <div className='app-seller-list-right'>ewtrwt</div>
-                    </div>
+                    {businessesInner}
+                    <Button className='load-more-btn' onClick={self.loadMore}>点击加载更多···</Button>
                 </div>
                 <Footer/>
             </div>

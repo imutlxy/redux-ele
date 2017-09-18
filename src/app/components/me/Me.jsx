@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {translate} from 'react-i18next';
 import {Button, Toast, List, Icon} from 'antd-mobile';
 
 import Constants from '../../constants';
-import {util, axiosInstance, mapStateToProps, mapDispatchToProps} from '../../utils';
+import {util, axiosInstance, connectToStore} from '../../utils';
 import {authInstance} from '../../auth';
 import Header from '../header';
 import Footer from '../footer';
@@ -16,7 +15,7 @@ const Item = List.Item;
  * Header View
  */
 @translate(['me'], {wait: true})
-@connect(mapStateToProps, mapDispatchToProps)
+@connectToStore
 class Me extends Component {
     constructor(props) {
         super(props);

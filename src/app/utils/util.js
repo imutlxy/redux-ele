@@ -84,4 +84,18 @@ util.goForward = (props) => {
     }
 };
 
+/**
+ * 生成唯一的 key
+ */
+util.getRandomKey = () => {
+    return Math.random().toString(16).substr(-6);
+};
+
+/**
+ * 生成唯一的 key
+ */
+util.getRouterUrl = (routerStore) => {
+    return routerStore && routerStore.pathname || '/home';
+};
+
 export default util;
