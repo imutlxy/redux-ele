@@ -9,41 +9,57 @@ import CategoryCarousel from './CategoryCarousel';
 import {util, axiosInstance, sessionStorageUtil, connectToStore} from '../../utils';
 import BusinessItem from './BusinessItem';
 
-const {DROP_TO_CONTENT} = Constants;
+const {GET_HOME_BUSINESS} = Constants;
 
 @translate(['home'], {wait: true})
 @connectToStore
 class HomeView extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            bottomText: '点击加载更多···'
+        };
     }
 
-    getUserSetting = () => {
-        axiosInstance.get('/setting').then(response => {
+    getBusinesses = (param) => {
+        let self = this;
+        const {onClickAction} = self.props;
+        axiosInstance.get('/home/getBusiness', {params: param || {}}).then(response => {
             let data  = response.data;
             if (data.status === 200) {
-                sessionStorageUtil.set({name: data.name, id: data.id, language: data.language});
-                authInstance.userId = data.id;
-                authInstance.userName = data.name;
+                if (data.data && data.data.length && data.data.length > 0) {
+                    let action = {
+                        type: GET_HOME_BUSINESS,
+                        content: data.data
+                    };
+                    onClickAction(action, self.props);
+                } else {
+                    self.setState({bottomText: '我是有底线的'});
+                }
             } else {
                 Toast.fail(data.msg || '网络回应错误');
             }
         });
     }
 
-    componentDidMount() {
-        // this.getUserSetting();
+    componentWillMount() {
+        let self = this;
+        if(!self.props.store['homeBusinesses']) {
+            self.getBusinesses();
+        }
     }
 
     loadMore = (e) => {
         e.stopPropagation();
-        console.log('加载更多');
+        let self = this;
+        const len = (self.props.store['homeBusinesses'] || []).length;
+        self.getBusinesses({startPos: len, pageSize: 5});
     }
 
     render() {
         let self = this;
-        const {t} = self.props;
-        const businessesInner = [1].map((val, i) => (<BusinessItem url={`/business/${util.getRandomKey()}`} key={i}/>));
+        const {t, store} = self.props;
+        const businessesInner = (store['homeBusinesses'] || []).map((val, i) => (<BusinessItem data={val} key={i}/>));
         return (
             <div className='app-home'>
                 <div className='app-header'>{t('title')}</div>
@@ -51,7 +67,7 @@ class HomeView extends Component {
                 <div className='nearby-merchants'>
                     <i className='fa fa-bandcamp' style={{fontSize: '.3rem', margin: '.3rem 0'}}>&nbsp;&nbsp;附近商家</i>
                     {businessesInner}
-                    <Button className='load-more-btn' onClick={self.loadMore}>点击加载更多···</Button>
+                    <Button className='load-more-btn' onClick={self.loadMore}>{self.state.bottomText}</Button>
                 </div>
                 <Footer/>
             </div>

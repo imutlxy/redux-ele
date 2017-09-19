@@ -11,17 +11,17 @@ class BusinessItem extends Component {
 
     handleShopClick = (e) => {
         e.stopPropagation();
-        util.transformRouter(this.props, this.props.url);
+        util.transformRouter(this.props, `/business/${this.props.data._id}`);
     }
 
     render() {
         let self = this;
-        const {t} = self.props;
+        const {t, data} = self.props;
         return (
             <div className='app-seller-list' onClick={self.handleShopClick}>
                 <div className='app-seller-list-left'>
                     <div className='app-seller-list-left-icon'><img src='../../resource/imgs/favicon.png'/></div>
-                    <div className='app-seller-list-left-desc'>sdf</div>
+                    <div className='app-seller-list-left-desc'>{data.title}</div>
                 </div>
                 <div className='app-seller-list-right'>ewtrwt</div>
             </div>

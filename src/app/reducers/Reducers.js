@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 
 import Constants from '../constants';
 
-const {DROP_TO_CONTENT, GOTO, GO_BACK, GO_FORWARD} = Constants;
+const {DROP_TO_CONTENT, GET_HOME_BUSINESS} = Constants;
 
 let reducers = {};
 
@@ -12,16 +12,10 @@ reducers[DROP_TO_CONTENT] = function (state, action) {
     return newArr.toJS();
 };
 
-// reducers[GOTO] = function (state, action) {
-//     return state;
-// };
-
-// reducers[GO_BACK] = function (state, action) {
-//     return state;
-// };
-
-// reducers[GO_FORWARD] = function (state, action) {
-//     return state;
-// };
+reducers[GET_HOME_BUSINESS] = function (state, action) {
+    let newState = Object.assign({}, state);
+    newState['homeBusinesses'] = [].concat((newState['homeBusinesses'] || []), action['content']);
+    return newState;
+};
 
 export default reducers;
