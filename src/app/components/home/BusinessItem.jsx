@@ -11,7 +11,7 @@ class BusinessItem extends Component {
 
     handleShopClick = (e) => {
         e.stopPropagation();
-        util.transformRouter(this.props, `/business/${this.props.data._id}`);
+        util.transformRouter(this.props, `/business/${this.props.data.id}`);
     }
 
     render() {
