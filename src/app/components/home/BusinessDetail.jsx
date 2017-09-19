@@ -23,7 +23,7 @@ class BusinessDetail extends Component {
         const {onClickAction, store} = self.props;
         let id = self.getBusinessId();
         if (!store[id]) {
-            axiosInstance.get('/home/getBusiness/:' + id).then(response => {
+            axiosInstance.get('/home/getBusiness', {params: {id: id}}).then(response => {
                 let data  = response.data;
                 if (data.status === 200 && data.data.length > 0) {
                     let action = {
