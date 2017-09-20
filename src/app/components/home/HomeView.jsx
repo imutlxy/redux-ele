@@ -59,7 +59,7 @@ class HomeView extends Component {
     render() {
         let self = this;
         const {t, store} = self.props;
-        const businessesInner = (store['homeBusinesses'] || []).map((val, i) => (<BusinessItem data={val} key={i}/>));
+        const businessesInner = (store['homeBusinesses'] || []).map((val, i) => (<BusinessItem data={val} key={val.id}/>));
         return (
             <div className='app-home'>
                 <div className='app-header'>{t('title')}</div>
