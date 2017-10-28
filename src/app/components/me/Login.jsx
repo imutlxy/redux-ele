@@ -53,6 +53,7 @@ class Login extends Component {
                             authInstance.userAccount = data.name;
                             util.goBack(self.props);
                         } else {
+                            self.getVerificationCodeUrl();
                             Toast.fail(data.msg || '网络回应错误');
                         }
                     });
