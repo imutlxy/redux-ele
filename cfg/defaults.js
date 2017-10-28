@@ -171,7 +171,7 @@ module.exports = {
     srcPath: srcPath,
     entry: entries,
     entryKeys: entryKeys,
-    publicPath: './',
+    publicPath: './resource/',
     port: dfltPort,
     getDefaultModules: getDefaultModules,
     plugins: [

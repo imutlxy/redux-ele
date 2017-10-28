@@ -15,8 +15,8 @@
     "react-redux"
   ],
   "scripts": {
-    "clean": "rimraf dist/* lib/*",
-    "upgrade": "rm -rf node_modules && npm install",
+    "clean": "rmdir /s/q dist",
+    "upgrade": "rmdir /f/s/q node_modules && npm install",
     "lint": "eslint ./**/* --ext '.js,.jsx'",
     "lintfix": "eslint ./**/* --fix --ext '.js,.jsx'",
     "test": "casperjs test ./test",
