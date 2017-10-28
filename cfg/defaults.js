@@ -6,7 +6,6 @@ const glob = require('glob');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const marked = require('marked');
 
 const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
@@ -110,7 +109,7 @@ function getDefaultModules() {
                 test: /\.(woff|woff2|eot|ttf|otf)(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'assets/media/[name].[hash:8].[ext]'
+                    name: 'resources/media/[name].[hash:8].[ext]'
                 }
             },
             // 音频视频等多媒体文件
@@ -118,7 +117,7 @@ function getDefaultModules() {
                 test: /\.(mp4|ogg|mp3)$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'assets/media/[name].[hash:8].[ext]'
+                    name: 'resources/media/[name].[hash:8].[ext]'
                 }
             },
             // 图片加载，如果小于 8KB，则使用 base64 数据加载，否则使用普通文件的方式加载
@@ -127,7 +126,7 @@ function getDefaultModules() {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: 'assets/images/[name].[hash:8].[ext]'
+                    name: 'resources/images/[name].[hash:8].[ext]'
                 }
             }
         ]
@@ -156,10 +155,6 @@ const entries = files.reduce(function (memo, file) {
         'redux-thunk',
         'react-router',
         'react-router-redux',
-        'sockjs-client',
-        'webstomp-client',
-        'tether-shepherd',
-        'title-notify',
         'uuid'
     ]
 });
@@ -183,7 +178,6 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({
             debug: true
         }),
-        new LodashModuleReplacementPlugin(),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new ExtractTextPlugin({
             filename: '[name].css',
@@ -209,12 +203,10 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             title: 'redux-ele',
-            favicon: 'src/resource/imgs/favicon.png',
+            favicon: 'src/resource/images/favicon.png',
             template: 'src/index.ejs',
             stylesheets: [],
-            scripts: [
-                'lib/jquery/dist/jquery.min.js'
-            ],
+            scripts: [],
             chunks: ['vendor', 'common', 'index'], // 页面应用哪些chunks
             minify: {
                 removeComments: true,

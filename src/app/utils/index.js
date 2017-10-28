@@ -1,4 +1,3 @@
-import {Socket} from './Socket';
 import util from './util';
 import urlUtil from './urlUtil';
 import {axiosInstance} from './axiosInstance';
@@ -7,7 +6,6 @@ import {localStorageUtil, sessionStorageUtil} from './StorageUtil';
 import connectToStore from './connectUtil';
 
 export {
-    Socket,
     util,
     urlUtil,
     axiosInstance,

@@ -1,4 +1,4 @@
-import {wrapActions} from '../config/ConfigureStore';
+import {actions} from '../components';
 
 /**
  * app action Router
@@ -15,8 +15,8 @@ function onClickWithoutCheck(action) {
 
 export function onClickAction(action, props) {
     return function (dispatch, getState) {
-        if (action.type && wrapActions.hasOwnProperty(action.type)) {
-            wrapActions[action.type].call(this, action, dispatch, props);
+        if (action.type && actions.hasOwnProperty(action.type)) {
+            actions[action.type].call(this, action, dispatch, props);
         } else {
             dispatch(onClickWithoutCheck(action));
         }

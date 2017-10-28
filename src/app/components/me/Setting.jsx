@@ -5,7 +5,6 @@ import {createForm} from 'rc-form';
 
 import Constants from '../../constants';
 import {util, axiosInstance, connectToStore, sessionStorageUtil} from '../../utils';
-import {isObjectEqual} from '../../utils/object';
 import {authInstance} from '../../auth';
 import Header from '../header';
 
@@ -62,9 +61,6 @@ class Setting extends Component {
                 if (!authInstance.userId) {
                     Toast.fail('请先去登录');
                 }
-                // else if (!isObjectEqual(formData, self.originSetting)) {
-                //     Toast.fail('未修改任何信息');
-                // }
                 else {
                     let lan = formData['language'] === true ? 'zh' : 'en';
                     let data = {

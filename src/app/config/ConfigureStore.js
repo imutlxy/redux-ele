@@ -9,14 +9,11 @@ import appReducerCreator from './AppReducerCreator';
 /**
  * store 构建器
  */
-export const wrapActions = {};
-
 export function configureStore(config) {
-    let {initialStates, actions, preMiddleWares, postMiddleWares, reducers} = config;
+    let {initialStates, preMiddleWares, postMiddleWares, reducers} = config;
     let allReducer = Object.assign({}, reducers);
     let appReducer = appReducerCreator(initialStates, allReducer);
     const finalReducer = combineReducers({appReducer, routing: routerReducer});
-    Object.assign(wrapActions, actions);
     const allMiddleWares = [
         thunk,
         componentMiddleWare(preMiddleWares, postMiddleWares),
@@ -31,7 +28,6 @@ export function configureStore(config) {
 }
 
 const Store = {
-    wrapActions,
     configureStore
 };
 

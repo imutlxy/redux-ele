@@ -1,7 +1,11 @@
 import Search from './Search';
+import searchActions from './actions';
+import searchReducers from './reducers';
 
 export {
-    Search
+    Search,
+    searchActions,
+    searchReducers
 };
 
 export default Search;
