@@ -3,8 +3,7 @@ import {translate} from 'react-i18next';
 import {Toast, List, InputItem, Button} from 'antd-mobile';
 import {createForm} from 'rc-form';
 
-import {util, axiosInstance, connectToStore, localStorageUtil} from '../../utils';
-import {authInstance} from '../../auth';
+import {util, axiosInstance, connectToStore} from '../../utils';
 import Header from '../header';
 
 const Item = List.Item;
@@ -68,16 +67,12 @@ class Login extends Component {
                     return;
                 }
                 axiosInstance.post('/signUp', formData).then(response => {
-                    let data = response.data;
-                    if (data.status === 200) {
-                        // localStorageUtil.set({name: data.name, id: data.id, account: data.account});
-                        // authInstance.userId = data.id;
-                        // authInstance.userName = data.name;
-                        // authInstance.userAccount = data.name;
-                        // util.goBack(self.props);
+                    if (response.data.status === 200) {
+                        util.persistUserData(response.data.data);
+                        util.transformRouter(self.props, '/me');
                     } else {
                         self.getVerificationCodeUrl();
-                        Toast.fail(data.msg || '网络回应错误');
+                        Toast.fail(response.data.msg || '网络回应错误');
                     }
                 });
             }

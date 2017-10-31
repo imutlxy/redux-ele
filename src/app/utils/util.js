@@ -1,5 +1,6 @@
 import i18n from '../i18n';
 import Constants from '../constants';
+import {authInstance} from '../auth';
 
 const {GOTO, GO_BACK, GO_FORWARD} = Constants;
 
@@ -131,6 +132,19 @@ util.validateMobile = (mobile) => {
  */
 util.validateEmail = (email) => {
     return email && email.match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
+};
+
+/**
+ * 校验邮箱
+ */
+util.persistUserData = (data) => {
+    if (data && data.name && data._id && data.cell_phone_number) {
+        let userInfo = JSON.stringify({name: data.name, id: data._id, cellPhoneNumber: data.cell_phone_number});
+        localStorage.setItem('userInfo', userInfo);
+        sessionStorage.setItem('userInfo', userInfo);
+        authInstance.userId = data.id;
+        authInstance.userName = data.name;
+    }
 };
 
 export default util;

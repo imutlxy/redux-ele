@@ -44,7 +44,6 @@ class Setting extends Component {
             if (data.status === 200) {
                 authInstance.userId = undefined;
                 authInstance.userName = undefined;
-                authInstance.userAccount = undefined;
                 util.goBack(self.props);
                 Toast.success(data.msg);
             } else {
@@ -58,20 +57,20 @@ class Setting extends Component {
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                if (!authInstance.userId) {
+                if (!sessionStorage.getItem('userInfo')) {
                     Toast.fail('请先去登录');
                 }
                 else {
+                    let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
                     let lan = formData['language'] === true ? 'zh' : 'en';
                     let data = {
                         language: self.state.language,
-                        id: authInstance.userId,
-                        name: authInstance.userName
+                        id: userInfo.id,
+                        name: userInfo.name
                     };
                     axiosInstance.post('/user/setting', data).then(response => {
                         let data = response.data;
                         if (data.status === 200) {
-                            sessionStorageUtil.set({language: lan});
                             authInstance.language = data.name;
                             util.setLanguage(lan);
                             util.goBack(self.props);
@@ -93,7 +92,7 @@ class Setting extends Component {
         const {getFieldProps} = self.props.form;
         const {t} = self.props;
         const {language} = self.state;
-        const disabled = authInstance.userId === undefined;
+        const disabled = sessionStorage.getItem('userInfo') === undefined;
         return (
             <div className='app-me'>
                 <Header title={t('setting')}/>

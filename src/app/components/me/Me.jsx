@@ -19,8 +19,9 @@ const Item = List.Item;
 class Me extends Component {
     constructor(props) {
         super(props);
+        let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
         this.state = {
-            avatarText: '登录/注册'
+            avatarText: `欢迎您，${userInfo.name}` || '登录/注册'
         };
     }
 
@@ -34,7 +35,7 @@ class Me extends Component {
 
     handleAvatarClick = (e) => {
         e.preventDefault();
-        if (authInstance.userName) {
+        if (sessionStorage.getItem('userInfo')) {
             util.transformRouter(this.props, '/me/ownerPage');
         } else {
             util.transformRouter(this.props, '/me/logIn');
@@ -52,7 +53,7 @@ class Me extends Component {
                         thumb={<Icon type='loading' />}
                         arrow='horizontal'
                         onClick={self.handleAvatarClick}
-                    >{authInstance.userName ? `欢迎您，${authInstance.userName}` : '登录/注册'}</Item>
+                    >{authInstance.userName ? `欢迎您，${authInstance.userName}` : self.state.avatarText}</Item>
                 </List>
                 <List className='app-me-list'>
                     <Item
