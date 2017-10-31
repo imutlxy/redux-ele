@@ -6,6 +6,7 @@ const glob = require('glob');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const marked = require('marked');
 
 const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
@@ -178,6 +179,7 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({
             debug: true
         }),
+        new LodashModuleReplacementPlugin(),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new ExtractTextPlugin({
             filename: '[name].css',

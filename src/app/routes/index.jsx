@@ -9,7 +9,8 @@ import {
     Me,
     Setting,
     Login,
-    OwnerPage
+    OwnerPage,
+    SignUp
 } from '../components';
 
 const routes = (history) => {
@@ -23,6 +24,7 @@ const routes = (history) => {
             <Route path="/me" component={Me}/>
             <Route path="/me/setting" component={Setting}/>
             <Route path="/me/logIn" component={Login}/>
+            <Route path="/me/signUp" component={SignUp}/>
             <Route path="/me/ownerPage" component={OwnerPage}/>
         </Router>
     );

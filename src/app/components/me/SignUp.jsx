@@ -43,38 +43,45 @@ class Login extends Component {
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                if (formData.name && formData.password && formData.account) {
-                    axiosInstance.post('/signIn', formData).then(response => {
-                        let data = response.data;
-                        if (data.status === 200) {
-                            localStorageUtil.set({name: data.name, id: data.id, account: data.account});
-                            authInstance.userId = data.id;
-                            authInstance.userName = data.name;
-                            authInstance.userAccount = data.name;
-                            util.goBack(self.props);
-                        } else {
-                            self.getVerificationCodeUrl();
-                            Toast.fail(data.msg || '网络回应错误');
-                        }
-                    });
-                } else {
-                    Toast.fail('错误的表单信息');
+                if (!util.validateName(formData.name)) {
+                    Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
+                    return;
                 }
+                if (!util.validateMobile(formData.cellPhoneNumber)) {
+                    Toast.fail('手机号格式错误');
+                    return;
+                }
+                if (!formData.password || !formData.rePassword || formData.password !== formData.rePassword) {
+                    Toast.fail('两次输入的密码不一致');
+                    return;
+                }
+                if (!util.validatePassword(formData.password)) {
+                    Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
+                    return;
+                }
+                if (!util.validateEmail(formData.email)) {
+                    Toast.fail('邮箱格式错误');
+                    return;
+                }
+                if (!util.validateVeriCode(formData.veriCode)) {
+                    Toast.fail('验证码格式错误');
+                    return;
+                }
+                axiosInstance.post('/signUp', formData).then(response => {
+                    let data = response.data;
+                    if (data.status === 200) {
+                        // localStorageUtil.set({name: data.name, id: data.id, account: data.account});
+                        // authInstance.userId = data.id;
+                        // authInstance.userName = data.name;
+                        // authInstance.userAccount = data.name;
+                        // util.goBack(self.props);
+                    } else {
+                        self.getVerificationCodeUrl();
+                        Toast.fail(data.msg || '网络回应错误');
+                    }
+                });
             }
         });
-    }
-
-    onReset = () => {
-        this.props.form.resetFields();
-    }
-
-    handleForgotPwd = () => {
-        //TODO 处理忘记密码
-    }
-
-    handleRegister = (e) => {
-        e.stopPropagation();
-        util.transformRouter(this.props, 'me/signUp');
     }
 
     render() {
@@ -84,12 +91,14 @@ class Login extends Component {
         const {verificationCodeUrl} = self.state;
         return (
             <div className='app-me'>
-                <Header title={t('login')}/>
+                <Header title={t('register')}/>
                 <form>
                     <List className='app-me-list'>
                         <InputItem {...getFieldProps('name')} placeholder='请输入昵称'>昵称</InputItem>
-                        <InputItem {...getFieldProps('account')} placeholder='请输入手机号'>手机号</InputItem>
+                        <InputItem {...getFieldProps('cellPhoneNumber')} placeholder='请输入手机号'>手机号</InputItem>
+                        <InputItem {...getFieldProps('email')} placeholder='请输入邮箱'>邮箱</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
+                        <InputItem {...getFieldProps('rePassword')} placeholder='请再次输入密码' type='password'>再次输入</InputItem>
                         <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
                         <div className='am-list-item am-input-item verification-code-area'>
                             <img src={verificationCodeUrl}/>
@@ -97,9 +106,6 @@ class Login extends Component {
                         </div>
                         <Item>
                             <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
-                            <Button onClick={this.onReset} inline>{t('common:reset')}</Button>
-                            <Button size='middle' onClick={this.handleForgotPwd} inline>{t('forgotPwd')}</Button>
-                            <Button size='middle' onClick={this.handleRegister} inline>{t('register')}</Button>
                         </Item>
                     </List>
                 </form>

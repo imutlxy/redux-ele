@@ -98,4 +98,39 @@ util.getRouterUrl = (routerStore) => {
     return routerStore && routerStore.pathname || '/home';
 };
 
+/**
+ * 校验用户名 只能输入5-20个以字母开头包括字母数字下划线的字符串
+ */
+util.validateName = (name) => {
+    return name && name.match(/^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){4,19}$/);
+};
+
+/**
+ * 校验密码 必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间
+ */
+util.validatePassword = (password) => {
+    return password && password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$/);
+};
+
+/**
+ * 校验验证码
+ */
+util.validateVeriCode = (veriCode) => {
+    return veriCode && veriCode.match(/^\d{4}$/);
+};
+
+/**
+ * 校验手机号
+ */
+util.validateMobile = (mobile) => {
+    return mobile && mobile.match(/^(13|15|18)[0-9]{9}$/);
+};
+
+/**
+ * 校验邮箱
+ */
+util.validateEmail = (email) => {
+    return email && email.match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
+};
+
 export default util;

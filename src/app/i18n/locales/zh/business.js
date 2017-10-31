@@ -15,6 +15,7 @@ const me = {
     login: '登录',
     forgotPwd: '忘记密码',
     change: '换一张',
+    register: '去注册',
     setting: '设置',
     serviceCenter: '服务中心'
 };

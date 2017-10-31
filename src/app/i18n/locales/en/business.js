@@ -13,8 +13,9 @@ const search = {
 const me = {
     title: 'My Page',
     login: 'Login',
-    forgotPwd: 'forgot password',
-    change: 'change it',
+    forgotPwd: 'Forgot Password',
+    change: 'Change It',
+    register: 'Register',
     setting: 'Setting',
     serviceCenter: 'Service Center'
 };
