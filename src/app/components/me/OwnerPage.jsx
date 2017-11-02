@@ -7,7 +7,7 @@ import {util, axiosInstance, connectToStore} from '../../utils';
 import {authInstance} from '../../auth';
 import Header from '../header';
 
-const {DROP_TO_CONTENT, GOTO} = Constants;
+const {ENTER_BUSINESS, GOTO} = Constants;
 
 /**
  * Header View

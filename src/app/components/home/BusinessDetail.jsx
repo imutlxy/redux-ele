@@ -5,7 +5,7 @@ import Constants from '../../constants';
 import {util, axiosInstance, connectToStore} from '../../utils';
 import Header from '../header';
 
-const {DROP_TO_CONTENT} = Constants;
+const {ENTER_BUSINESS} = Constants;
 
 @connectToStore
 class BusinessDetail extends Component {
@@ -22,11 +22,13 @@ class BusinessDetail extends Component {
         let self = this;
         const {store} = self.props;
         const id = self.getBusinessId();
+        // console.log('=-=============',id)
+        // console.log(store)
         return (
             <div className='app-business-detail'>
                 <Header title='商家'/>
-                <h1>{`商家 ${util.getRouterUrl(self.props.routerStore)}`}</h1>
-                <h2>{store[id] && store[id].title}</h2>
+                <h4>{`商家 ${util.getRouterUrl(self.props.routerStore)}`}</h4>
+                <p>{JSON.stringify(store[id] && store[id] || {})}</p>
             </div>
         );
     }

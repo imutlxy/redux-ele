@@ -1,6 +1,6 @@
 let Constants = {
     DEFAULT_LNG: 'en',
-    DROP_TO_CONTENT: 'DROP_TO_CONTENT',
+    ENTER_BUSINESS: 'ENTER_BUSINESS',
     GOTO: 'GOTO',
     GO_BACK: 'GO_BACK',
     GO_FORWARD: 'GO_FORWARD',

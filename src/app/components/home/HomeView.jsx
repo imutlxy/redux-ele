@@ -3,10 +3,9 @@ import {translate} from 'react-i18next';
 import {Toast, Button} from 'antd-mobile';
 
 import Constants from '../../constants';
-import {authInstance} from '../../auth';
 import Footer from './../footer';
 import CategoryCarousel from './CategoryCarousel';
-import {util, axiosInstance, sessionStorageUtil, connectToStore} from '../../utils';
+import {util, axiosInstance, connectToStore} from '../../utils';
 import BusinessItem from './BusinessItem';
 
 const {GET_HOME_BUSINESS} = Constants;
@@ -21,31 +20,30 @@ class HomeView extends Component {
         };
     }
 
-    getBusinesses = (param) => {
+    getBusinesses = async (param) => {
         let self = this;
         const {onClickAction} = self.props;
-        axiosInstance.get('/home/getBusiness', {params: param || {}}).then(response => {
-            let data  = response.data;
-            if (data.status === 200) {
-                if (data.data && data.data.length && data.data.length > 0) {
-                    let action = {
-                        type: GET_HOME_BUSINESS,
-                        content: data.data
-                    };
-                    onClickAction(action, self.props);
-                } else {
-                    self.setState({bottomText: '我是有底线的'});
-                }
+        const response = await axiosInstance.get('/home/getBusiness', {params: param || {}});
+        const data  = response && response.data || {};
+        if (response.data && response.data.status === 200) {
+            if (Array.isArray(data.data) && data.data.length > 0) {
+                let action = {
+                    type: GET_HOME_BUSINESS,
+                    content: data.data
+                };
+                onClickAction(action, self.props);
             } else {
-                Toast.fail(data.msg || '网络回应错误');
+                self.setState({bottomText: '我是有底线的'});
             }
-        });
+        } else {
+            Toast.fail(response && response.data && response.data.msg || '网络回应错误');
+        }
     }
 
     componentWillMount() {
         let self = this;
         if(!self.props.store['homeBusinesses']) {
-            self.getBusinesses();
+            self.getBusinesses().catch(e => console.error('首页获取商家', e));
         }
     }
 
@@ -53,7 +51,7 @@ class HomeView extends Component {
         e.stopPropagation();
         let self = this;
         const len = (self.props.store['homeBusinesses'] || []).length;
-        self.getBusinesses({startPos: len, pageSize: 5});
+        self.getBusinesses({startPos: len, pageSize: 5}).catch(e => console.error('首页获取商家', e));
     }
 
     render() {
@@ -66,7 +64,7 @@ class HomeView extends Component {
                 <CategoryCarousel/>
                 <div className='nearby-merchants'>
                     <i className='fa fa-bandcamp' style={{fontSize: '.3rem', margin: '.3rem 0'}}>&nbsp;&nbsp;附近商家</i>
-                    {businessesInner}
+                    <ul>{businessesInner}</ul>
                     <Button className='load-more-btn' onClick={self.loadMore}>{self.state.bottomText}</Button>
                 </div>
                 <Footer/>

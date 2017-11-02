@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 
 import Constants from '../../../constants';
 
-const {GET_HOME_BUSINESS, DROP_TO_CONTENT} = Constants;
+const {GET_HOME_BUSINESS, ENTER_BUSINESS} = Constants;
 
 let homeReducers = {};
 
@@ -12,7 +12,7 @@ homeReducers[GET_HOME_BUSINESS] = function (state, action) {
     return newState;
 };
 
-homeReducers[DROP_TO_CONTENT] = function (state, action) {
+homeReducers[ENTER_BUSINESS] = function (state, action) {
     let foo = Immutable.fromJS(state);
     let newArr = foo.mergeDeep(Immutable.fromJS(action.content));
     return newArr.toJS();

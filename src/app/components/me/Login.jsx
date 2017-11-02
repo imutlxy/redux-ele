@@ -22,19 +22,17 @@ class Login extends Component {
         };
     }
 
-    getVerificationCodeUrl = (e) => {
+    getVerificationCodeUrl = async (e) => {
         e && e.stopPropagation();
         let self = this;
-        axiosInstance.get('/signIn/getCaptchas').then(response => {
-            let data = response.data;
-            if (data.status === 200) {
-                self.setState({verificationCodeUrl: data.code});
-            }
-        });
+        let response = await axiosInstance.get('/signIn/getCaptchas');
+        if (response && response.data && response.data.status === 200) {
+            self.setState({verificationCodeUrl: response.data.code});
+        }
     }
 
     componentWillMount() {
-        this.getVerificationCodeUrl();
+        this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
     }
 
     onSubmit = () => {
@@ -54,17 +52,21 @@ class Login extends Component {
                     Toast.fail('验证码格式错误');
                     return;
                 }
-                axiosInstance.post('/signIn', formData).then(response => {
-                    if (response.data.status === 200) {
-                        util.persistUserData(response.data.data);
-                        util.goBack(self.props);
-                    } else {
-                        self.getVerificationCodeUrl();
-                        Toast.fail(response.data.msg || '网络回应错误');
-                    }
-                });
+                self.handleLogin(formData).catch(e => console.error('signIn', e));
             }
         });
+    }
+
+    handleLogin = async (param) => {
+        let self = this;
+        let response = await axiosInstance.post('/signIn', param);
+        if (response.data.status === 200) {
+            util.persistUserData(response.data.data);
+            util.goBack(self.props);
+        } else {
+            self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+            Toast.fail(response.data.msg || '网络回应错误');
+        }
     }
 
     onReset = () => {

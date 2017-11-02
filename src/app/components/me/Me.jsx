@@ -8,7 +8,7 @@ import {authInstance} from '../../auth';
 import Header from '../header';
 import Footer from '../footer';
 
-const {DROP_TO_CONTENT, GOTO} = Constants;
+const {ENTER_BUSINESS, GOTO} = Constants;
 const Item = List.Item;
 
 /**
@@ -53,7 +53,7 @@ class Me extends Component {
                         thumb={<Icon type='loading' />}
                         arrow='horizontal'
                         onClick={self.handleAvatarClick}
-                    >{authInstance.userName ? `欢迎您，${authInstance.userName}` : self.state.avatarText}</Item>
+                    >{authInstance.userName ? `${authInstance.userName}` : self.state.avatarText}</Item>
                 </List>
                 <List className='app-me-list'>
                     <Item

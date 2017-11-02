@@ -4,11 +4,11 @@ import {List, Switch, Toast, Button} from 'antd-mobile';
 import {createForm} from 'rc-form';
 
 import Constants from '../../constants';
-import {util, axiosInstance, connectToStore, sessionStorageUtil} from '../../utils';
+import {util, axiosInstance, connectToStore} from '../../utils';
 import {authInstance} from '../../auth';
 import Header from '../header';
 
-const {DROP_TO_CONTENT, GOTO} = Constants;
+const {GOTO} = Constants;
 const Item = List.Item;
 
 /**
@@ -27,7 +27,6 @@ class Setting extends Component {
     }
 
     componentDidMount() {
-        // this.originSetting = this.props.form.getFieldsValue();
         this.originSetting = {
             language: this.props.i18n.language
         };
@@ -36,20 +35,20 @@ class Setting extends Component {
     /**
      * 登出
      */
-    signOutClick = (e) => {
+    signOutClick = async (e) => {
         e.preventDefault();
         let self = this;
-        axiosInstance.get('/signOut').then(response => {
-            let data = response.data;
-            if (data.status === 200) {
-                authInstance.userId = undefined;
-                authInstance.userName = undefined;
-                util.goBack(self.props);
-                Toast.success(data.msg);
-            } else {
-                Toast.fail('网络回应错误');
-            }
-        });
+        const response = await axiosInstance.get('/signOut');
+        const data = response && response.data || {};
+        if (data.status === 200) {
+            authInstance.userId = undefined;
+            authInstance.userName = undefined;
+            sessionStorage.removeItem('userInfo');
+            util.goBack(self.props);
+            Toast.success(data.msg);
+        } else {
+            Toast.fail('网络回应错误');
+        }
     }
 
     onSubmit = () => {
@@ -68,19 +67,23 @@ class Setting extends Component {
                         id: userInfo.id,
                         name: userInfo.name
                     };
-                    axiosInstance.post('/user/setting', data).then(response => {
-                        let data = response.data;
-                        if (data.status === 200) {
-                            authInstance.language = data.name;
-                            util.setLanguage(lan);
-                            util.goBack(self.props);
-                        } else {
-                            Toast.fail(data.msg || '网络回应错误');
-                        }
-                    });
+                    self.handleSubmitSetting(data, lan).catch(e => console.error('setting', e));
                 }
             }
         });
+    }
+
+    handleSubmitSetting = async (param, lan) => {
+        let self = this;
+        let response = await axiosInstance.post('/user/setting', param);
+        let data = response && response.data || {};
+        if (data.status === 200) {
+            authInstance.language = data.name;
+            util.setLanguage(lan);
+            util.goBack(self.props);
+        } else {
+            Toast.fail(data.msg || '网络回应错误');
+        }
     }
 
     switchLanguage = (checked) => {
@@ -92,23 +95,23 @@ class Setting extends Component {
         const {getFieldProps} = self.props.form;
         const {t} = self.props;
         const {language} = self.state;
-        const disabled = sessionStorage.getItem('userInfo') === undefined;
+        const disabled = Boolean(sessionStorage.getItem('userInfo'));
         return (
             <div className='app-me'>
                 <Header title={t('setting')}/>
                 <List className='app-me-list'>
                     <Item
                         extra={<Switch
-                            disabled={disabled}
-                            checked={language === 'zh'}
-                            {...getFieldProps('language')}
-                            onClick={self.switchLanguage}/>}
+                        disabled={!disabled}
+                        checked={language === 'zh'}
+                        {...getFieldProps('language')}
+                        onClick={self.switchLanguage}/>}
                     >中英文切换</Item>
                 </List>
                 <List className='app-me-list'>
                     <Item>
                         <Button
-                            disabled={disabled}
+                            disabled={!disabled}
                             className='app-me-setting-submit-btn'
                             onClick={this.onSubmit}
                         >
@@ -117,7 +120,7 @@ class Setting extends Component {
                     </Item>
                 </List>
                 <Button
-                    disabled={disabled}
+                    disabled={!disabled}
                     className='app-me-setting-signup-btn'
                     onClick={self.signOutClick}
                 >
