@@ -41,6 +41,7 @@ class ForgotPassword extends Component {
                 axiosInstance.post('/forgotPassword', formData).then(response => {
                     if (response.data.status === 200) {
                         Toast.success(response.data.msg);
+                        util.persistUserData(response.data.data);
                         util.transformRouter(self.props, '/me');
                     } else {
                         Toast.fail(response.data.msg || '网络错误');

@@ -66,6 +66,7 @@ class Login extends Component {
                     return;
                 }
                 formData.password = md5(formData.password);
+                formData.rePassword = md5(formData.rePassword);
                 self.handleSignUp(formData).catch(e => console.error('signUp', e));
             }
         });
