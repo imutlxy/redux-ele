@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {translate} from 'react-i18next';
 import {Toast, List, InputItem, Button} from 'antd-mobile';
 import {createForm} from 'rc-form';
+import md5 from 'md5';
 
 import {util, axiosInstance, connectToStore} from '../../utils';
 import Header from '../header';
@@ -25,7 +26,7 @@ class Login extends Component {
     getVerificationCodeUrl = async (e) => {
         e && e.stopPropagation();
         let self = this;
-        let response = await axiosInstance.get('/signIn/getCaptchas');
+        let response = await axiosInstance.get('/getCaptchas');
         if (response && response.data && response.data.status === 200) {
             self.setState({verificationCodeUrl: response.data.code});
         }
@@ -52,6 +53,7 @@ class Login extends Component {
                     Toast.fail('验证码格式错误');
                     return;
                 }
+                formData.password = md5(formData.password);
                 self.handleLogin(formData).catch(e => console.error('signIn', e));
             }
         });
@@ -62,7 +64,7 @@ class Login extends Component {
         let response = await axiosInstance.post('/signIn', param);
         if (response.data.status === 200) {
             util.persistUserData(response.data.data);
-            util.goBack(self.props);
+            util.transformRouter(self.props, '/me');
         } else {
             self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
             Toast.fail(response.data.msg || '网络回应错误');
@@ -74,7 +76,7 @@ class Login extends Component {
     }
 
     handleForgotPwd = () => {
-        //TODO 处理忘记密码
+        util.transformRouter(this.props, 'me/forgotPassword');
     }
 
     handleRegister = (e) => {

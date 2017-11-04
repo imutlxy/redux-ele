@@ -2,7 +2,7 @@ import {Order, orderActions, orderReducers} from './order';
 import {HomeView, BusinessDetail, homeActions, homeReducers} from './home';
 import {Search, searchActions, searchReducers} from './search';
 import {Footer, footerActions, footerReducers} from './footer';
-import {Me, Setting, Login, OwnerPage, SignUp, meActions, meReducers} from './me';
+import {Me, Setting, Login, OwnerPage, SignUp, ForgotPassword, meActions, meReducers} from './me';
 import {headerActions, headerReducers} from './header';
 
 const actions = Object.assign({}, orderActions, homeActions, searchActions, footerActions, meActions, headerActions);
@@ -19,6 +19,7 @@ export {
     Setting,
     Login,
     OwnerPage,
+    ForgotPassword,
     actions,
     reducers
 };

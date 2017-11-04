@@ -13,7 +13,7 @@ const search = {
 const me = {
     title: '我的页面',
     login: '登录',
-    forgotPwd: '忘记密码',
+    forgotPwd: '找回密码',
     change: '换一张',
     register: '去注册',
     setting: '设置',

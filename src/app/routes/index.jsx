@@ -10,7 +10,8 @@ import {
     Setting,
     Login,
     OwnerPage,
-    SignUp
+    SignUp,
+    ForgotPassword
 } from '../components';
 
 const routes = (history) => {
@@ -25,6 +26,7 @@ const routes = (history) => {
             <Route path="/me/setting" component={Setting}/>
             <Route path="/me/logIn" component={Login}/>
             <Route path="/me/signUp" component={SignUp}/>
+            <Route path="/me/forgotPassword" component={ForgotPassword}/>
             <Route path="/me/ownerPage" component={OwnerPage}/>
         </Router>
     );
