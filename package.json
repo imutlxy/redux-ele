@@ -1,18 +1,19 @@
 {
-  "name": "redux-test",
+  "name": "redux-ele",
   "version": "0.0.1",
-  "description": "resux text with react-router",
+  "description": "redux text with react-router",
   "main": "src/index.jsx",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/liangxinwei/redux-ele"
   },
   "keywords": [
     "react",
     "ES6",
     "babel",
-    "antd",
-    "react-redux"
+    "antd-mobile",
+    "react-redux",
+    "react-router"
   ],
   "scripts": {
     "clean": "rmdir /s/q dist",
@@ -30,7 +31,7 @@
     "snapshot": "npm publish --registry=https://repository.itt.space/repository/npm-snapshot",
     "release": "npm publish --registry=https://repository.itt.space/repository/npm-hosted"
   },
-  "author": "lxw",
+  "author": "liangxinwei",
   "dependencies": {
     "antd-mobile": "^1.6.5",
     "axios": "^0.16.1",
@@ -96,7 +97,6 @@
     "postcss-loader": "latest",
     "prop-types": "^15.5.8",
     "react-hot-loader": "^3.0.0-beta.7",
-    "rimraf": "^2.6.1",
     "sass-loader": "latest",
     "string-replace-loader": "^1.2.0",
     "style-loader": "latest",
