@@ -50,7 +50,7 @@ class BusinessItem extends Component {
         return (
             <li className='app-seller-list' onClick={self.handleShopClick}>
                 <div className='app-seller-list-left'>
-                    <div className='app-seller-list-left-icon'><img src='../../resource/images/favicon.png'/></div>
+                    <div className='app-seller-list-left-icon'><img src={data.icon}/></div>
                     <div className='app-seller-list-left-desc'>{data.title}</div>
                 </div>
                 <div className='app-seller-list-right'>ewtrwt</div>

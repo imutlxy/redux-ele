@@ -55,16 +55,16 @@ class HomeView extends Component {
         if (!p1 && !p2) {
             return;
         }
-        Promise.all([p1, p2]).then(data => {
+        Promise.all([p1, p2]).then(([data1, data2]) => {
             let action = {
                 type: MERGE_DATA,
                 content: {}
             };
-            if (data[0]) {
-                action['content']['homeBusinesses'] = data[0]['data']['data'];
+            if (data1) {
+                action['content']['homeBusinesses'] = data1['data']['data'];
             }
-            if (data[1]) {
-                action['content']['user'] = data[1]['data']['data'];
+            if (data2) {
+                action['content']['user'] = data2['data']['data'];
             }
             if (Object.keys(action['content']).length > 0) {
                 onClickAction(action, self.props);

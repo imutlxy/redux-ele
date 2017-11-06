@@ -138,8 +138,8 @@ util.validateEmail = (email) => {
  * 校验邮箱
  */
 util.persistUserData = (data) => {
-    if (data && data.name && data._id && data.cell_phone_number) {
-        let userInfo = JSON.stringify({name: data.name, id: data._id, cellPhoneNumber: data.cell_phone_number});
+    if (data) {
+        let userInfo = JSON.stringify(data);
         localStorage.setItem('userInfo', userInfo);
         sessionStorage.setItem('userInfo', userInfo);
         authInstance.userId = data.id;
