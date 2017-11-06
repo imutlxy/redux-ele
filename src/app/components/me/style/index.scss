@@ -11,20 +11,26 @@
             background-color: transparent;
             .am-list-item {
                 height: 100%;
+                padding-left: .6rem;
                 background-color: transparent;
                 .am-list-thumb {
                     width: 1.5rem;
                     height: 1.5rem;
-                    padding-left: .4rem;
-                    .am-icon {
+                    margin-right: 0;
+                    border-radius: .75rem;
+                    img {
                         width: 100%;
                         height: 100%;
+                        border: none;
                     }
                 }
-                .am-list-line .am-list-content {
-                    color: #{$header-font-color};
-                    font-size: .4rem;
-                    font-weight: bold;
+                .am-list-line {
+                    padding-left: .4rem;
+                    .am-list-content {
+                        color: #{$header-font-color};
+                        font-size: .4rem;
+                        font-weight: bold;
+                    }
                 }
             }
         }

@@ -196,8 +196,7 @@ module.exports = {
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},
             {from: 'node_modules/react/dist', to: 'lib/react/dist/'},
             {from: 'node_modules/react-dom/dist', to: 'lib/react-dom/dist/'},
-            {from: 'node_modules/jquery/dist', to: 'lib/jquery/dist/'},
-            {from: 'src/resource/', to: 'resource/'}
+            {from: 'node_modules/jquery/dist', to: 'lib/jquery/dist/'}
         ], {
             ignore: [
                 '*.less',

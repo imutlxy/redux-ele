@@ -8,7 +8,7 @@ import CategoryCarousel from './CategoryCarousel';
 import {util, axiosInstance, connectToStore} from '../../utils';
 import BusinessItem from './BusinessItem';
 
-const {GET_HOME_BUSINESS} = Constants;
+const {GET_HOME_BUSINESS, MERGE_DATA} = Constants;
 
 @translate(['home'], {wait: true})
 @connectToStore
@@ -42,9 +42,34 @@ class HomeView extends Component {
 
     componentWillMount() {
         let self = this;
-        if(!self.props.store['homeBusinesses']) {
-            self.getBusinesses().catch(e => console.error('首页获取商家', e));
+        const {store, onClickAction} = self.props;
+        let p1 = undefined;
+        let p2 = undefined;
+        if(!store['homeBusinesses']) {
+            p1 = axiosInstance.get('/home/getBusiness');
         }
+        if(!store['user'] && sessionStorage.getItem('userInfo')) {
+            const userData = JSON.parse(sessionStorage.getItem('userInfo'));
+            p2 = axiosInstance.get('/user/userData', {params: {id: userData.id || null}});
+        }
+        if (!p1 && !p2) {
+            return;
+        }
+        Promise.all([p1, p2]).then(data => {
+            let action = {
+                type: MERGE_DATA,
+                content: {}
+            };
+            if (data[0]) {
+                action['content']['homeBusinesses'] = data[0]['data']['data'];
+            }
+            if (data[1]) {
+                action['content']['user'] = data[1]['data']['data'];
+            }
+            if (Object.keys(action['content']).length > 0) {
+                onClickAction(action, self.props);
+            }
+        });
     }
 
     loadMore = (e) => {

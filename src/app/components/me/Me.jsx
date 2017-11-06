@@ -45,25 +45,26 @@ class Me extends Component {
     render() {
         let self = this;
         const {t} = this.props;
+        const userData = JSON.parse(localStorage.getItem('userInfo'));
         return (
             <div className='app-me'>
                 <Header title={t('title')}/>
                 <List className='app-me-avatar-panel'>
                     <Item
-                        thumb={<Icon type='loading' />}
+                        thumb='../../../resource/images/default-avatar.png'
                         arrow='horizontal'
                         onClick={self.handleAvatarClick}
                     >{authInstance.userName ? `${authInstance.userName}` : self.state.avatarText}</Item>
                 </List>
                 <List className='app-me-list'>
                     <Item
-                        thumb='https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
+                        thumb={userData['avatar']}
                         arrow='horizontal'
                         onClick={self.handleSettingClick}
                     >{t('setting')}</Item>
                 </List>
                 <List className='app-me-list'>
-                    <Item thumb='https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png' arrow='horizontal'>{t('serviceCenter')}</Item>
+                    <Item thumb='https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png' arrow='empty'>{t('serviceCenter')}</Item>
                 </List>
                 <Footer />
             </div>
