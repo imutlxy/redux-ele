@@ -33,7 +33,7 @@ class ForgotPassword extends Component {
                     Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
                     return;
                 }
-                if (formData.veriCode.length !== 6) {
+                if (formData.veriCode && formData.veriCode.length !== 6) {
                     Toast.fail('验证码格式错误');
                     return;
                 }

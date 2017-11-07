@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
+import ReactDom from 'react-dom';
 import {translate} from 'react-i18next';
 import {createForm} from 'rc-form';
+import Cropper from 'react-cropper';
+import AvatarCropper from 'react-avatar-cropper';
 import {Toast, Picker, List, WhiteSpace} from 'antd-mobile';
 
 import Constants from '../../constants';
@@ -22,6 +25,10 @@ class OwnerPage extends Component {
     }
 
     state = {
+        src: '../../../resource/images/default-avatar.png',
+        cropResult: null,
+        img: '../../../resource/images/default-avatar.png',
+        cropperOpen: true,
         data: [],
         cols: 1,
         pickerValue: [],
@@ -209,6 +216,53 @@ class OwnerPage extends Component {
     componentDidMount() {
     }
 
+    handleRequestHide = () => {
+        this.setState({
+            cropperOpen: false
+        });
+    }
+
+    handleCrop = (dataURI) => {
+        console.log(dataURI)
+        this.setState({
+            cropperOpen: false,
+            img: null,
+            croppedImg: dataURI
+        });
+    }
+
+    cropImage = () => {
+        if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
+            return;
+        }
+        this.setState({
+            cropResult: this.cropper.getCroppedCanvas().toDataURL()
+        });
+    }
+
+    handleFile = (e) => {
+        e.preventDefault();
+        let files;
+        if (e.dataTransfer) {
+            files = e.dataTransfer.files;
+        } else if (e.target) {
+            files = e.target.files;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.setState({src: reader.result});
+        };
+        reader.readAsDataURL(files[0]);
+    }
+
+    handleFileChange = (dataURI) => {
+        this.setState({
+            img: dataURI,
+            croppedImg: this.state.croppedImg,
+            cropperOpen: true
+        });
+    }
+
     render() {
         let self = this;
         const {t, form} = self.props;
@@ -217,6 +271,21 @@ class OwnerPage extends Component {
             <div className='app-me'>
                 <Header title='我的页面'/>
                 <WhiteSpace size="lg"/>
+
+                <button onClick={this.cropImage}>Crop Image</button>
+                <input type='file' onChange={this.handleFile}/>
+                <Cropper
+                    style={{height: 400, width: 200}}
+                    aspectRatio={16 / 9}
+                    preview=".img-preview"
+                    guides={false}
+                    src={this.state.src}
+                    ref={cropper => {
+                        this.cropper = cropper;
+                    }}
+                />
+                <img style={{width: '100%'}} src={this.state.cropResult} alt="cropped image"/>
+
                 <Picker
                     extra="更改"
                     data={this.state.data}
