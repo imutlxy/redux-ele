@@ -28,4 +28,15 @@
         height: 100%;
         text-align: center;
     }
+    .am-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: .3rem;
+        width: 1.6rem;
+        height: 80%;
+        color: #fff;
+        background-color: transparent;
+        border: none;
+    }
 }

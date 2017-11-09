@@ -89,12 +89,15 @@ class Login extends Component {
         const {getFieldProps} = self.props.form;
         const {t} = self.props;
         const {verificationCodeUrl} = self.state;
+        const userData = JSON.parse(localStorage.getItem('userInfo')) || {};
         return (
             <div className='app-me'>
                 <Header title={t('login')}/>
                 <form>
                     <List className='app-me-list'>
-                        <InputItem {...getFieldProps('name')} placeholder='请输入昵称'>昵称</InputItem>
+                        <InputItem {...getFieldProps('name', {
+                            initialValue: userData['name']
+                        })} placeholder='请输入昵称'>昵称</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
                         <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
                         <div className='am-list-item am-input-item verification-code-area'>

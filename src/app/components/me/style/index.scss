@@ -41,6 +41,8 @@
         .am-list-body {
             height: .8rem;
             background-color: transparent;
+            box-sizing: border-box;
+            padding-right: .2rem;
             .am-list-item {
                 background-color: transparent;
                 height: 100%;

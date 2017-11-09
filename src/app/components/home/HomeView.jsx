@@ -90,14 +90,40 @@ class HomeView extends Component {
         }).catch(e => console.error('首页获取商家', e));
     }
 
+    logIn = (e) => {
+        e.stopPropagation();
+        util.transformRouter(this.props, '/me/logIn');
+    }
+
     render() {
         let self = this;
         const {t, store} = self.props;
         const businessesInner = (store['homeBusinesses'] || []).map((val, i) => (
-            <BusinessItem data={val} key={val.id}/>));
+            <BusinessItem
+                key={val['id']}
+                id={val['id']}
+                icon={val['icon']}
+                distance={val['distance']}
+                dispatchLimit={val['lower_delivery_fee_limit']}
+                deliveryFee={val['delivery_fee']}
+                monthlySales={val['monthly_sales']}
+                newStore={val['new_store']}
+                expressType={val['express_type']}
+                score={val['score']}
+                serviceTime={val['service_time']}
+                title={val['title']}
+                whetherBrand={val['whether_brand']}
+                hasInvoice={val['has_invoice']}
+            />)
+        );
         return (
             <div className='app-home'>
-                <div className='app-header'>{t('title')}</div>
+                <div className='app-header'>
+                    <span>{t('title')}</span>
+                    <Button style={{display: sessionStorage.getItem('userInfo') ? 'none' : 'block'}} onClick={self.logIn}>
+                        登录/注册
+                    </Button>
+                </div>
                 <CategoryCarousel/>
                 <div className='nearby-merchants'>
                     <i className='fa fa-bandcamp' style={{fontSize: '.3rem', margin: '.3rem 0'}}>&nbsp;&nbsp;附近商家</i>
@@ -106,7 +132,7 @@ class HomeView extends Component {
                         loadMore={this.loadMore}
                         hasMore={this.state.hasMore}
                     >
-                        <ul>{businessesInner}</ul>
+                        <ul className='home-shop-list'>{businessesInner}</ul>
                     </InfiniteScroll>
                     <p className='load-more'>{self.state.bottomText}</p>
                 </div>
