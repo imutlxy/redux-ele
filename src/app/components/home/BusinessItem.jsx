@@ -15,7 +15,7 @@ class BusinessItem extends Component {
     getBusinessData = async (id) => {
         let self = this;
         const {onClickAction} = self.props;
-        let response = await axiosInstance.get('/home/getBusiness', {params: {id: id}});
+        let response = await axiosInstance.get(`/home/getBusiness/${id}`);
         let resData  = response && response.data || {};
         if (resData.status === 200 && Array.isArray(resData.data) && resData.data.length > 0) {
             let action = {
@@ -23,9 +23,14 @@ class BusinessItem extends Component {
                 content: {}
             };
             action['content'][id] = resData.data[0];
-            await onClickAction(action, self.props);
-            // console.log(id,'====')
-            util.transformRouter(self.props, `/business/${id}`);
+            new Promise((resolve, reject) => {
+                action['resolve'] = resolve;
+                onClickAction(action, self.props);
+            }).then((data) => {
+                util.transformRouter(self.props, `/business/${id}`);
+            }).catch((e) => {
+                console.error(e);
+            });
         } else {
             Toast.fail(resData.msg || '网络回应错误');
         }

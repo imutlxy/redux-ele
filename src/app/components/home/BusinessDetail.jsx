@@ -22,13 +22,11 @@ class BusinessDetail extends Component {
         let self = this;
         const {store} = self.props;
         const id = self.getBusinessId();
-        // console.log('=-=============',id)
-        // console.log(store)
         return (
             <div className='app-business-detail'>
                 <Header title='商家'/>
                 <h4>{`商家 ${util.getRouterUrl(self.props.routerStore)}`}</h4>
-                <p>{JSON.stringify(store[id] && store[id] || {})}</p>
+                <p>{store[id]['title']}</p>
             </div>
         );
     }

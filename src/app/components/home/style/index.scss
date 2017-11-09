@@ -19,17 +19,17 @@
         }
     }
     .nearby-merchants {
-        margin-top: .2rem;
-        padding: 0 .2rem;
+        padding: .2rem;
         background-color: #fff;
     }
 }
 
-//点击加载更多按钮
-.load-more-btn {
-    background: none;
+//加载更多文字
+.load-more {
+    background: #fff;
     border: none;
     font-size: .2rem;
+    text-align: center;
 }
 
 //商家列表

@@ -19,6 +19,14 @@ class Search extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        util.setDocumentScrollTop('searchPageScrollTop');
+    }
+
+    componentWillUnmount() {
+        util.getDocumentScrollTop('searchPageScrollTop');
+    }
+
     render() {
         const {t} = this.props;
         return (

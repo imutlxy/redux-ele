@@ -12,6 +12,7 @@ homeActions[GET_HOME_BUSINESS] = function (action, dispatch, state) {
 
 homeActions[ENTER_BUSINESS] = function (action, dispatch, state) {
     dispatch(action);
+    action.resolve && action.resolve('success');
 };
 
 homeActions[MERGE_DATA] = function (action, dispatch, state) {

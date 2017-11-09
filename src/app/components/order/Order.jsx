@@ -20,6 +20,14 @@ class Order extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        util.setDocumentScrollTop('orderPageScrollTop');
+    }
+
+    componentWillUnmount() {
+        util.getDocumentScrollTop('orderPageScrollTop');
+    }
+
     render() {
         const {t} = this.props;
         return (

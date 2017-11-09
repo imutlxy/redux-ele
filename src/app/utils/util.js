@@ -1,10 +1,12 @@
 import i18n from '../i18n';
 import Constants from '../constants';
 import {authInstance} from '../auth';
+import DataStore from './DataStore';
 
 const {GOTO, GO_BACK, GO_FORWARD} = Constants;
 
 let util = {};
+const dataStore = new DataStore();
 
 util.browser = (navigator) => {
     let tem;
@@ -144,6 +146,24 @@ util.persistUserData = (data) => {
         sessionStorage.setItem('userInfo', userInfo);
         authInstance.userId = data.id;
         authInstance.userName = data.name;
+    }
+};
+
+/**
+ * 记住 document 位置
+ */
+util.getDocumentScrollTop = (key) => {
+    if (key && typeof key === 'string') {
+        dataStore.set(key, document.documentElement.scrollTop);
+    }
+};
+
+/**
+ * 设置 document 位置
+ */
+util.setDocumentScrollTop = (key) => {
+    if (key && typeof key === 'string' && dataStore.get(key)) {
+        document.documentElement.scrollTop = parseInt(dataStore.get(key));
     }
 };
 
