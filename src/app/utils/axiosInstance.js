@@ -2,9 +2,10 @@ import axios from 'axios';
 import {Toast} from 'antd-mobile';
 
 import {i18n} from '../i18n';
+import Constants from '../constants';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:9999',
+    baseURL: Constants.BASE_URL,
     timeout: 10000, // 请求时间超过10秒视为超时
     withCredentials: true
 });

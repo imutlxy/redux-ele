@@ -45,8 +45,6 @@
     "md5": "^2.2.1",
     "rc-form": "^1.4.7",
     "react": "^15.4.2",
-    "react-avatar-cropper": "^0.1.3",
-    "react-cropper": "^1.0.0",
     "react-dom": "^15.4.2",
     "react-i18next": "^4.7.0",
     "react-infinite-scroller": "^1.1.0",

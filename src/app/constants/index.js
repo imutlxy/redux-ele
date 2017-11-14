@@ -1,4 +1,5 @@
 let Constants = {
+    BASE_URL: 'http://localhost:9999',
     DEFAULT_LNG: 'en',
     ENTER_BUSINESS: 'ENTER_BUSINESS',
     GOTO: 'GOTO',
