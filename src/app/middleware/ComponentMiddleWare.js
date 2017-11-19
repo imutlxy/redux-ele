@@ -13,16 +13,12 @@ export function componentMiddleWare(preMiddleWares, postMiddleWares) {
             }
 
             // 调用 middleware 链中下一个 middleware 的 dispatch。
-            // 一般会是 action 本身，除非后面的 middleware 修改了它。
             const returnValue = next(action);
 
-            // 后置拦截校验函数
+            // 后置拦截函数
             let postInterceptFunc = postMiddleWares ? postMiddleWares[action.type] : null;
-            // 进行拦截校验操作
-            if (postInterceptFunc && !postInterceptFunc.call(this, action, getState())) {
-                console.error('Invalid action for postMiddleWares intercept!!');
-                return;
-            }
+            postInterceptFunc && !postInterceptFunc.call(this, action, getState());
+
             return returnValue;
         };
     };
