@@ -3,6 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -118,7 +119,8 @@ function getDefaultModules() {
                 test: /\.(mp4|ogg|mp3)$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'resources/media/[name].[hash:8].[ext]'
+                    name: 'resources/media/[name].[hash:8].[ext]',
+                    outputPath: 'asserts/'
                 }
             },
             // 图片加载，如果小于 8KB，则使用 base64 数据加载，否则使用普通文件的方式加载
@@ -127,7 +129,8 @@ function getDefaultModules() {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: 'resources/images/[name].[hash:8].[ext]'
+                    name: 'resources/images/[name].[hash:8].[ext]',
+                    outputPath: 'images/'
                 }
             }
         ]
@@ -172,7 +175,7 @@ module.exports = {
     srcPath: srcPath,
     entry: entries,
     entryKeys: entryKeys,
-    publicPath: './',
+    publicPath: 'http://localhost:' + dfltPort + '/',
     port: dfltPort,
     getDefaultModules: getDefaultModules,
     plugins: [
@@ -191,6 +194,10 @@ module.exports = {
             names: ['common', 'vendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
         }),
+        // new PurifyCSSPlugin({
+        //     // 自动删除 css 文件里一些用不到的属性
+        //     paths: glob.sync(path.join(__dirname, '/../src/*.html'))
+        // }),
         new CopyWebpackPlugin([
             {from: 'node_modules/font-awesome', to: 'lib/font-awesome/'},
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},
