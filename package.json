@@ -99,7 +99,7 @@
     "sass-loader": "latest",
     "string-replace-loader": "^1.2.0",
     "style-loader": "latest",
-    "svg-sprite-loader": "^0.3.1",
+    "svg-sprite-loader": "^3.6.2",
     "url-loader": "latest",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
