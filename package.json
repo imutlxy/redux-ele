@@ -30,7 +30,7 @@
   },
   "author": "liangxinwei",
   "dependencies": {
-    "antd-mobile": "^1.6.5",
+    "antd-mobile": "^2.1.5",
     "axios": "^0.16.1",
     "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",

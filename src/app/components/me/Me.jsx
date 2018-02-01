@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
-import {Button, Toast, List, Icon} from 'antd-mobile';
+import {Button, Toast, List} from 'antd-mobile';
 
 import Constants from '../../constants';
 import {util, axiosInstance, connectToStore} from '../../utils';

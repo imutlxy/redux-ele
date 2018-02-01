@@ -15,14 +15,14 @@ class BusinessItem extends Component {
     getBusinessData = async (id) => {
         let self = this;
         const {onClickAction} = self.props;
-        let response = await axiosInstance.get(`/home/getBusiness/${id}`);
+        let response = await axiosInstance.get(`/business/${id}`);
         let resData = response && response.data || {};
-        if (resData.status === 200 && Array.isArray(resData.data) && resData.data.length > 0) {
+        if (resData.data) {
             let action = {
                 type: ENTER_BUSINESS,
                 content: {}
             };
-            action['content'][id] = resData.data[0];
+            action['content'][id] = resData.data;
             new Promise((resolve, reject) => {
                 action['resolve'] = resolve;
                 onClickAction(action, self.props);
@@ -39,7 +39,8 @@ class BusinessItem extends Component {
     handleShopClick = (e) => {
         e.stopPropagation();
         let self = this;
-        const {store, id} = self.props;
+        const {store, businessData} = self.props;
+        const id = businessData['businessId'];
         if (id) {
             if (store[id]) {
                 util.transformRouter(self.props, `/business/${id}`);
@@ -51,28 +52,28 @@ class BusinessItem extends Component {
 
     render() {
         let self = this;
-        const {t, icon, distance, dispatchLimit, deliveryFee, monthlySales, newStore, score, serviceTime, title, whetherBrand, hasInvoice, expressType} = self.props;
+        const {t, businessData} = self.props;
         return (
             <li className='app-seller-list' onClick={self.handleShopClick}>
                 <div className='app-seller-list-left'>
                     <div className='app-seller-list-left-icon'>
-                        <img className='app-seller-list-left-icon' src={icon}/>
+                        <img className='app-seller-list-left-icon' src={businessData.icon}/>
                     </div>
                     <div className='app-seller-list-left-desc'>
                         <div className='title'>
-                            <span className='brand' style={{display: whetherBrand ? 'inline-block' : 'none'}}>品牌</span>
-                            {title}
+                            <span className='brand' style={{display: businessData.whetherBrand ? 'inline-block' : 'none'}}>品牌</span>
+                            {businessData.shopName}
                         </div>
-                        <p className='text'>评分：<span>{score || '暂无'}</span> 月售：<span>{monthlySales || 0}</span>单</p>
-                        <p className='text'><span>{dispatchLimit}</span>起送 / 配送费￥<span>{deliveryFee}</span></p>
+                        <p className='text'>评分：<span>{businessData.score || '暂无'}</span> 月售：<span>{businessData.monthlySales || 0}</span>单</p>
+                        <p className='text'><span>{businessData.dispatchLimit}</span>起送 / 配送费￥<span>{businessData.deliveryFee}</span></p>
                     </div>
                 </div>
                 <div className='app-seller-list-right'>
                     <div className='express'>
-                        <span>{expressType}</span>
-                        <span style={{display: hasInvoice ? 'none' : 'inline-block'}}>准时达</span>
+                        <span>{businessData.mailType}</span>
+                        <span style={{display: businessData.hasInvoice ? 'none' : 'inline-block'}}>准时达</span>
                     </div>
-                    <p className='text'><span>{distance}</span>公里 / <span>{serviceTime}分钟</span></p>
+                    <p className='text'><span>{businessData.distance}</span>公里 / <span>{businessData.serviceTime}分钟</span></p>
                 </div>
             </li>
         );

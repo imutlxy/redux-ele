@@ -26,7 +26,7 @@ class HomeView extends Component {
     getBusinesses = async (param) => {
         let self = this;
         const {onClickAction} = self.props;
-        const response = await axiosInstance.get('/home/getBusiness', {params: param || {}});
+        const response = await axiosInstance.get('/business/getBusiness', {params: param || {}});
         const data = response && response.data || {};
         if (response.data && response.data.status === 200) {
             if (Array.isArray(data.data) && data.data.length > 0) {
@@ -49,7 +49,7 @@ class HomeView extends Component {
         let p1 = undefined;
         let p2 = undefined;
         if (!store['homeBusinesses']) {
-            p1 = axiosInstance.get('/home/getBusiness');
+            p1 = axiosInstance.get('/business/getBusiness');
         }
         if (!store['user'] && sessionStorage.getItem('userInfo')) {
             const userData = JSON.parse(sessionStorage.getItem('userInfo'));
@@ -85,8 +85,8 @@ class HomeView extends Component {
 
     loadMore = (page) => {
         this.getBusinesses({
-            startPos: page * this.pageSize,
-            pageSize: this.pageSize
+            page: page,
+            size: this.pageSize
         }).catch(e => console.error('首页获取商家', e));
     }
 
@@ -95,27 +95,39 @@ class HomeView extends Component {
         util.transformRouter(this.props, '/me/logIn');
     }
 
+    /**
+     * 添加商家测试数据
+     */
+    addTestData = () => {
+        let testData = [];
+        for (let i = 1; i < 101; i++) {
+            testData.push({
+                shopName: '标题--' + i,
+                score: parseFloat((Math.random() * 6).toFixed(1)),
+                deliveryFee: 20,
+                monthlySales: Math.ceil(Math.random() * 2000),
+                distance: Math.ceil(Math.random() * 1000),
+                serviceTime: Math.ceil(Math.random() * 60),
+                mailType: ['蜂鸟', '达达', '韵达', '中通', '顺丰', '圆通'][Math.floor(Math.random() * 6)],
+                whetherDistribution: true,
+                onTime: i % 4 === 0,
+                hasInvoice: i % 7 === 0,
+                newStore: i % 10 === 0,
+                whetherBrand: true,
+                dispatchLimit: 20,
+                lowerDeliveryFeeLimit: 20,
+                icon: 'http://owdivnpno.bkt.clouddn.com/2016062842269313.jpg'
+            });
+        }
+        axiosInstance.post('/business/save', testData).then(res => {
+            console.log(res);
+        });
+    }
+
     render() {
         let self = this;
         const {t, store} = self.props;
-        const businessesInner = (store['homeBusinesses'] || []).map((val, i) => (
-            <BusinessItem
-                key={val['id']}
-                id={val['id']}
-                icon={val['icon']}
-                distance={val['distance']}
-                dispatchLimit={val['lower_delivery_fee_limit']}
-                deliveryFee={val['delivery_fee']}
-                monthlySales={val['monthly_sales']}
-                newStore={val['new_store']}
-                expressType={val['express_type']}
-                score={val['score']}
-                serviceTime={val['service_time']}
-                title={val['title']}
-                whetherBrand={val['whether_brand']}
-                hasInvoice={val['has_invoice']}
-            />)
-        );
+        const businessesInner = (store['homeBusinesses'] || []).map(val => val && <BusinessItem businessData={val}/>).filter(val => val);
         return (
             <div className='app-home'>
                 <div className='app-header'>
@@ -135,6 +147,7 @@ class HomeView extends Component {
                         <ul className='home-shop-list'>{businessesInner}</ul>
                     </InfiniteScroll>
                     <p className='load-more'>{self.state.bottomText}</p>
+                    {/*<Button onClick={this.addTestData}>添加测试数据</Button>*/}
                 </div>
                 <Footer/>
             </div>

@@ -182,7 +182,7 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({
             debug: true
         }),
-        new LodashModuleReplacementPlugin(),
+        new LodashModuleReplacementPlugin({paths: true}),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new ExtractTextPlugin({
             filename: '[name].css',
