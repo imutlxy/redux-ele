@@ -8,6 +8,7 @@ import Footer from './../footer';
 import CategoryCarousel from './CategoryCarousel';
 import {util, axiosInstance, connectToStore} from '../../utils';
 import BusinessItem from './BusinessItem';
+import './style/index.scss';
 
 const {GET_HOME_BUSINESS, MERGE_DATA} = Constants;
 
@@ -19,7 +20,7 @@ class HomeView extends Component {
         this.pageSize = 5;
         this.state = {
             hasMore: true,
-            bottomText: '点击加载更多···'
+            bottomText: '加载中···'
         };
     }
 
@@ -28,7 +29,7 @@ class HomeView extends Component {
         const {onClickAction} = self.props;
         const response = await axiosInstance.get('/business/getBusiness', {params: param || {}});
         const data = response && response.data || {};
-        if (response.data && response.data.status === 200) {
+        if (data) {
             if (Array.isArray(data.data) && data.data.length > 0) {
                 let action = {
                     type: GET_HOME_BUSINESS,
@@ -84,6 +85,8 @@ class HomeView extends Component {
     }
 
     loadMore = (page) => {
+        page -= 1;
+        page = page < 0 ? 0 : page;
         this.getBusinesses({
             page: page,
             size: this.pageSize
@@ -132,7 +135,12 @@ class HomeView extends Component {
             <div className='app-home'>
                 <div className='app-header'>
                     <span>{t('title')}</span>
-                    <Button style={{display: sessionStorage.getItem('userInfo') ? 'none' : 'block'}} onClick={self.logIn}>
+                    <Button
+                        style={{
+                            display: sessionStorage.getItem('userInfo') ? 'none' : 'block',
+                            position: 'absolute'
+                        }}
+                        onClick={self.logIn}>
                         登录/注册
                     </Button>
                 </div>

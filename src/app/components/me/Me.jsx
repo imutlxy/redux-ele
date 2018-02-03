@@ -7,6 +7,7 @@ import {util, axiosInstance, connectToStore} from '../../utils';
 import {authInstance} from '../../auth';
 import Header from '../header';
 import Footer from '../footer';
+import './style/index.scss';
 
 const {ENTER_BUSINESS, GOTO} = Constants;
 const Item = List.Item;
@@ -28,9 +29,8 @@ class Me extends Component {
     componentDidMount() {
     }
 
-    handleSettingClick= (e) => {
-        e.preventDefault();
-        util.transformRouter(this.props, '/me/setting');
+    handleSettingClick = (path = '') => {
+        path && util.transformRouter(this.props, path);
     }
 
     handleAvatarClick = (e) => {
@@ -59,9 +59,16 @@ class Me extends Component {
                 </List>
                 <List className='app-me-list'>
                     <Item
+                        thumb={<i className='fa fa-bars'/>}
+                        arrow='horizontal'
+                        onClick={self.handleSettingClick.bind(this, '/order')}
+                    >{t('order')}</Item>
+                </List>
+                <List className='app-me-list'>
+                    <Item
                         thumb='https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
                         arrow='horizontal'
-                        onClick={self.handleSettingClick}
+                        onClick={self.handleSettingClick.bind(this, '/me/setting')}
                     >{t('setting')}</Item>
                 </List>
                 <List className='app-me-list'>

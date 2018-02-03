@@ -17,7 +17,8 @@ const me = {
     change: 'Change It',
     register: 'Register',
     setting: 'Setting',
-    serviceCenter: 'Service Center'
+    serviceCenter: 'Service Center',
+    order: 'My Order'
 };
 
 const settings = {

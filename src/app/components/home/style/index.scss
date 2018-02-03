@@ -1,5 +1,10 @@
 @import '../../../style/_variables.scss';
 
+#app > div {
+    height: 100%;
+    box-sizing: border-box;
+}
+
 //首页
 .app-home {
     margin: 1rem auto;

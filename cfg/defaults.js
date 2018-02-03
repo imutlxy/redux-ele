@@ -129,8 +129,7 @@ function getDefaultModules() {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: 'resources/images/[name].[hash:8].[ext]',
-                    outputPath: 'images/'
+                    name: 'resources/images/[name].[hash:8].[ext]'
                 }
             }
         ]
@@ -175,7 +174,7 @@ module.exports = {
     srcPath: srcPath,
     entry: entries,
     entryKeys: entryKeys,
-    publicPath: 'http://localhost:' + dfltPort + '/',
+    publicPath: './',
     port: dfltPort,
     getDefaultModules: getDefaultModules,
     plugins: [
@@ -203,8 +202,7 @@ module.exports = {
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},
             {from: 'node_modules/react/dist', to: 'lib/react/dist/'},
             {from: 'node_modules/react-dom/dist', to: 'lib/react-dom/dist/'},
-            {from: 'node_modules/jquery/dist', to: 'lib/jquery/dist/'},
-            {from: 'src/resource/', to: 'resource/'}
+            {from: 'node_modules/jquery/dist', to: 'lib/jquery/dist/'}
         ], {
             ignore: [
                 '*.less',

@@ -1,15 +1,1 @@
 @charset "UTF-8";
-
-@import '../components/header/style/index.scss';
-@import '../components/home/style/index.scss';
-@import '../components/search/style/index.scss';
-@import '../components/order/style/index.scss';
-@import '../components/me/style/index.scss';
-@import '../components/footer/style/index.scss';
-
-#app > div {
-    height: 100%;
-    box-sizing: border-box;
-}
-
-

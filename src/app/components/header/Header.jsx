@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {translate} from 'react-i18next';
 
 import {util, connectToStore} from '../../utils';
+import './style/index.scss';
 
 @translate(['footer'], {wait: true})
 @connectToStore

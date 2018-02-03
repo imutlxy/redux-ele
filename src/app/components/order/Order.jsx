@@ -7,6 +7,7 @@ import Constants from '../../constants';
 import Footer from './../footer';
 import {util, connectToStore} from '../../utils';
 import Header from '../header';
+import './style/index.scss';
 
 const {GOTO} = Constants;
 

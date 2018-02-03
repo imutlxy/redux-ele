@@ -17,7 +17,8 @@ const me = {
     change: '换一张',
     register: '去注册',
     setting: '设置',
-    serviceCenter: '服务中心'
+    serviceCenter: '服务中心',
+    order: '我的订单'
 };
 
 const settings = {

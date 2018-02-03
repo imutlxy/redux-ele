@@ -10,7 +10,6 @@ import appMiddleWares from './middleware/AppMiddleWare';
 
 import {i18n, locales} from './i18n';
 import routes from './routes';
-import './style/index.scss';
 
 /**
  * App View

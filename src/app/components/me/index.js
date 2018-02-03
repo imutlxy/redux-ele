@@ -4,6 +4,8 @@ import Login from './Login';
 import OwnerPage from './OwnerPage';
 import SignUp from './SignUp';
 import ForgotPassword from './ForgotPassword';
+import AddressList from './AddressList';
+import AddressEditor from './AddressEditor';
 import meActions from './actions';
 import meReducers from './reducers';
 
@@ -14,6 +16,8 @@ export {
     SignUp,
     OwnerPage,
     ForgotPassword,
+    AddressList,
+    AddressEditor,
     meActions,
     meReducers
 };
