@@ -4,6 +4,7 @@ import {Search, searchActions, searchReducers} from './search';
 import {Footer, footerActions, footerReducers} from './footer';
 import {Me, Setting, Login, OwnerPage, SignUp, ForgotPassword, AddressList, AddressEditor, meActions, meReducers} from './me';
 import {headerActions, headerReducers} from './header';
+import ErrorPage from './ErrorPage';
 
 const actions = Object.assign({}, orderActions, homeActions, searchActions, footerActions, meActions, headerActions);
 const reducers = Object.assign({}, orderReducers, homeReducers, searchReducers, footerReducers, meReducers, headerReducers);
@@ -22,6 +23,7 @@ export {
     ForgotPassword,
     AddressList,
     AddressEditor,
+    ErrorPage,
     actions,
     reducers
 };

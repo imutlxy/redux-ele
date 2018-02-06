@@ -14,6 +14,8 @@ const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
 
 const srcPath = path.join(__dirname, '/../src');
 const dfltPort = 3000;
+const cssFilename = 'assets/css/[name].[contenthash:8].css';
+const cssPublicPath = new Array(cssFilename.split('/').length).join('../'); // ../../
 
 function getDefaultModules() {
     return {
@@ -31,10 +33,6 @@ function getDefaultModules() {
                     require.resolve('antd-mobile').replace(/warn\.js$/, '') // antd-mobile 内置svg
                     //path.resolve(__dirname, 'src/my-project-svg-foler'),  // 业务代码本地私有 svg 存放目录
                 ]
-            },
-            {
-                test: /\.md$/,
-                use: ['html-loader', 'markdown-loader']
             },
             //css加载
             {
@@ -111,7 +109,7 @@ function getDefaultModules() {
                 test: /\.(woff|woff2|eot|ttf|otf)(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'resources/media/[name].[hash:8].[ext]'
+                    name: 'assets/media/[name].[hash:8].[ext]'
                 }
             },
             // 音频视频等多媒体文件
@@ -119,7 +117,7 @@ function getDefaultModules() {
                 test: /\.(mp4|ogg|mp3)$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'resources/media/[name].[hash:8].[ext]',
+                    name: 'assets/media/[name].[hash:8].[ext]',
                     outputPath: 'asserts/'
                 }
             },
@@ -129,7 +127,7 @@ function getDefaultModules() {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: 'resources/images/[name].[hash:8].[ext]'
+                    name: 'assets/images/[name].[hash:8].[ext]'
                 }
             }
         ]
@@ -174,7 +172,7 @@ module.exports = {
     srcPath: srcPath,
     entry: entries,
     entryKeys: entryKeys,
-    publicPath: './',
+    publicPath: '',
     port: dfltPort,
     getDefaultModules: getDefaultModules,
     plugins: [
@@ -184,8 +182,7 @@ module.exports = {
         new LodashModuleReplacementPlugin({paths: true}),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new ExtractTextPlugin({
-            filename: '[name].css',
-            disable: false,
+            filename: cssFilename,
             allChunks: true
         }),
         new webpack.optimize.CommonsChunkPlugin({
@@ -201,8 +198,7 @@ module.exports = {
             {from: 'node_modules/font-awesome', to: 'lib/font-awesome/'},
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},
             {from: 'node_modules/react/dist', to: 'lib/react/dist/'},
-            {from: 'node_modules/react-dom/dist', to: 'lib/react-dom/dist/'},
-            {from: 'node_modules/jquery/dist', to: 'lib/jquery/dist/'}
+            {from: 'node_modules/react-dom/dist', to: 'lib/react-dom/dist/'}
         ], {
             ignore: [
                 '*.less',

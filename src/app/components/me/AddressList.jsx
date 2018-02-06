@@ -27,7 +27,7 @@ class AddressList extends Component {
                 <List key={`${i + 1}`} className='app-me-list'>
                     <Item
                         arrow='horizontal'
-                        onClick={this.handleItemClick.bind(this, '/me/addressList/addressEditor')}
+                        onClick={this.handleItemClick.bind(this, '/me/ownerPage/addressList/addressEditor')}
                     >{val.address}</Item>
                 </List>
             );
@@ -48,7 +48,7 @@ class AddressList extends Component {
                 <List className='app-me-list'>
                     <Item
                         extra={<i className='fa fa-plus-circle'/>}
-                        onClick={self.handleItemClick.bind(this, '/me/addressList/addressEditor')}
+                        onClick={self.handleItemClick.bind(this, '/me/ownerPage/addressList/addressEditor')}
                     >新增收货地址</Item>
                 </List>
             </div>

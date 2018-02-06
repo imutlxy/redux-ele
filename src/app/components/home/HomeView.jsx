@@ -90,7 +90,10 @@ class HomeView extends Component {
         this.getBusinesses({
             page: page,
             size: this.pageSize
-        }).catch(e => console.error('首页获取商家', e));
+        }).catch(e => {
+            Toast.fail(e.msg || '请求数据出错', 3);
+            this.setState({bottomText: '请求数据出错', hasMore: false});
+        });
     }
 
     logIn = (e) => {

@@ -9,7 +9,7 @@ import {default as Store} from './config/ConfigureStore';
 import appMiddleWares from './middleware/AppMiddleWare';
 
 import {i18n, locales} from './i18n';
-import routes from './routes';
+import routes from './router';
 
 /**
  * App View

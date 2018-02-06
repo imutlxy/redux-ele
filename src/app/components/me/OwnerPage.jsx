@@ -41,7 +41,7 @@ class OwnerPage extends Component {
                 <List className='app-me-list'>
                     <Item
                         arrow='horizontal'
-                        onClick={self.handleItemClick.bind(this, '/me/addressList')}
+                        onClick={self.handleItemClick.bind(this, '/me/ownerPage/addressList')}
                     >收货地址管理</Item>
                 </List>
                 <List className='app-me-list'>
