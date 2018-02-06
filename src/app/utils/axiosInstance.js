@@ -19,12 +19,12 @@ axiosInstance.interceptors.request.use(function (config) {
 });
 //回应拦截
 axiosInstance.interceptors.response.use(function (response) {
-    if (response.status === 200 && response.data) {
+    if (response.data.success === true) {
         return response;
-    } else {
-        Toast.fail('返回的结果中 status 不是 200 或没有 data 字段或 data 字段为 null 或 \'\' 或 false', 2);
-        return Promise.reject(response);
+    } else if (response.config.url.includes(Constants.BASE_URL + '/user/getCaptchas')) { // 校验服务失败、仍然保存
+        return response;
     }
+    return response;
 }, function (error) {
     Toast.fail(i18n.t('common:network_error_req'), 2);
     return Promise.reject(error);

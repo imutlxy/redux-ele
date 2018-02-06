@@ -26,9 +26,9 @@ class Login extends Component {
     getVerificationCodeUrl = async (e) => {
         e && e.stopPropagation();
         let self = this;
-        let response = await axiosInstance.get('/getCaptchas');
-        if (response && response.data && response.data.status === 200) {
-            self.setState({verificationCodeUrl: response.data.code});
+        let response = await axiosInstance.get('user/getCaptchas');
+        if (response && response.data && response.data.msg && response.data.msg.startsWith('data:image/jpeg;base64,')) {
+            self.setState({verificationCodeUrl: response.data.msg});
         }
     }
 
@@ -101,7 +101,7 @@ class Login extends Component {
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
                         <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
                         <div className='am-list-item am-input-item verification-code-area'>
-                            <img src={verificationCodeUrl}/>
+                            <img className='verification-code-img' src={verificationCodeUrl}/>
                             <span onClick={self.getVerificationCodeUrl}>{t('change')}</span>
                         </div>
                         <Item>
