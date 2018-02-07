@@ -45,14 +45,14 @@ class Login extends Component {
                     Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
                     return;
                 }
-                if (!util.validatePassword(formData.password)) {
-                    Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
-                    return;
-                }
-                if (!util.validateVeriCode(formData.veriCode)) {
-                    Toast.fail('验证码格式错误');
-                    return;
-                }
+                // if (!util.validatePassword(formData.password)) {
+                //     Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
+                //     return;
+                // }
+                // if (!util.validateVeriCode(formData.veriCode)) {
+                //     Toast.fail('验证码格式错误');
+                //     return;
+                // }
                 formData.password = md5(formData.password);
                 self.handleLogin(formData).catch(e => console.error('signIn', e));
             }
@@ -61,7 +61,7 @@ class Login extends Component {
 
     handleLogin = async (param) => {
         let self = this;
-        let response = await axiosInstance.post('/signIn', param);
+        let response = await axiosInstance.post('user/signIn', param);
         if (response.data.status === 200) {
             util.persistUserData(response.data.data);
             util.transformRouter(self.props, '/me');
@@ -99,11 +99,11 @@ class Login extends Component {
                             initialValue: userData['name']
                         })} placeholder='请输入昵称'>昵称</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
-                        <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
-                        <div className='am-list-item am-input-item verification-code-area'>
-                            <img className='verification-code-img' src={verificationCodeUrl}/>
-                            <span onClick={self.getVerificationCodeUrl}>{t('change')}</span>
-                        </div>
+                        {/*<InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>*/}
+                        {/*<div className='am-list-item am-input-item verification-code-area'>*/}
+                            {/*<img className='verification-code-img' src={verificationCodeUrl}/>*/}
+                            {/*<span onClick={self.getVerificationCodeUrl}>{t('change')}</span>*/}
+                        {/*</div>*/}
                         <Item>
                             <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
                             <Button onClick={this.onReset} inline>{t('common:reset')}</Button>

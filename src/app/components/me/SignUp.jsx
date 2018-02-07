@@ -26,9 +26,9 @@ class Login extends Component {
     getVerificationCodeUrl = async (e) => {
         e && e.stopPropagation();
         let self = this;
-        let response = await axiosInstance.get('/getCaptchas').catch(e => console.error('验证码', e));
-        if (response && response.data && response.data.status === 200) {
-            self.setState({verificationCodeUrl: response.data.code});
+        let response = await axiosInstance.get('user/getCaptchas').catch(e => console.error('验证码', e));
+        if (response && response.data && response.data.msg && response.data.msg.startsWith('data:image/jpeg;base64,')) {
+            self.setState({verificationCodeUrl: response.data.msg});
         }
     }
 
@@ -45,26 +45,26 @@ class Login extends Component {
                     Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
                     return;
                 }
-                if (!util.validateMobile(formData.cellPhoneNumber)) {
-                    Toast.fail('手机号格式错误');
-                    return;
-                }
+                // if (!util.validateMobile(formData.cellPhoneNumber)) {
+                //     Toast.fail('手机号格式错误');
+                //     return;
+                // }
                 if (!formData.password || !formData.rePassword || formData.password !== formData.rePassword) {
                     Toast.fail('两次输入的密码不一致');
                     return;
                 }
-                if (!util.validatePassword(formData.password)) {
-                    Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
-                    return;
-                }
+                // if (!util.validatePassword(formData.password)) {
+                //     Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
+                //     return;
+                // }
                 if (!util.validateEmail(formData.email)) {
                     Toast.fail('邮箱格式错误');
                     return;
                 }
-                if (!util.validateVeriCode(formData.veriCode)) {
-                    Toast.fail('验证码格式错误');
-                    return;
-                }
+                // if (!util.validateVeriCode(formData.veriCode)) {
+                //     Toast.fail('验证码格式错误');
+                //     return;
+                // }
                 formData.password = md5(formData.password);
                 formData.rePassword = md5(formData.rePassword);
                 self.handleSignUp(formData).catch(e => console.error('signUp', e));
@@ -74,7 +74,7 @@ class Login extends Component {
 
     handleSignUp = async (param) => {
         let self = this;
-        let response = await axiosInstance.post('/signUp', param);
+        let response = await axiosInstance.post('user/signUp', param);
         if (response.data.status === 200) {
             util.persistUserData(response.data.data);
             util.transformRouter(this.props, '/me/logIn');
@@ -99,11 +99,11 @@ class Login extends Component {
                         <InputItem {...getFieldProps('email')} placeholder='请输入邮箱'>邮箱</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
                         <InputItem {...getFieldProps('rePassword')} placeholder='请再次输入密码' type='password'>再次输入</InputItem>
-                        <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
-                        <div className='am-list-item am-input-item verification-code-area'>
-                            <img src={verificationCodeUrl}/>
-                            <span onClick={self.getVerificationCodeUrl}>{t('change')}</span>
-                        </div>
+                        {/*<InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>*/}
+                        {/*<div className='am-list-item am-input-item verification-code-area'>*/}
+                            {/*<img src={verificationCodeUrl}/>*/}
+                            {/*<span onClick={self.getVerificationCodeUrl}>{t('change')}</span>*/}
+                        {/*</div>*/}
                         <Item>
                             <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
                         </Item>
