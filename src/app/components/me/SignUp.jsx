@@ -33,7 +33,7 @@ class Login extends Component {
     }
 
     componentWillMount() {
-        this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+        // this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
     }
 
     onSubmit = () => {
@@ -41,7 +41,7 @@ class Login extends Component {
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                if (!util.validateName(formData.name)) {
+                if (!util.validateName(formData.username)) {
                     Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
                     return;
                 }
@@ -79,7 +79,7 @@ class Login extends Component {
             util.persistUserData(response.data.data);
             util.transformRouter(this.props, '/me/logIn');
         } else {
-            self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+            // self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
             Toast.fail(response.data.msg || '网络回应错误');
         }
     }
@@ -94,7 +94,7 @@ class Login extends Component {
                 <Header title={t('register')}/>
                 <form>
                     <List className='app-me-list'>
-                        <InputItem {...getFieldProps('name')} placeholder='请输入昵称'>昵称</InputItem>
+                        <InputItem {...getFieldProps('username')} placeholder='请输入昵称'>用户名</InputItem>
                         <InputItem {...getFieldProps('cellPhoneNumber')} placeholder='请输入手机号'>手机号</InputItem>
                         <InputItem {...getFieldProps('email')} placeholder='请输入邮箱'>邮箱</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>

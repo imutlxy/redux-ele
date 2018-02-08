@@ -26,7 +26,11 @@ axiosInstance.interceptors.response.use(function (response) {
     }
     return response;
 }, function (error) {
-    Toast.fail(i18n.t('common:network_error_req'), 2);
+    let msg = '';
+    if (error.response && error.response.data && error.response.data.status === 401) {
+        msg = '权限不足，请先登录';
+    }
+    Toast.fail(msg || i18n.t('common:network_error_req'), 3);
     return Promise.reject(error);
 });
 

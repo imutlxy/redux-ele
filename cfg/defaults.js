@@ -187,6 +187,8 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             //可以指定多个 entryName，打出多个 common 包
+            index: '../src/index.jsx',
+            login: '../src/login.jsx',
             names: ['common', 'vendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
         }),
@@ -206,12 +208,26 @@ module.exports = {
             ]
         }),
         new HtmlWebpackPlugin({
+            filename: 'index.html',
             title: 'redux-ele',
             favicon: 'src/resource/images/favicon.png',
             template: 'src/index.ejs',
             stylesheets: [],
             scripts: [],
             chunks: ['vendor', 'common', 'index'], // 页面应用哪些chunks
+            minify: {
+                removeComments: true,
+                collapseWhitespace: minimize
+            }
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'login.html',
+            title: 'redux-ele',
+            favicon: 'src/resource/images/favicon.png',
+            template: 'src/index.ejs',
+            stylesheets: [],
+            scripts: [],
+            chunks: ['vendor', 'common', 'login'], // 页面应用哪些chunks
             minify: {
                 removeComments: true,
                 collapseWhitespace: minimize

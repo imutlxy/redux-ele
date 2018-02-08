@@ -35,11 +35,12 @@ class Me extends Component {
 
     handleAvatarClick = (e) => {
         e.preventDefault();
-        util.transformRouter(this.props, '/me/ownerPage');
+        // util.transformRouter(this.props, '/me/ownerPage');
         if (sessionStorage.getItem('userInfo')) {
             util.transformRouter(this.props, '/me/ownerPage');
         } else {
-            util.transformRouter(this.props, '/me/logIn');
+            // util.transformRouter(this.props, '/me/logIn');
+            window.location.href = 'login.html';
         }
     }
 

@@ -33,7 +33,7 @@ class Login extends Component {
     }
 
     componentWillMount() {
-        this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+        // this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
     }
 
     onSubmit = () => {
@@ -41,7 +41,7 @@ class Login extends Component {
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                if (!util.validateName(formData.name)) {
+                if (!util.validateName(formData.username)) {
                     Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
                     return;
                 }
@@ -66,7 +66,7 @@ class Login extends Component {
             util.persistUserData(response.data.data);
             util.transformRouter(self.props, '/me');
         } else {
-            self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+            // self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
             Toast.fail(response.data.msg || '网络回应错误');
         }
     }
@@ -95,9 +95,9 @@ class Login extends Component {
                 <Header title={t('login')}/>
                 <form>
                     <List className='app-me-list'>
-                        <InputItem {...getFieldProps('name', {
-                            initialValue: userData['name']
-                        })} placeholder='请输入昵称'>昵称</InputItem>
+                        <InputItem {...getFieldProps('username', {
+                            initialValue: userData['username']
+                        })} placeholder='请输入昵称'>用户名</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
                         {/*<InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>*/}
                         {/*<div className='am-list-item am-input-item verification-code-area'>*/}
