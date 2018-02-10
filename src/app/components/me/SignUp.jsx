@@ -75,7 +75,7 @@ class Login extends Component {
     handleSignUp = async (param) => {
         let self = this;
         let response = await axiosInstance.post('user/signUp', param);
-        if (response.data.status === 200) {
+        if (response && response.data) {
             util.persistUserData(response.data.data);
             util.transformRouter(this.props, '/me/logIn');
         } else {

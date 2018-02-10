@@ -7,7 +7,7 @@ module.exports = {
     //输出配置
     output: {
         path: path.join(__dirname, './../dist/'),
-        filename: 'assets/js/[name].[hash:8].js',
+        filename: 'assets/js/[name].[hash].js',
         publicPath: defaultSettings.publicPath
     },
     devServer: {

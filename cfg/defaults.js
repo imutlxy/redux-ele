@@ -4,11 +4,11 @@ const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
 const PurifyCSSPlugin = require('purifycss-webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const marked = require('marked');
 
 const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
 
@@ -40,6 +40,7 @@ function getDefaultModules() {
                 //通过 webpack-replace 替换文本内容，将 font 字体改为本地加载，参数可以使用 JSON.stringify 处理
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
+                    publicPath: cssPublicPath, // css url 的相对路径改为和 assets 同级
                     use: [{
                         loader: 'css-loader',
                         options: {
@@ -54,6 +55,7 @@ function getDefaultModules() {
                 test: /\.(sass|scss)/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
+                    publicPath: cssPublicPath, // css url 的相对路径改为和 assets 同级
                     use: [
                         {
                             loader: 'css-loader',
@@ -82,6 +84,7 @@ function getDefaultModules() {
                 test: /.less$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
+                    publicPath: cssPublicPath, // css url 的相对路径改为和 assets 同级
                     use: [
                         {
                             loader: 'css-loader',
@@ -146,17 +149,22 @@ const entries = files.reduce(function (memo, file) {
     // 凡是加到 vendor 中的模块，都会被全部打包到 vendor.js
     vendor: [
         'classnames',
-        'i18next',
-        'i18next-browser-languagedetector',
+        'uuid',
+        'md5',
+        'rc-form',
+        'antd-mobile'
+    ],
+    reactVendor: [
         'immutability-helper',
         'immutable',
+        'i18next',
+        'i18next-browser-languagedetector',
         'react-i18next',
         'react-redux',
         'redux',
         'redux-thunk',
         'react-router',
-        'react-router-redux',
-        'uuid'
+        'react-router-redux'
     ]
 });
 
@@ -176,22 +184,27 @@ module.exports = {
     port: dfltPort,
     getDefaultModules: getDefaultModules,
     plugins: [
-        new webpack.LoaderOptionsPlugin({
-            debug: true
-        }),
+        new CleanWebpackPlugin(['dist']),
+        new webpack.LoaderOptionsPlugin({debug: true}),
         new LodashModuleReplacementPlugin({paths: true}),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new ExtractTextPlugin({
             filename: cssFilename,
             allChunks: true
         }),
+        // main bundle 会随着自身的新增内容的修改，而发生变化。
+        // vendor bundle 会随着自身的 module.id 的修改，而发生变化。
+        // manifest bundle 会因为当前包含一个新模块的引用，而发生变化
         new webpack.optimize.CommonsChunkPlugin({
             //可以指定多个 entryName，打出多个 common 包
             index: '../src/index.jsx',
             login: '../src/login.jsx',
-            names: ['common', 'vendor'], // 最后一项包含 webpack runtime
+            names: ['common', 'vendor', 'reactVendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
         }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'manifest'
+        // }),//注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'manifest' 实例之前引入。
         // new PurifyCSSPlugin({
         //     // 自动删除 css 文件里一些用不到的属性
         //     paths: glob.sync(path.join(__dirname, '/../src/*.html'))
@@ -204,7 +217,12 @@ module.exports = {
         ], {
             ignore: [
                 '*.less',
-                '*.scss'
+                '*.scss',
+                '*.map',
+                '.npmignore',
+                'package.json',
+                '*.md',
+                '*.txt'
             ]
         }),
         new HtmlWebpackPlugin({
@@ -214,7 +232,7 @@ module.exports = {
             template: 'src/index.ejs',
             stylesheets: [],
             scripts: [],
-            chunks: ['vendor', 'common', 'index'], // 页面应用哪些chunks
+            chunks: ['vendor', 'reactVendor', 'common', 'index'], // 页面应用哪些chunks
             minify: {
                 removeComments: true,
                 collapseWhitespace: minimize
@@ -227,7 +245,7 @@ module.exports = {
             template: 'src/index.ejs',
             stylesheets: [],
             scripts: [],
-            chunks: ['vendor', 'common', 'login'], // 页面应用哪些chunks
+            chunks: ['vendor', 'reactVendor', 'common', 'login'], // 页面应用哪些chunks
             minify: {
                 removeComments: true,
                 collapseWhitespace: minimize

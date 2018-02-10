@@ -38,7 +38,7 @@ class Setting extends Component {
     signOutClick = async (e) => {
         e.preventDefault();
         let self = this;
-        const response = await axiosInstance.get('/signOut');
+        const response = await axiosInstance.get('user/signOut');
         const data = response && response.data || {};
         if (data.status === 200) {
             authInstance.userId = undefined;

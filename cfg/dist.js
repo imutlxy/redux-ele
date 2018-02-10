@@ -6,6 +6,8 @@ let webpack = require('webpack');
 let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
 
+const output = Object.assign(baseConfig.output, {filename: 'assets/js/[name].[chunkhash].js'});
+Object.assign(baseConfig, {output: output});
 let config = Object.assign({}, baseConfig, {
     entry: defaultSettings.entry,
     cache: false,
@@ -30,6 +32,13 @@ let config = Object.assign({}, baseConfig, {
                 reduce_vars: true
             }
         }),
+        new webpack.HashedModuleIdsPlugin({ // 该插件会根据模块的相对路径生成一个四位数的hash作为模块id, 建议用于生产环境
+            hashFunction: 'sha256',
+            hashDigest: 'hex',
+            hashDigestLength: 8
+        }),
+        // 模块串联功能。之前，webpack 会为每个模块创建各自的闭包，使用串联功能将模块连接到一起后，就只需为这真个模块创建一个单独的闭包，从而减少不必要的代码
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
     ].concat(defaultSettings.plugins),

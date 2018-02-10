@@ -41,6 +41,6 @@ config.module.rules.push({
 });
 
 //只显示错误信息
-config.devServer.stats = 'errors-only';
+config.devServer.stats = 'normal'; // errors-only
 
 module.exports = config;

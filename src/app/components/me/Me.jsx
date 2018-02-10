@@ -39,8 +39,8 @@ class Me extends Component {
         if (sessionStorage.getItem('userInfo')) {
             util.transformRouter(this.props, '/me/ownerPage');
         } else {
-            // util.transformRouter(this.props, '/me/logIn');
-            window.location.href = 'login.html';
+            util.transformRouter(this.props, '/me/logIn');
+            // window.location.href = 'login.html';
         }
     }
 

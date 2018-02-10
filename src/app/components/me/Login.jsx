@@ -54,6 +54,7 @@ class Login extends Component {
                 //     return;
                 // }
                 formData.password = md5(formData.password);
+                formData.rememberMe = true;
                 self.handleLogin(formData).catch(e => console.error('signIn', e));
             }
         });
@@ -62,7 +63,7 @@ class Login extends Component {
     handleLogin = async (param) => {
         let self = this;
         let response = await axiosInstance.post('user/signIn', param);
-        if (response.data.status === 200) {
+        if (response && response.data) {
             util.persistUserData(response.data.data);
             util.transformRouter(self.props, '/me');
         } else {

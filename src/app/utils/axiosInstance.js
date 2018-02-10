@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(function (config) {
 axiosInstance.interceptors.response.use(function (response) {
     if (response.data.success === true) {
         return response;
-    } else if (response.config.url.includes(Constants.BASE_URL + '/user/getCaptchas')) { // 校验服务失败、仍然保存
+    } else if (response.config.url.includes(Constants.BASE_URL + '/user/getCaptchas')) { // 获取验证码，返回的结果是 string
         return response;
     }
     return response;
