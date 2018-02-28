@@ -3,12 +3,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
-const PurifyCSSPlugin = require('purifycss-webpack');
+const os = require('os');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const HappyPack = require('happypack');//多线程loader 加快编译速度
+const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
 
 const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
 
@@ -24,7 +26,7 @@ function getDefaultModules() {
                 test: /\.(js|jsx)$/,
                 include: srcPath,
                 enforce: 'pre',
-                use: 'eslint-loader'//js,jsx 预处理，先通过 eslint 语法校验
+                loader: 'happypack/loader?id=eslint' //js,jsx 预处理，先通过 eslint 语法校验
             },
             {
                 test: /\.(svg)$/i,
@@ -184,6 +186,24 @@ module.exports = {
     port: dfltPort,
     getDefaultModules: getDefaultModules,
     plugins: [
+        new HappyPack({
+            id: 'js-prod',
+            threadPool: happyThreadPool,
+            loaders: ['babel-loader'],
+            verbose: true
+        }),
+        new HappyPack({
+            id: 'js-dev',
+            threadPool: happyThreadPool,
+            loaders: ['react-hot-loader/webpack', 'babel-loader'],
+            verbose: true
+        }),
+        new HappyPack({
+            id: 'eslint',
+            threadPool: happyThreadPool,
+            loaders: ['eslint-loader'],
+            verbose: true
+        }),
         new CleanWebpackPlugin(['dist']),
         new webpack.LoaderOptionsPlugin({debug: true}),
         new LodashModuleReplacementPlugin({paths: true}),
@@ -205,10 +225,6 @@ module.exports = {
         // new webpack.optimize.CommonsChunkPlugin({
         //     name: 'manifest'
         // }),//注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'manifest' 实例之前引入。
-        // new PurifyCSSPlugin({
-        //     // 自动删除 css 文件里一些用不到的属性
-        //     paths: glob.sync(path.join(__dirname, '/../src/*.html'))
-        // }),
         new CopyWebpackPlugin([
             {from: 'node_modules/font-awesome', to: 'lib/font-awesome/'},
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},

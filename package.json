@@ -76,6 +76,7 @@
     "eslint-plugin-react": "latest",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "latest",
+    "happypack": "^4.0.1",
     "glob": "^7.1.2",
     "html-loader": "latest",
     "html-webpack-plugin": "latest",
@@ -98,6 +99,7 @@
     "svg-sprite-loader": "^3.6.2",
     "url-loader": "latest",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-dev-server": "^2.11.1",
+    "webpack-parallel-uglify-plugin": "^1.0.2"
   }
 }

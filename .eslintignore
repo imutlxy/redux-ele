@@ -14,3 +14,4 @@ lib/**
 **/*.iml
 **/*.mp3
 test/**
+.cache/**

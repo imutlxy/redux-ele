@@ -33,7 +33,7 @@ let config = Object.assign({}, baseConfig, {
 config.module.rules.push({
     //使用 react-hot 的标准配置，babel-loader 通过参数的方式跟在 react-hot 后
     test: /\.(js|jsx)$/,
-    use: ['react-hot-loader/webpack', 'babel-loader'],
+    loader: 'happypack/loader?id=js-dev',
     include: [].concat(
         defaultSettings.additionalPaths,
         [path.join(__dirname, '/../src')]

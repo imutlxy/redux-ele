@@ -1,7 +1,8 @@
 'use strict';
 
-let path = require('path');
-let webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 
 let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
@@ -15,21 +16,24 @@ let config = Object.assign({}, baseConfig, {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"production"'
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            // 最紧凑的输出
-            beautify: false,
-            // 删除所有的注释
-            comments: false,
-            compress: {
-                // 在UglifyJs删除没有用到的代码时不输出警告
-                warnings: false,
-                // 删除所有的 `console` 语句
-                // 还可以兼容ie浏览器
-                drop_console: true,
-                // 内嵌定义了但是只用到一次的变量
-                collapse_vars: true,
-                // 提取出出现多次但是没有定义成变量去引用的静态值
-                reduce_vars: true
+        new ParallelUglifyPlugin({
+            uglifyES:{
+                ie8: true,
+                output: {
+                    comments: false,
+                    beautify: false
+                },
+                compress: {
+                    // 在UglifyJs删除没有用到的代码时不输出警告
+                    warnings: false,
+                    // 删除所有的 `console` 语句
+                    // 还可以兼容ie浏览器
+                    drop_console: true,
+                    // 内嵌定义了但是只用到一次的变量
+                    collapse_vars: true,
+                    // 提取出出现多次但是没有定义成变量去引用的静态值
+                    reduce_vars: true
+                }
             }
         }),
         new webpack.HashedModuleIdsPlugin({ // 该插件会根据模块的相对路径生成一个四位数的hash作为模块id, 建议用于生产环境
@@ -49,7 +53,7 @@ let config = Object.assign({}, baseConfig, {
 // js 处理，使用 babel 进行转码
 config.module.rules.push({
     test: /\.(js|jsx)$/,
-    use: [{loader: 'babel-loader'}],
+    loader: 'happypack/loader?id=js-prod',
     include: [].concat(
         defaultSettings.additionalPaths,
         [path.join(__dirname, '/../src')]

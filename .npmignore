@@ -13,3 +13,5 @@ pom.xml
 /test
 /server.js
 /webpack.config.js
+
+.cache/
