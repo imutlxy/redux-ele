@@ -6,4 +6,4 @@ import App from './app/App';
 /**
  * Main App View
  */
-render(<App />, document.getElementById('app'));
+render(<App />, document.getElementById('ele-app'));

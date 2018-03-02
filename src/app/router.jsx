@@ -32,20 +32,22 @@ const checkPermission = (nextState, replace, next) => {
 const routes = (history) => {
     return (
         <Router history={history}>
-            <Route path="/" component={HomeView}/>
-            <Route path="/home" component={HomeView}/>
-            <Route path="/business/:id" component={BusinessDetail}/>
-            <Route path="/search" component={Search}/>
-            <Route path="/order" component={Order}/>
-            <Route path="/me" component={Me}/>
-            <Route path="/me/setting" component={Setting} onEnter={checkPermission}/>
-            <Route path="/me/logIn" component={Login}/>
-            <Route path="/me/signUp" component={SignUp}/>
-            <Route path="/me/forgotPassword" component={ForgotPassword} onEnter={checkPermission}/>
-            <Route path="/me/ownerPage" component={OwnerPage} onEnter={checkPermission}/>
-            <Route path="/me/ownerPage/addressList" component={AddressList} onEnter={checkPermission}/>
-            <Route path="/me/ownerPage/addressList/addressEditor" component={AddressEditor} onEnter={checkPermission}/>
-            <Route path="*" component={ErrorPage}/>
+            <div>
+                <Route path="/" component={HomeView}/>
+                <Route path="/home" component={HomeView}/>
+                <Route path="/business/:id" component={BusinessDetail}/>
+                <Route path="/search" component={Search}/>
+                <Route path="/order" component={Order}/>
+                <Route path="/me" component={Me}/>
+                <Route path="/me/setting" component={Setting} onEnter={checkPermission}/>
+                <Route path="/me/logIn" component={Login}/>
+                <Route path="/me/signUp" component={SignUp}/>
+                <Route path="/me/forgotPassword" component={ForgotPassword} onEnter={checkPermission}/>
+                <Route path="/me/ownerPage" component={OwnerPage} onEnter={checkPermission}/>
+                <Route path="/me/ownerPage/addressList" component={AddressList} onEnter={checkPermission}/>
+                <Route path="/me/ownerPage/addressList/addressEditor" component={AddressEditor} onEnter={checkPermission}/>
+                <Route path="*" component={ErrorPage}/>
+            </div>
         </Router>
     );
 };

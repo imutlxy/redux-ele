@@ -170,11 +170,6 @@ const entries = files.reduce(function (memo, file) {
     ]
 });
 
-// Additional npm or bower modules to include in builds
-// Add all foreign plugins you may need into this array
-// @example:
-// let npmBase = path.join(__dirname, '../node_modules');
-// let additionalPaths = [ path.join(npmBase, 'react-bootstrap') ];
 let additionalPaths = [];
 
 module.exports = {
@@ -212,19 +207,11 @@ module.exports = {
             filename: cssFilename,
             allChunks: true
         }),
-        // main bundle 会随着自身的新增内容的修改，而发生变化。
-        // vendor bundle 会随着自身的 module.id 的修改，而发生变化。
-        // manifest bundle 会因为当前包含一个新模块的引用，而发生变化
         new webpack.optimize.CommonsChunkPlugin({
             //可以指定多个 entryName，打出多个 common 包
-            index: '../src/index.jsx',
-            login: '../src/login.jsx',
             names: ['common', 'vendor', 'reactVendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
         }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: 'manifest'
-        // }),//注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'manifest' 实例之前引入。
         new CopyWebpackPlugin([
             {from: 'node_modules/font-awesome', to: 'lib/font-awesome/'},
             {from: 'node_modules/axios/dist', to: 'lib/axios/dist/'},
@@ -249,19 +236,6 @@ module.exports = {
             stylesheets: [],
             scripts: [],
             chunks: ['vendor', 'reactVendor', 'common', 'index'], // 页面应用哪些chunks
-            minify: {
-                removeComments: true,
-                collapseWhitespace: minimize
-            }
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'login.html',
-            title: 'redux-ele',
-            favicon: 'src/resource/images/favicon.png',
-            template: 'src/index.ejs',
-            stylesheets: [],
-            scripts: [],
-            chunks: ['vendor', 'reactVendor', 'common', 'login'], // 页面应用哪些chunks
             minify: {
                 removeComments: true,
                 collapseWhitespace: minimize
