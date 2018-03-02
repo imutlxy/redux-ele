@@ -51,10 +51,10 @@
                     font-size: 1rem;
                     text-indent: .3rem;
                 }
-                //img {
-                //    width: .4rem;
-                //    height: .4rem;
-                //}
+                img {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                }
                 .am-list-line {
                     .am-list-content {
                         width: 100%;
@@ -71,8 +71,8 @@
         }
         .verification-code-area {
             img{
-                width: 2.3rem;
-                height: .8rem;
+                width: 8rem !important;
+                height: 3rem !important;
             }
             span {
                 margin-left: .3rem;

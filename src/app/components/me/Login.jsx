@@ -33,7 +33,7 @@ class Login extends Component {
     }
 
     componentWillMount() {
-        // this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+        this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
     }
 
     onSubmit = () => {
@@ -101,11 +101,11 @@ class Login extends Component {
                             initialValue: userData['username']
                         })} placeholder='请输入昵称'>用户名</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
-                        {/*<InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>*/}
-                        {/*<div className='am-list-item am-input-item verification-code-area'>*/}
-                            {/*<img className='verification-code-img' src={verificationCodeUrl}/>*/}
-                            {/*<span onClick={self.getVerificationCodeUrl}>{t('change')}</span>*/}
-                        {/*</div>*/}
+                        <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
+                        <div className='am-list-item am-input-item verification-code-area'>
+                            <img className='verification-code-img' src={verificationCodeUrl}/>
+                            <span onClick={self.getVerificationCodeUrl}>{t('change')}</span>
+                        </div>
                         <WhiteSpace/>
                         <Item className='app-me-login-btn-list'>
                             <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
