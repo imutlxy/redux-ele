@@ -103,7 +103,7 @@ class Setting extends Component {
                 <List className='app-me-list'>
                     <Item
                         extra={<Switch
-                        // disabled={!disabled}
+                        disabled={!disabled}
                         checked={language === 'zh'}
                         {...getFieldProps('language')}
                         onClick={self.switchLanguage}/>}
@@ -111,7 +111,7 @@ class Setting extends Component {
                 </List>
                 <WhiteSpace/>
                 <Button
-                    // disabled={!disabled}
+                    disabled={!disabled}
                     className='app-me-setting-submit-btn'
                     onClick={this.onSubmit}
                 >
@@ -119,7 +119,7 @@ class Setting extends Component {
                 </Button>
                 <WhiteSpace/>
                 <Button
-                    // disabled={!disabled}
+                    disabled={!disabled}
                     className='app-me-setting-signup-btn'
                     onClick={self.signOutClick}
                 >
