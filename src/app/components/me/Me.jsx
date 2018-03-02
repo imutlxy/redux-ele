@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
-import {Button, Toast, List} from 'antd-mobile';
+import {Button, Toast, List, WhiteSpace} from 'antd-mobile';
 
 import Constants from '../../constants';
 import {util, axiosInstance, connectToStore} from '../../utils';
@@ -58,6 +58,7 @@ class Me extends Component {
                         onClick={self.handleAvatarClick}
                     >{authInstance.userName ? `${authInstance.userName}` : self.state.avatarText}</Item>
                 </List>
+                <WhiteSpace />
                 <List className='app-me-list'>
                     <Item
                         thumb={<i className='fa fa-bars'/>}
@@ -65,6 +66,7 @@ class Me extends Component {
                         onClick={self.handleSettingClick.bind(this, '/order')}
                     >{t('order')}</Item>
                 </List>
+                <WhiteSpace />
                 <List className='app-me-list'>
                     <Item
                         thumb='https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
@@ -72,6 +74,7 @@ class Me extends Component {
                         onClick={self.handleSettingClick.bind(this, '/me/setting')}
                     >{t('setting')}</Item>
                 </List>
+                <WhiteSpace />
                 <List className='app-me-list'>
                     <Item thumb='https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png' arrow='empty'>{t('serviceCenter')}</Item>
                 </List>

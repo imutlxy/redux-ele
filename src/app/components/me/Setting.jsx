@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
-import {List, Switch, Toast, Button} from 'antd-mobile';
+import {List, Switch, Toast, Button, WhiteSpace} from 'antd-mobile';
 import {createForm} from 'rc-form';
 
 import Constants from '../../constants';
@@ -97,30 +97,29 @@ class Setting extends Component {
         const {language} = self.state;
         const disabled = Boolean(sessionStorage.getItem('userInfo'));
         return (
-            <div className='app-me'>
+            <div className='app-me app-me-setting'>
                 <Header title={t('setting')}/>
+                <WhiteSpace/>
                 <List className='app-me-list'>
                     <Item
                         extra={<Switch
-                        disabled={!disabled}
+                        // disabled={!disabled}
                         checked={language === 'zh'}
                         {...getFieldProps('language')}
                         onClick={self.switchLanguage}/>}
                     >中英文切换</Item>
                 </List>
-                <List className='app-me-list'>
-                    <Item>
-                        <Button
-                            disabled={!disabled}
-                            className='app-me-setting-submit-btn'
-                            onClick={this.onSubmit}
-                        >
-                            确认修改
-                        </Button>
-                    </Item>
-                </List>
+                <WhiteSpace/>
                 <Button
-                    disabled={!disabled}
+                    // disabled={!disabled}
+                    className='app-me-setting-submit-btn'
+                    onClick={this.onSubmit}
+                >
+                    确认修改
+                </Button>
+                <WhiteSpace/>
+                <Button
+                    // disabled={!disabled}
                     className='app-me-setting-signup-btn'
                     onClick={self.signOutClick}
                 >

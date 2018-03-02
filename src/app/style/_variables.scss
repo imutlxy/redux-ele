@@ -1,5 +1,15 @@
 @charset "UTF-8";
 
-$common-bg: '#1bbc9b';
-$font-color: '#666';
-$header-font-color: '#f6f5ec'
+#ele-app {
+    --common-bg: #1bbc9b;
+    --font-color: #666;
+
+    --header-font-color: #f6f5ec;
+    --header-font-size: 1rem;
+    --header-height: 2.5rem;
+
+    --footer-font-size: 1.4rem;
+    --footer-icon-size: .4rem;
+    --footer-bg: #f5f5f5;
+    --footer-border-color: #ccc;
+}
