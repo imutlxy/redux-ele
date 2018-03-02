@@ -20,9 +20,9 @@ const Item = List.Item;
 class Me extends Component {
     constructor(props) {
         super(props);
-        let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
+        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.state = {
-            avatarText: `欢迎您，${userInfo.name}` || '登录/注册'
+            avatarText: (userInfo && `欢迎您，${userInfo.name}`) || '登录/注册'
         };
     }
 

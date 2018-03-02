@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
-import {Toast, List, InputItem, Button} from 'antd-mobile';
+import {Toast, List, InputItem, Button, WhiteSpace} from 'antd-mobile';
 import {createForm} from 'rc-form';
 import md5 from 'md5';
 
@@ -92,10 +92,11 @@ class Login extends Component {
         const {verificationCodeUrl} = self.state;
         const userData = JSON.parse(localStorage.getItem('userInfo')) || {};
         return (
-            <div className='app-me'>
+            <div className='app-me app-me-login'>
                 <Header title={t('login')}/>
                 <form>
                     <List className='app-me-list'>
+                        <WhiteSpace/>
                         <InputItem {...getFieldProps('username', {
                             initialValue: userData['username']
                         })} placeholder='请输入昵称'>用户名</InputItem>
@@ -105,7 +106,8 @@ class Login extends Component {
                             {/*<img className='verification-code-img' src={verificationCodeUrl}/>*/}
                             {/*<span onClick={self.getVerificationCodeUrl}>{t('change')}</span>*/}
                         {/*</div>*/}
-                        <Item>
+                        <WhiteSpace/>
+                        <Item className='app-me-login-btn-list'>
                             <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
                             <Button onClick={this.onReset} inline>{t('common:reset')}</Button>
                             <Button size='middle' onClick={this.handleForgotPwd} inline>{t('forgotPwd')}</Button>
