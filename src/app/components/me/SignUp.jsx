@@ -33,7 +33,7 @@ class Login extends Component {
     }
 
     componentWillMount() {
-        // this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+        this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
     }
 
     onSubmit = () => {
@@ -49,18 +49,18 @@ class Login extends Component {
                 //     Toast.fail('手机号格式错误');
                 //     return;
                 // }
-                if (!formData.password || !formData.rePassword || formData.password !== formData.rePassword) {
-                    Toast.fail('两次输入的密码不一致');
-                    return;
-                }
+                // if (!formData.password || !formData.rePassword || formData.password !== formData.rePassword) {
+                //     Toast.fail('两次输入的密码不一致');
+                //     return;
+                // }
                 // if (!util.validatePassword(formData.password)) {
                 //     Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
                 //     return;
                 // }
-                if (!util.validateEmail(formData.email)) {
-                    Toast.fail('邮箱格式错误');
-                    return;
-                }
+                // if (!util.validateEmail(formData.email)) {
+                //     Toast.fail('邮箱格式错误');
+                //     return;
+                // }
                 // if (!util.validateVeriCode(formData.veriCode)) {
                 //     Toast.fail('验证码格式错误');
                 //     return;
@@ -73,14 +73,10 @@ class Login extends Component {
     }
 
     handleSignUp = async (param) => {
-        let self = this;
         let response = await axiosInstance.post('user/signUp', param);
         if (response && response.data) {
             util.persistUserData(response.data.data);
             util.transformRouter(this.props, '/me/logIn');
-        } else {
-            // self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
-            Toast.fail(response.data.msg || '网络回应错误');
         }
     }
 
@@ -99,11 +95,11 @@ class Login extends Component {
                         <InputItem {...getFieldProps('email')} placeholder='请输入邮箱'>邮箱</InputItem>
                         <InputItem {...getFieldProps('password')} placeholder='请输入密码' type='password'>密码</InputItem>
                         <InputItem {...getFieldProps('rePassword')} placeholder='请再次输入密码' type='password'>再次输入</InputItem>
-                        {/*<InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>*/}
-                        {/*<div className='am-list-item am-input-item verification-code-area'>*/}
-                            {/*<img src={verificationCodeUrl}/>*/}
-                            {/*<span onClick={self.getVerificationCodeUrl}>{t('change')}</span>*/}
-                        {/*</div>*/}
+                        <InputItem {...getFieldProps('veriCode')} placeholder='请输入验证码'>验证码</InputItem>
+                        <div className='am-list-item am-input-item verification-code-area'>
+                            <img src={verificationCodeUrl}/>
+                            <span onClick={self.getVerificationCodeUrl}>{t('change')}</span>
+                        </div>
                         <Item>
                             <Button type='primary' onClick={this.onSubmit} inline>{t('common:confirm')}</Button>
                         </Item>

@@ -33,7 +33,7 @@ class Login extends Component {
     }
 
     componentWillMount() {
-        this.getVerificationCodeUrl().catch(e => console.error('验证码', e));
+        this.getVerificationCodeUrl().catch(e => Toast.fail(e.msg || '验证码错误'));
     }
 
     onSubmit = () => {
@@ -41,10 +41,10 @@ class Login extends Component {
         self.props.form.validateFields({force: true}, (error) => {
             if (!error) {
                 const formData = this.props.form.getFieldsValue();
-                if (!util.validateName(formData.username)) {
-                    Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
-                    return;
-                }
+                // if (!util.validateName(formData.username)) {
+                //     Toast.fail('只能输入5-20个以字母开头包括字母数字下划线的字符串');
+                //     return;
+                // }
                 // if (!util.validatePassword(formData.password)) {
                 //     Toast.fail('密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间');
                 //     return;
@@ -55,7 +55,7 @@ class Login extends Component {
                 // }
                 formData.password = md5(formData.password);
                 formData.rememberMe = true;
-                self.handleLogin(formData).catch(e => console.error('signIn', e));
+                self.handleLogin(formData).catch(e => Toast.fail(e.msg || '网络请求错误'));
             }
         });
     }
@@ -66,9 +66,6 @@ class Login extends Component {
         if (response && response.data) {
             util.persistUserData(response.data.data);
             util.transformRouter(self.props, '/me');
-        } else {
-            // self.getVerificationCodeUrl().catch(e => console.error('验证码', e));
-            Toast.fail(response.data.msg || '网络回应错误');
         }
     }
 
@@ -90,7 +87,7 @@ class Login extends Component {
         const {getFieldProps} = self.props.form;
         const {t} = self.props;
         const {verificationCodeUrl} = self.state;
-        const userData = JSON.parse(localStorage.getItem('userInfo')) || {};
+        const userData = JSON.parse(sessionStorage.getItem('userInfo')) || {};
         return (
             <div className='app-me app-me-login'>
                 <Header title={t('login')}/>

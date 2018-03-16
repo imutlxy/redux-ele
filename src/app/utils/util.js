@@ -142,7 +142,6 @@ util.validateEmail = (email) => {
 util.persistUserData = (data) => {
     if (data) {
         let userInfo = JSON.stringify(data);
-        localStorage.setItem('userInfo', userInfo);
         sessionStorage.setItem('userInfo', userInfo);
         authInstance.userId = data.id;
         authInstance.userName = data.name;

@@ -98,8 +98,7 @@ class HomeView extends Component {
 
     logIn = (e) => {
         e.stopPropagation();
-        window.location.href = 'login.html';
-        // util.transformRouter(this.props, '/me/logIn');
+        util.transformRouter(this.props, '/me/logIn');
     }
 
     /**

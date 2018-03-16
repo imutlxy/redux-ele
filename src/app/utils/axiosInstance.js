@@ -11,27 +11,23 @@ const axiosInstance = axios.create({
 });
 
 //请求拦截
-axiosInstance.interceptors.request.use(function (config) {
+axiosInstance.interceptors.request.use((config) => {
     return config;
 }, function (error) {
     Toast.fail(i18n.t('common:network_error_req'), 2);
     return Promise.reject(error);
 });
 //回应拦截
-axiosInstance.interceptors.response.use(function (response) {
+axiosInstance.interceptors.response.use((response) => {
     if (response.data.success === true) {
         return response;
     } else if (response.config.url.includes(Constants.BASE_URL + '/user/getCaptchas')) { // 获取验证码，返回的结果是 string
+        console.log(1);
         return response;
     }
-    return response;
-}, function (error) {
-    let msg = '';
-    if (error.response && error.response.data && error.response.data.status === 401) {
-        msg = '权限不足，请先登录';
-    }
-    Toast.fail(msg || i18n.t('common:network_error_req'), 3);
-    return Promise.reject(error);
+    return Promise.reject(response.data);
+}, (error) => {
+    return Promise.reject(error.response && error.response.data || error);
 });
 
 export {axiosInstance};

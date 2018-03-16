@@ -20,10 +20,21 @@ const Item = List.Item;
 class Me extends Component {
     constructor(props) {
         super(props);
-        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.userInfo = sessionStorage.getItem('userInfo') && JSON.parse(sessionStorage.getItem('userInfo'));
         this.state = {
-            avatarText: (userInfo && `欢迎您，${userInfo.name}`) || '登录/注册'
+            avatarText: (this.userInfo && `欢迎您，${this.userInfo.username}`) || '登录/注册'
         };
+    }
+
+    componentWillMount() {
+        !this.userInfo && axiosInstance.get('user/currentUser').then(res => {
+            const data = res.data.data;
+            if (data) {
+                res.data.data && util.persistUserData(res.data.data);
+                this.userInfo = data;
+                this.setState({avatarText: `欢迎您，${data.username}`});
+            }
+        }).catch(e => Toast.fail('检测到您未登录，请先去登录！'));
     }
 
     componentDidMount() {
@@ -35,25 +46,18 @@ class Me extends Component {
 
     handleAvatarClick = (e) => {
         e.preventDefault();
-        // util.transformRouter(this.props, '/me/ownerPage');
-        if (sessionStorage.getItem('userInfo')) {
-            util.transformRouter(this.props, '/me/ownerPage');
-        } else {
-            util.transformRouter(this.props, '/me/logIn');
-            // window.location.href = 'login.html';
-        }
+        this.userInfo ? util.transformRouter(this.props, '/me/ownerPage') : util.transformRouter(this.props, '/me/logIn');
     }
 
     render() {
         let self = this;
         const {t} = this.props;
-        const userData = JSON.parse(localStorage.getItem('userInfo')) || {};
         return (
             <div className='app-me'>
                 <Header title={t('title')}/>
                 <List className='app-me-avatar-panel'>
                     <Item
-                        thumb={userData['avatar'] || './resource/images/default-avatar.png'}
+                        thumb={this.userInfo && this.userInfo['avatar'] || './resource/images/default-avatar.png'}
                         arrow='horizontal'
                         onClick={self.handleAvatarClick}
                     >{authInstance.userName ? `${authInstance.userName}` : self.state.avatarText}</Item>
