@@ -25,5 +25,8 @@ npm start
 ## 编辑器支持 IDEA
 Setting -> Languages -> JavaScript -> 修改为 **ECMAScript 6**
 
-## 后台仓库地址
+## Node.js 后台仓库地址
 [node-ele](https://github.com/liangxinwei/node-ele)
+
+## Spring Boot 后台仓库地址
+[spring-ele](https://github.com/liangxinwei/spring-ele)

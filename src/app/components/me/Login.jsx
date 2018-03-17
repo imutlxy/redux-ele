@@ -5,9 +5,11 @@ import {createForm} from 'rc-form';
 import md5 from 'md5';
 
 import {util, axiosInstance, connectToStore} from '../../utils';
+import Constants from '../../constants';
 import Header from '../header';
 
 const Item = List.Item;
+const {MERGE_DATA} = Constants;
 
 /**
  * Header View
@@ -66,6 +68,13 @@ class Login extends Component {
         if (response && response.data) {
             util.persistUserData(response.data.data);
             util.transformRouter(self.props, '/me');
+            const {onClickAction} = self.props;let action = {
+                type: MERGE_DATA,
+                content: {
+                    userInfo: response.data.data
+                }
+            };
+            onClickAction(action, self.props);
         }
     }
 

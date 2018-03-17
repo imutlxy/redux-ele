@@ -20,19 +20,20 @@ const Item = List.Item;
 class Me extends Component {
     constructor(props) {
         super(props);
-        this.userInfo = sessionStorage.getItem('userInfo') && JSON.parse(sessionStorage.getItem('userInfo'));
+        this.userInfo = sessionStorage.getItem('userInfo') && JSON.parse(sessionStorage.getItem('userInfo')) || props.store.userInfo;
         this.state = {
             avatarText: (this.userInfo && `欢迎您，${this.userInfo.username}`) || '登录/注册'
         };
     }
 
     componentWillMount() {
-        !this.userInfo && axiosInstance.get('user/currentUser').then(res => {
+        let self = this;
+        !self.userInfo && axiosInstance.get('user/currentUser').then(res => {
             const data = res.data.data;
             if (data) {
                 res.data.data && util.persistUserData(res.data.data);
-                this.userInfo = data;
-                this.setState({avatarText: `欢迎您，${data.username}`});
+                self.userInfo = data;
+                self.setState({avatarText: `欢迎您，${data.username}`});
             }
         }).catch(e => Toast.fail('检测到您未登录，请先去登录！'));
     }
