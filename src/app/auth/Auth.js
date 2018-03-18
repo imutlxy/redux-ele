@@ -15,16 +15,16 @@ class Auth {
      * 从 localStorage 中获取 userId
      * @returns {string|undefined}
      */
-    static getUserIdFromLocalStorage() {
-        if (localStorageObj.userId) {
-            return localStorageObj.userId;
+    static getUserIdFromSessionStorage() {
+        if (sessionStorageObj.userId) {
+            return sessionStorageObj.userId;
         }
-        console.warn('The "userId" could not be found in the localStorage');
+        // console.warn('The "userId" could not be found in the sessionStorage');
         return undefined;
     }
 }
 
-let userId = Auth.getUserIdFromLocalStorage() || undefined;
+let userId = Auth.getUserIdFromSessionStorage() || undefined;
 
 const authInstance = new Auth(userId, '');
 authInstance.userId = userId;

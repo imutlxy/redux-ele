@@ -68,7 +68,8 @@ class Login extends Component {
         if (response && response.data) {
             util.persistUserData(response.data.data);
             util.transformRouter(self.props, '/me');
-            const {onClickAction} = self.props;let action = {
+            const {onClickAction} = self.props;
+            let action = {
                 type: MERGE_DATA,
                 content: {
                     userInfo: response.data.data

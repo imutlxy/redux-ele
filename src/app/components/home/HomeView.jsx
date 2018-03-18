@@ -52,9 +52,9 @@ class HomeView extends Component {
         if (!store['homeBusinesses']) {
             p1 = axiosInstance.get('/business/getBusiness');
         }
-        if (!store['user'] && sessionStorage.getItem('userInfo')) {
+        if (!store['userInfo'] || !sessionStorage.getItem('userInfo')) {
             const userData = JSON.parse(sessionStorage.getItem('userInfo'));
-            p2 = axiosInstance.get('/user/userData', {params: {id: userData.id || null}});
+            p2 = axiosInstance.get('/user/currentUser', {params: {id: userData.id || null}});
         }
         if (!p1 && !p2) {
             return;
@@ -68,7 +68,7 @@ class HomeView extends Component {
                 action['content']['homeBusinesses'] = data1['data']['data'];
             }
             if (data2) {
-                action['content']['user'] = data2['data']['data'];
+                action['content']['userInfo'] = data2['data']['data'];
             }
             if (Object.keys(action['content']).length > 0) {
                 onClickAction(action, self.props);

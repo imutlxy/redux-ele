@@ -8,7 +8,7 @@ import {util, axiosInstance, connectToStore} from '../../utils';
 import {authInstance} from '../../auth';
 import Header from '../header';
 
-const {GOTO} = Constants;
+const {MERGE_DATA} = Constants;
 const Item = List.Item;
 
 /**
@@ -40,14 +40,12 @@ class Setting extends Component {
         let self = this;
         const response = await axiosInstance.get('user/signOut');
         const data = response && response.data || {};
-        if (data.status === 200) {
+        if (data.success === true) {
             authInstance.userId = undefined;
             authInstance.userName = undefined;
             sessionStorage.removeItem('userInfo');
             util.goBack(self.props);
-            Toast.success(data.msg);
-        } else {
-            Toast.fail('网络回应错误');
+            Toast.success(data.msg || '成功退出！');
         }
     }
 
@@ -62,12 +60,11 @@ class Setting extends Component {
                 else {
                     let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
                     let lan = formData['language'] === true ? 'zh' : 'en';
-                    let data = {
+                    let data = Object.assign({}, userInfo, {
                         language: self.state.language,
-                        id: userInfo.id,
-                        name: userInfo.name
-                    };
-                    self.handleSubmitSetting(data, lan).catch(e => console.error('setting', e));
+                        id: userInfo.id
+                    });
+                    self.handleSubmitSetting(data, lan).catch(e => Toast.fail(e.msg || '网络回应错误'));
                 }
             }
         });
@@ -76,13 +73,19 @@ class Setting extends Component {
     handleSubmitSetting = async (param, lan) => {
         let self = this;
         let response = await axiosInstance.post('/user/setting', param);
-        let data = response && response.data || {};
-        if (data.status === 200) {
+        let data = response && response.data && response.data.data;
+        if (data) {
             authInstance.language = data.name;
             util.setLanguage(lan);
+            const {onClickAction} = self.props;
+            let action = {
+                type: MERGE_DATA,
+                content: {
+                    userInfo: data
+                }
+            };
+            onClickAction(action, self.props);
             util.goBack(self.props);
-        } else {
-            Toast.fail(data.msg || '网络回应错误');
         }
     }
 

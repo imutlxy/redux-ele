@@ -26,18 +26,6 @@ class Me extends Component {
         };
     }
 
-    componentWillMount() {
-        let self = this;
-        !self.userInfo && axiosInstance.get('user/currentUser').then(res => {
-            const data = res.data.data;
-            if (data) {
-                res.data.data && util.persistUserData(res.data.data);
-                self.userInfo = data;
-                self.setState({avatarText: `欢迎您，${data.username}`});
-            }
-        }).catch(e => Toast.fail('检测到您未登录，请先去登录！'));
-    }
-
     componentDidMount() {
     }
 
