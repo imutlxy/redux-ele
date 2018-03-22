@@ -53,8 +53,7 @@ class HomeView extends Component {
             p1 = axiosInstance.get('/business/getBusiness');
         }
         if (!store['userInfo'] || !sessionStorage.getItem('userInfo')) {
-            const userData = JSON.parse(sessionStorage.getItem('userInfo'));
-            p2 = axiosInstance.get('/user/currentUser', {params: {id: userData.id || null}});
+            p2 = axiosInstance.get('/user/currentUser');
         }
         if (!p1 && !p2) {
             return;
