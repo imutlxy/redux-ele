@@ -52,26 +52,27 @@ class HomeView extends Component {
         if (!store['homeBusinesses']) {
             p1 = axiosInstance.get('/business/getBusiness');
         }
-        if (!store['userInfo'] || !sessionStorage.getItem('userInfo')) {
+        if (!store['hasQueryingBusinessData'] && (!store['userInfo'] || !sessionStorage.getItem('userInfo'))) {
             p2 = axiosInstance.get('/user/currentUser');
         }
         if (!p1 && !p2) {
             return;
         }
+        let action = {
+            type: MERGE_DATA,
+            content: {}
+        };
         Promise.all([p1, p2]).then(([data1, data2]) => {
-            let action = {
-                type: MERGE_DATA,
-                content: {}
-            };
             if (data1) {
                 action['content']['homeBusinesses'] = data1['data']['data'];
             }
             if (data2) {
                 action['content']['userInfo'] = data2['data']['data'];
             }
-            if (Object.keys(action['content']).length > 0) {
-                onClickAction(action, self.props);
-            }
+            onClickAction(action, self.props);
+        }).catch(e => {
+            action['content']['hasQueryingBusinessData'] = true;
+            onClickAction(action, self.props);
         });
     }
 
@@ -104,6 +105,7 @@ class HomeView extends Component {
      * 添加商家测试数据
      */
     addTestData = () => {
+        let self = this;
         let testData = [];
         for (let i = 1; i < 101; i++) {
             testData.push({
@@ -125,14 +127,16 @@ class HomeView extends Component {
             });
         }
         axiosInstance.post('/business/save', testData).then(res => {
-            console.log(res);
+            Toast.success('成功添加商家数！');
+            (self.props.store.homeBusinesses || []).length === 0 && self.loadMore(1);
         });
     }
 
     render() {
         let self = this;
         const {t, store} = self.props;
-        const businessesInner = (store['homeBusinesses'] || []).map(val => val && <BusinessItem businessData={val}/>).filter(val => val);
+        const businessList = store['homeBusinesses'] || [];
+        const businessesInner = businessList.map(val => val && <BusinessItem businessData={val}/>).filter(val => val);
         return (
             <div className='app-home'>
                 <div className='app-header'>
@@ -157,7 +161,12 @@ class HomeView extends Component {
                         <ul className='home-shop-list'>{businessesInner}</ul>
                     </InfiniteScroll>
                     <p className='load-more'>{self.state.bottomText}</p>
-                    {/*<Button onClick={this.addTestData}>添加测试数据</Button>*/}
+                    {
+                        process.env.NODE_ENV !== 'production' ?
+                            <Button disabled={businessList.length > 0} onClick={this.addTestData}>添加测试数据</Button>
+                            :
+                            null
+                    }
                 </div>
                 <Footer/>
             </div>
