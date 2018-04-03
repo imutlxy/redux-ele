@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
-import classNames from 'classnames';
+import {TabBar} from 'antd-mobile';
 
 import Constants from '../../constants';
 import {util, connectToStore} from '../../utils';
@@ -13,10 +13,14 @@ const {GOTO} = Constants;
 class Footer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedTab: '/home'
+        };
     }
 
     handleMenuBarClick = (url = '') => {
-        url && util.transformRouter(this.props, url);
+        const pathname = this.props.routerStore && this.props.routerStore.pathname;
+        pathname && url && pathname !== url && util.transformRouter(this.props, url);
     }
 
     render() {
@@ -25,34 +29,43 @@ class Footer extends Component {
         const routerUrl = util.getRouterUrl(routerStore);
         return (
             <div className='app-footer'>
-                <div className={classNames({
-                    'app-footer-item': true,
-                    'active': routerUrl.includes('/home') || routerUrl === '/'
-                })} onClick={self.handleMenuBarClick.bind(this, '/home')}>
-                    <i className='fa fa-home'/>
-                    <span>{t('footer:home')}</span>
-                </div>
-                <div className={classNames({
-                    'app-footer-item': true,
-                    'active': routerUrl.includes('/search')
-                })} onClick={self.handleMenuBarClick.bind(this, '/search')}>
-                    <i className='fa fa-search'/>
-                    <span>{t('footer:search')}</span>
-                </div>
-                <div className={classNames({
-                    'app-footer-item': true,
-                    'active': routerUrl.includes('/order')
-                })} onClick={self.handleMenuBarClick.bind(this, '/order')}>
-                    <i className='fa fa-bars'/>
-                    <span>{t('footer:order')}</span>
-                </div>
-                <div className={classNames({
-                    'app-footer-item': true,
-                    'active': routerUrl.includes('/me')
-                })} onClick={self.handleMenuBarClick.bind(this, '/me')}>
-                    <i className='fa fa-user-o'/>
-                    <span>{t('footer:me')}</span>
-                </div>
+                <TabBar
+                    unselectedTintColor="#666"
+                    tintColor="#1bbc9b"
+                    barTintColor='#ffffff'
+                >
+                    <TabBar.Item
+                        title={t('footer:home')}
+                        icon={<i className='fa fa-home'/>}
+                        selectedIcon={<i className='fa fa-home'/>}
+                        selected={routerUrl === '/home'}
+                        onPress={self.handleMenuBarClick.bind(this, '/home')}
+                    />
+                    <TabBar.Item
+                        icon={<i className='fa fa-search'/>}
+                        selectedIcon={<i className='fa fa-search'/>}
+                        title={t('footer:search')}
+                        badge={1}
+                        selected={routerUrl === '/search'}
+                        onPress={self.handleMenuBarClick.bind(this, '/search')}
+                    />
+                    <TabBar.Item
+                        icon={<i className='fa fa-bars'/>}
+                        selectedIcon={<i className='fa fa-bars'/>}
+                        title={t('footer:order')}
+                        dot={true}
+                        selected={routerUrl === '/order'}
+                        onPress={self.handleMenuBarClick.bind(this, '/order')}
+                    />
+                    <TabBar.Item
+                        icon={<i className='fa fa-user-o'/>}
+                        selectedIcon={<i className='fa fa-user-o'/>}
+                        title={t('footer:me')}
+                        dot={true}
+                        selected={routerUrl === '/me'}
+                        onPress={self.handleMenuBarClick.bind(this, '/me')}
+                    />
+                </TabBar>
             </div>
         );
     }

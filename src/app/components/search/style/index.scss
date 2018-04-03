@@ -1,6 +1,6 @@
 @import '../../../style/_variables.scss';
 
 .app-search {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: var(--header-height);
+    padding-bottom: var(--header-height);
 }

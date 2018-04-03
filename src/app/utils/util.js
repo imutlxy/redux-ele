@@ -199,4 +199,9 @@ util.clearCookie = (name) => {
     util.setCookie(name, '', -1);
 };
 
+/**
+ * 判断是否是移动端
+ */
+util.isIPhone = () => new RegExp('\\biPhone\\b|\\biPod\\b', 'i').test(window.navigator.userAgent);
+
 export default util;

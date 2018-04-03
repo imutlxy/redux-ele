@@ -12,7 +12,7 @@ import './style/index.scss';
 const {GOTO} = Constants;
 
 /**
- * Header View
+ * 订单页
  */
 @translate(['order'], {wait: true})
 @connectToStore

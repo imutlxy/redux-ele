@@ -4,27 +4,17 @@
     position: fixed;
     left: 0;
     bottom: 0;
-    display: flex;
     width: 100%;
     height: var(--header-height);
-    border-top: .01rem solid var(--footer-border-colorc);
-    background-color: var(--footer-bg);
-    .app-footer-item {
-        flex: 1;
-        align-items: center;
-        padding-top: .2rem;
-        color: var(--font-color);
-        text-align: center;
-        .fa {
-            display: block;
-            font-size: var(--footer-font-size);
+    .am-tab-bar-tab {
+        height: 100%;
+        padding: 0;
+        .am-tab-bar-tab-icon {
+            font-size: 22px;
+            margin-top: -10px;
         }
-        span {
-            font-size: var(--footer-icon-size);
-            display: block;
+        .am-tab-bar-tab-title {
+            margin-top: 0;
         }
-    }
-    .active {
-        color: var(--common-bg);
     }
 }
