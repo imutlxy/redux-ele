@@ -73,7 +73,7 @@ class BusinessItem extends Component {
                         <span>{businessData.mailType}</span>
                         <span style={{display: businessData.hasInvoice ? 'none' : 'inline-block'}}>准时达</span>
                     </div>
-                    <p className='text'><span>{businessData.distance}</span>公里 / <span>{businessData.serviceTime}分钟</span></p>
+                    <p className='text'><span>{businessData.distance}</span>m / <span>{businessData.serviceTime}分钟</span></p>
                 </div>
             </li>
         );

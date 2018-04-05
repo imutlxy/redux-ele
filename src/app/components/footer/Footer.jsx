@@ -38,7 +38,7 @@ class Footer extends Component {
                         title={t('footer:home')}
                         icon={<i className='fa fa-home'/>}
                         selectedIcon={<i className='fa fa-home'/>}
-                        selected={routerUrl === '/home'}
+                        selected={routerUrl === '/home' || routerUrl.length < 3}
                         onPress={self.handleMenuBarClick.bind(this, '/home')}
                     />
                     <TabBar.Item

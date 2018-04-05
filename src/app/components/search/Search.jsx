@@ -10,7 +10,7 @@ import Header from '../header';
 import BusinessItem from '../home/BusinessItem';
 import './style/index.scss';
 
-const {GET_HOME_BUSINESS} = Constants;
+const {GET_SEARCH_BUSINESS, MERGE_DATA} = Constants;
 
 /**
  * 搜索页
@@ -20,11 +20,31 @@ const {GET_HOME_BUSINESS} = Constants;
 class Search extends Component {
     constructor(props) {
         super(props);
-        this.pageSize = 5;
+        this.pageSize = 50;
+        let filters = [];
+        filters.push({name: 'mailType', value: '达达'});
+        // filters.push({name: 'shopName', value: '--1'});
+        let sorts = [];
+        sorts.push({property: 'distance', direction: 'desc'});
         this.state = {
             hasMore: true,
-            bottomText: '加载中···'
+            bottomText: '加载中···',
+            param: {
+                page: 0,
+                size: this.pageSize,
+                sorts: JSON.stringify(sorts),
+                filterParam: JSON.stringify(filters)
+            }
         };
+    }
+
+    componentWillMount() {
+        if (!this.props.store.searchBusinesses) {
+            this.getBusinesses(this.state.param).catch(e => {
+                Toast.fail(e.msg || '请求数据出错', 3);
+                this.setState({bottomText: '请求数据出错', hasMore: false});
+            });
+        }
     }
 
     componentDidMount() {
@@ -66,7 +86,7 @@ class Search extends Component {
         if (data) {
             if (Array.isArray(data.data) && data.data.length > 0) {
                 let action = {
-                    type: GET_HOME_BUSINESS,
+                    type: GET_SEARCH_BUSINESS,
                     content: data.data
                 };
                 onClickAction(action, self.props);
@@ -81,19 +101,16 @@ class Search extends Component {
     loadMore = (page) => {
         page -= 1;
         page = page < 0 ? 0 : page;
-        this.getBusinesses({
-            page: page,
-            size: this.pageSize
-        }).catch(e => {
-            Toast.fail(e.msg || '请求数据出错', 3);
-            this.setState({bottomText: '请求数据出错', hasMore: false});
-        });
+        // this.getBusinesses({...this.state.param, page: page}).catch(e => {
+        //     Toast.fail(e.msg || '请求数据出错', 3);
+        //     this.setState({bottomText: '请求数据出错', hasMore: false});
+        // });
     }
 
     render() {
         let self = this;
         const {t, store} = self.props;
-        const businessList = store['homeBusinesses'] || [];
+        const businessList = store['searchBusinesses'] || [];
         const businessesInner = businessList.map(val => val && <BusinessItem businessData={val}/>).filter(val => val);
         return (
             <div className='app-search'>

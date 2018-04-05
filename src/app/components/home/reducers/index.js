@@ -2,13 +2,19 @@ import Immutable from 'immutable';
 
 import Constants from '../../../constants';
 
-const {GET_HOME_BUSINESS, ENTER_BUSINESS, MERGE_DATA} = Constants;
+const {GET_HOME_BUSINESS, GET_SEARCH_BUSINESS, ENTER_BUSINESS, MERGE_DATA} = Constants;
 
 let homeReducers = {};
 
 homeReducers[GET_HOME_BUSINESS] = function (state, action) {
     let newState = Object.assign({}, state);
     newState['homeBusinesses'] = [].concat((newState['homeBusinesses'] || []), action['content']);
+    return newState;
+};
+
+homeReducers[GET_SEARCH_BUSINESS] = function (state, action) {
+    let newState = Object.assign({}, state);
+    newState['searchBusinesses'] = [].concat((newState['searchBusinesses'] || []), action['content']);
     return newState;
 };
 

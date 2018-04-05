@@ -47,33 +47,28 @@ class HomeView extends Component {
     componentWillMount() {
         let self = this;
         const {store, onClickAction} = self.props;
-        let p1 = undefined;
-        let p2 = undefined;
         if (!store['homeBusinesses']) {
-            p1 = axiosInstance.get('/business/getBusiness');
+            this.getBusinesses({page: 0, size: this.pageSize}).catch(e => {
+                let action = {
+                    type: MERGE_DATA,
+                    content: {
+                        hasQueryingBusinessData: true
+                    }
+                };
+                onClickAction(action, self.props);
+            });
         }
         if (!store['hasQueryingBusinessData'] && (!store['userInfo'] || !sessionStorage.getItem('userInfo'))) {
-            p2 = axiosInstance.get('/user/currentUser');
+            axiosInstance.get('/user/currentUser').then(res => {
+                let action = {
+                    type: GET_HOME_BUSINESS,
+                    content: {
+                        userInfo: res.data && res.data.data || []
+                    }
+                };
+                onClickAction(action, self.props);
+            });
         }
-        if (!p1 && !p2) {
-            return;
-        }
-        let action = {
-            type: MERGE_DATA,
-            content: {}
-        };
-        Promise.all([p1, p2]).then(([data1, data2]) => {
-            if (data1) {
-                action['content']['homeBusinesses'] = data1['data']['data'];
-            }
-            if (data2) {
-                action['content']['userInfo'] = data2['data']['data'];
-            }
-            onClickAction(action, self.props);
-        }).catch(e => {
-            action['content']['hasQueryingBusinessData'] = true;
-            onClickAction(action, self.props);
-        });
     }
 
     componentDidMount() {
@@ -87,13 +82,13 @@ class HomeView extends Component {
     loadMore = (page) => {
         page -= 1;
         page = page < 0 ? 0 : page;
-        this.getBusinesses({
-            page: page,
-            size: this.pageSize
-        }).catch(e => {
-            Toast.fail(e.msg || '请求数据出错', 3);
-            this.setState({bottomText: '请求数据出错', hasMore: false});
-        });
+        // this.getBusinesses({
+        //     page: page,
+        //     size: this.pageSize
+        // }).catch(e => {
+        //     Toast.fail(e.msg || '请求数据出错', 3);
+        //     this.setState({bottomText: '请求数据出错', hasMore: false});
+        // });
     }
 
     logIn = (e) => {
