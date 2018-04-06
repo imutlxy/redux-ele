@@ -20,7 +20,7 @@ const {GET_SEARCH_BUSINESS, MERGE_DATA} = Constants;
 class Search extends Component {
     constructor(props) {
         super(props);
-        this.pageSize = 50;
+        this.pageSize = 10;
         let filters = [];
         filters.push({name: 'mailType', value: '达达'});
         // filters.push({name: 'shopName', value: '--1'});
@@ -36,15 +36,6 @@ class Search extends Component {
                 filterParam: JSON.stringify(filters)
             }
         };
-    }
-
-    componentWillMount() {
-        if (!this.props.store.searchBusinesses) {
-            this.getBusinesses(this.state.param).catch(e => {
-                Toast.fail(e.msg || '请求数据出错', 3);
-                this.setState({bottomText: '请求数据出错', hasMore: false});
-            });
-        }
     }
 
     componentDidMount() {
@@ -101,10 +92,10 @@ class Search extends Component {
     loadMore = (page) => {
         page -= 1;
         page = page < 0 ? 0 : page;
-        // this.getBusinesses({...this.state.param, page: page}).catch(e => {
-        //     Toast.fail(e.msg || '请求数据出错', 3);
-        //     this.setState({bottomText: '请求数据出错', hasMore: false});
-        // });
+        this.getBusinesses({...this.state.param, page: page}).catch(e => {
+            Toast.fail(e.msg || '请求数据出错', 3);
+            this.setState({bottomText: '请求数据出错', hasMore: false});
+        });
     }
 
     render() {

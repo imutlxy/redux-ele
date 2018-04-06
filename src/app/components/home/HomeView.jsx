@@ -47,25 +47,17 @@ class HomeView extends Component {
     componentWillMount() {
         let self = this;
         const {store, onClickAction} = self.props;
-        if (!store['homeBusinesses']) {
-            this.getBusinesses({page: 0, size: this.pageSize}).catch(e => {
-                let action = {
-                    type: MERGE_DATA,
-                    content: {
-                        hasQueryingBusinessData: true
-                    }
-                };
-                onClickAction(action, self.props);
-            });
-        }
         if (!store['hasQueryingBusinessData'] && (!store['userInfo'] || !sessionStorage.getItem('userInfo'))) {
+            let action = {
+                type: GET_HOME_BUSINESS,
+                content: {}
+            };
             axiosInstance.get('/user/currentUser').then(res => {
-                let action = {
-                    type: GET_HOME_BUSINESS,
-                    content: {
-                        userInfo: res.data && res.data.data || []
-                    }
-                };
+                action.content = {userInfo: res.data && res.data.data};
+                onClickAction(action, self.props);
+            }).catch(e => {
+                action.type = MERGE_DATA;
+                action.content = {hasQueryingBusinessData: true};
                 onClickAction(action, self.props);
             });
         }
@@ -79,16 +71,17 @@ class HomeView extends Component {
         util.getDocumentScrollTop('homePageScrollTop');
     }
 
+    // TODO 首屏进来同一时间可能会请求多次，所以会存在重复数据的问题
     loadMore = (page) => {
         page -= 1;
         page = page < 0 ? 0 : page;
-        // this.getBusinesses({
-        //     page: page,
-        //     size: this.pageSize
-        // }).catch(e => {
-        //     Toast.fail(e.msg || '请求数据出错', 3);
-        //     this.setState({bottomText: '请求数据出错', hasMore: false});
-        // });
+        this.getBusinesses({
+            page: page,
+            size: this.pageSize
+        }).catch(e => {
+            Toast.fail(e.msg || '请求数据出错', 3);
+            this.setState({bottomText: '请求数据出错', hasMore: false});
+        });
     }
 
     logIn = (e) => {
@@ -131,7 +124,8 @@ class HomeView extends Component {
         let self = this;
         const {t, store} = self.props;
         const businessList = store['homeBusinesses'] || [];
-        const businessesInner = businessList.map(val => val && <BusinessItem businessData={val}/>).filter(val => val);
+        const businessesInner = businessList.map(val => val && val['businessId'] &&
+        <BusinessItem key={val['businessId']} businessData={val}/>).filter(val => val);
         return (
             <div className='app-home'>
                 <div className='app-header'>

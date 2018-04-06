@@ -45,3 +45,5 @@ Setting -> Languages -> JavaScript -> 修改为 **ECMAScript 6**
 | ~4.8.5 | ~ 会匹配最近的小版本，匹配所有4.8.x版本，**但不到4.9.0** |
 | ^4.8.5 | ^ 会匹配最新的大版本，匹配所有4.x.x的包，包括4.9.0，**但不到5.0.0** |
 | ~4.8 | 任何兼容 4.8 的版本 |
+## License
+[MIT](https://github.com/liangxinwei/redux-ele/blob/master/LICENSE)
