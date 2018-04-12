@@ -17,7 +17,7 @@ const {GET_HOME_BUSINESS, MERGE_DATA} = Constants;
 class HomeView extends Component {
     constructor(props) {
         super(props);
-        this.pageSize = 5;
+        this.pageSize = 15;
         this.state = {
             hasMore: true,
             bottomText: '加载中···'
@@ -73,7 +73,6 @@ class HomeView extends Component {
 
     // TODO 首屏进来同一时间可能会请求多次，所以会存在重复数据的问题
     loadMore = (page) => {
-        page -= 1;
         page = page < 0 ? 0 : page;
         this.getBusinesses({
             page: page,
