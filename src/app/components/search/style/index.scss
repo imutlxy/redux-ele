@@ -10,6 +10,7 @@
     .wrap-common-btns {
         display: flex;
         width: 100%;
+        border-bottom: 1px solid #ccc;
         .wrap-common-btn:not(:last-child) {
             border-right: 1px solid #cccccc;
         }

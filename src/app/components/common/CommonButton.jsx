@@ -22,7 +22,7 @@ export default class CommonButton extends Component {
     }
 
     render() {
-        const {text, className} = this.props;
+        const {text, className, hidden} = this.props;
         const orientationClassNames = classNames({
             'fa': true,
             'fa-sort-asc': this.state.orientation === 'asc',
@@ -31,7 +31,7 @@ export default class CommonButton extends Component {
         return (
             <div onClick={this.switchOrientation} className={`wrap-common-btn ${className || ''}`}>
                 <span>{text}</span>
-                <i className={orientationClassNames}/>
+                <i style={{display: !hidden ? 'inline-block' : 'none', flex: !hidden ? '1' : '0'}} className={orientationClassNames}/>
             </div>
         );
     }

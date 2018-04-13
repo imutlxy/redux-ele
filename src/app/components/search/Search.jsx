@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {translate} from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroller';
-import {ActionSheet, Button, Toast} from 'antd-mobile';
+import {Button, Toast, Modal, Checkbox, WhiteSpace, SearchBar} from 'antd-mobile';
 
 import Constants from '../../constants';
 import Footer from './../footer';
@@ -22,9 +22,6 @@ class Search extends Component {
     constructor(props) {
         super(props);
         this.pageSize = 15;
-        let filters = [];
-        // filters.push({name: 'mailType', value: '达达'});
-        // filters.push({name: 'shopName', value: '--1'});
         let sorts = [];
         sorts.push({property: 'distance', direction: 'desc'});
         sorts.push({property: 'score', direction: 'asc'});
@@ -32,13 +29,21 @@ class Search extends Component {
         sorts.push({property: 'serviceTime', direction: 'asc'});
         this.state = {
             hasMore: true,
+            focused: false,
+            modalVisible: false,
             bottomText: '加载中···'
         };
         this.param = {
             page: 0,
             size: this.pageSize,
             sorts: sorts,
-            filters: filters
+            filters: []
+        };
+        this.filterParam = {
+            newStore: false,
+            onTime: true,
+            whetherBrand: true,
+            whetherDistribution: true
         };
     }
 
@@ -50,33 +55,31 @@ class Search extends Component {
         util.getDocumentScrollTop('searchPageScrollTop');
     }
 
-    showActionSheet = () => {
-        const BUTTONS = ['Operation1', 'Operation2', 'Operation2', 'Delete', 'Cancel'];
-        const wrapProps = util.isIPhone() && {
-                onTouchStart: (e) => {
-                    console.log(e);
-                }
-            };
-        ActionSheet.showShareActionSheetWithOptions({
-                options: BUTTONS,
-                maskClosable: false,
-                title: '添加过滤条件'
-            },
-            (buttonIndex) => {
-                console.log(buttonIndex);
-                // this.setState({clicked: BUTTONS[buttonIndex]});
-                return buttonIndex !== -1 && new Promise((resolve) => {
-                    }, (reject) => {
-                        reject();
-                    });
+    handleClose = () => {
+        this.setState({modalVisible: false});
+    }
+
+    changeFilterParam = () => {
+        let filters = [];
+        this.setState({modalVisible: false}, () => {
+            for (let key in this.filterParam) {
+                filters.push({name: key, value: this.filterParam[key]});
             }
-        );
+            this.getBusinesses({...this.param, filters: filters}).catch(e => {
+                Toast.fail(e.msg || '请求数据出错', 3);
+                this.setState({bottomText: '请求数据出错', hasMore: false});
+            });
+        });
     }
 
     getBusinesses = async (paramData = {}, actionType = GET_SEARCH_BUSINESS) => {
         let self = this;
         const {onClickAction} = self.props;
-        const param = {...paramData, sorts: JSON.stringify(paramData.sorts), filterParam: JSON.stringify(paramData.filters)};
+        const param = {
+            ...paramData,
+            sorts: JSON.stringify(paramData.sorts),
+            filterParam: JSON.stringify(paramData.filters)
+        };
         const response = await axiosInstance.get('/business/getBusiness', {params: param});
         const data = response && response.data || {};
         if (data) {
@@ -106,15 +109,29 @@ class Search extends Component {
 
     handleCommonBtnChange = (key, value) => {
         if (key && value) {
-            let index = this.param.sorts.findIndex((val) => val.property === key && val.direction !== value);
-            if (index !== -1) {
-                this.param.sorts[index]['direction'] = value;
-                this.getBusinesses(this.param, REPLACE_DATA).catch(e => {
-                    Toast.fail(e.msg || '请求数据出错', 3);
-                    this.setState({bottomText: '请求数据出错', hasMore: false});
-                });
+            if (key === 'otherCondition') {
+                this.setState({modalVisible: true});
+            } else {
+                let index = this.param.sorts.findIndex((val) => val.property === key && val.direction !== value);
+                if (index !== -1) {
+                    this.param.sorts[index]['direction'] = value;
+                    this.getBusinesses(this.param, REPLACE_DATA).catch(e => {
+                        Toast.fail(e.msg || '请求数据出错', 3);
+                        this.setState({bottomText: '请求数据出错', hasMore: false});
+                    });
+                }
             }
         }
+    }
+
+    handleCheckBoxChange = (key, val) => {
+        if (key && this.filterParam[key] != null) {
+            this.filterParam[key] = val.target.checked;
+        }
+    }
+
+    handleSearchBusiness = (value) => {
+        console.log(value);
     }
 
     render() {
@@ -150,8 +167,55 @@ class Search extends Component {
                         orientation='asc'
                         onChange={this.handleCommonBtnChange}
                     />
+                    <CommonButton
+                        text='其他条件'
+                        keyWord='otherCondition'
+                        hidden
+                        onChange={this.handleCommonBtnChange}
+                    />
                 </div>
-                <Button onClick={this.showActionSheet}>添加过滤条件</Button>
+                <SearchBar
+                    placeholder='请输入搜索内容'
+                    onChange={this.handleSearchBusiness}
+                />
+                <WhiteSpace/>
+                <Modal
+                    title='title'
+                    visible={this.state.modalVisible}
+                    maskClosable={false}
+                    transparent
+                    footer={
+                        [
+                            {text: '取消', onPress: this.handleClose},
+                            {text: '确定', onPress: this.changeFilterParam}
+                        ]
+                    }
+                >
+                    <Checkbox.CheckboxItem
+                        key='newStore'
+                        defaultChecked={this.filterParam['newStore']}
+                        onChange={this.handleCheckBoxChange.bind(this, 'newStore')}>
+                        新店
+                    </Checkbox.CheckboxItem>
+                    <Checkbox.CheckboxItem
+                        key='onTime'
+                        defaultChecked={this.filterParam['onTime']}
+                        onChange={this.handleCheckBoxChange.bind(this, 'onTime')}>
+                        准时达
+                    </Checkbox.CheckboxItem>
+                    <Checkbox.CheckboxItem
+                        key='whetherBrand'
+                        defaultChecked={this.filterParam['whetherBrand']}
+                        onChange={this.handleCheckBoxChange.bind(this, 'whetherBrand')}>
+                        品牌
+                    </Checkbox.CheckboxItem>
+                    <Checkbox.CheckboxItem
+                        key='whetherDistribution'
+                        defaultChecked={this.filterParam['whetherDistribution']}
+                        onChange={this.handleCheckBoxChange.bind(this, 'whetherDistribution')}>
+                        保送
+                    </Checkbox.CheckboxItem>
+                </Modal>
                 <InfiniteScroll
                     pageStart={0}
                     loadMore={this.loadMore}
