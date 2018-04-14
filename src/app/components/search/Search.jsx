@@ -97,15 +97,15 @@ class Search extends Component {
         const response = await axiosInstance.get('/business/getBusiness', {params: param});
         const data = response && response.data || {};
         if (data) {
-            if (Array.isArray(data.data) && data.data.length > 0) {
+            if (Array.isArray(data.data)) {
                 let action = {
                     type: actionType,
                     dataKey: 'searchBusinesses',
                     content: data.data
                 };
-                onClickAction(action, self.props);
-            } else {
-                self.setState({bottomText: '我是有底线的', hasMore: false});
+                Promise.resolve(onClickAction(action, self.props)).then(() => {
+                    data.data.length === 0 && self.setState({bottomText: '我是有底线的', hasMore: false});
+                });
             }
         } else {
             Toast.fail(response && response.data && response.data.msg || '网络回应错误');
