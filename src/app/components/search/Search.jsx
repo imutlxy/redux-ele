@@ -23,21 +23,22 @@ class Search extends Component {
         super(props);
         this.pageSize = 15;
         let sorts = [];
-        sorts.push({property: 'distance', direction: 'desc'});
-        sorts.push({property: 'score', direction: 'asc'});
+        sorts.push({property: 'distance', direction: 'asc'});
+        sorts.push({property: 'deliveryFee', direction: 'asc'});
         sorts.push({property: 'monthlySales', direction: 'desc'});
         sorts.push({property: 'serviceTime', direction: 'asc'});
         this.state = {
             hasMore: true,
             focused: false,
             modalVisible: false,
+            searchValue: '',
             bottomText: '加载中···'
         };
         this.param = {
             page: 0,
             size: this.pageSize,
             sorts: sorts,
-            filters: []
+            filterParam: []
         };
         this.filterParam = {
             newStore: false,
@@ -59,26 +60,39 @@ class Search extends Component {
         this.setState({modalVisible: false});
     }
 
+    /**
+     * 添加过滤参数
+     */
     changeFilterParam = () => {
-        let filters = [];
+        let filterParam = [];
         this.setState({modalVisible: false}, () => {
             for (let key in this.filterParam) {
-                filters.push({name: key, value: this.filterParam[key]});
+                filterParam.push({name: key, value: this.filterParam[key]});
             }
-            this.getBusinesses({...this.param, filters: filters}).catch(e => {
-                Toast.fail(e.msg || '请求数据出错', 3);
-                this.setState({bottomText: '请求数据出错', hasMore: false});
-            });
+            const shopNameFilter = this.param.filterParam.find(val => val.name === 'shopName' && val.value);
+            shopNameFilter && filterParam.push(shopNameFilter);
+            this.param.filterParam = filterParam;
+            this.fetchBusinessData(REPLACE_DATA);
         });
     }
 
+    fetchBusinessData = (type) => {
+        this.getBusinesses(this.param, type).catch(e => {
+            Toast.fail(e.msg || '请求数据出错', 3);
+            this.setState({bottomText: '请求数据出错', hasMore: false});
+        });
+    }
+
+    /**
+     * 请求数据
+     */
     getBusinesses = async (paramData = {}, actionType = GET_SEARCH_BUSINESS) => {
         let self = this;
         const {onClickAction} = self.props;
         const param = {
             ...paramData,
             sorts: JSON.stringify(paramData.sorts),
-            filterParam: JSON.stringify(paramData.filters)
+            filterParam: JSON.stringify(paramData.filterParam)
         };
         const response = await axiosInstance.get('/business/getBusiness', {params: param});
         const data = response && response.data || {};
@@ -98,15 +112,17 @@ class Search extends Component {
         }
     }
 
+    /**
+     * 加载更多
+     */
     loadMore = (page) => {
-        page = page < 0 ? 0 : page;
         this.param.page = page;
-        this.getBusinesses(this.param).catch(e => {
-            Toast.fail(e.msg || '请求数据出错', 3);
-            this.setState({bottomText: '请求数据出错', hasMore: false});
-        });
+        this.fetchBusinessData();
     }
 
+    /**
+     * 排序条件面板点击事件
+     */
     handleCommonBtnChange = (key, value) => {
         if (key && value) {
             if (key === 'otherCondition') {
@@ -115,23 +131,39 @@ class Search extends Component {
                 let index = this.param.sorts.findIndex((val) => val.property === key && val.direction !== value);
                 if (index !== -1) {
                     this.param.sorts[index]['direction'] = value;
-                    this.getBusinesses(this.param, REPLACE_DATA).catch(e => {
-                        Toast.fail(e.msg || '请求数据出错', 3);
-                        this.setState({bottomText: '请求数据出错', hasMore: false});
-                    });
+                    this.fetchBusinessData(REPLACE_DATA);
                 }
             }
         }
     }
 
+    /**
+     * 过滤条件面板点击回调事件
+     */
     handleCheckBoxChange = (key, val) => {
         if (key && this.filterParam[key] != null) {
             this.filterParam[key] = val.target.checked;
         }
     }
 
+    /**
+     * 搜索商家
+     */
     handleSearchBusiness = (value) => {
-        console.log(value);
+        this.param.filterParam = value ? [{name: 'shopName', value: value}] : [];
+        this.fetchBusinessData(REPLACE_DATA);
+    }
+
+    /**
+     * 取消搜索
+     */
+    handleSearchCancel = () => {
+        const shopNameFilter = this.param.filterParam.find(val => val.name === 'shopName' && val.value);
+        if (shopNameFilter) {
+            this.param.filterParam = this.param.filterParam.filter(val => val.name !== 'shopName');
+            this.fetchBusinessData(REPLACE_DATA);
+            this.setState({searchValue: ''});
+        }
     }
 
     render() {
@@ -144,27 +176,27 @@ class Search extends Component {
                 <Header title={t('title')}/>
                 <div className='wrap-common-btns'>
                     <CommonButton
-                        keyWord='score'
-                        text='评分'
-                        orientation='asc'
+                        keyWord='deliveryFee'
+                        text='配送费'
+                        defaultOrientation='asc'
                         onChange={this.handleCommonBtnChange}
                     />
                     <CommonButton
                         keyWord='monthlySales'
                         text='销量'
-                        orientation='desc'
+                        defaultOrientation='desc'
                         onChange={this.handleCommonBtnChange}
                     />
                     <CommonButton
                         keyWord='distance'
                         text='距离'
-                        orientation='asc'
+                        defaultOrientation='asc'
                         onChange={this.handleCommonBtnChange}
                     />
                     <CommonButton
                         keyWord='serviceTime'
                         text='送达时间'
-                        orientation='asc'
+                        defaultOrientation='asc'
                         onChange={this.handleCommonBtnChange}
                     />
                     <CommonButton
@@ -175,12 +207,15 @@ class Search extends Component {
                     />
                 </div>
                 <SearchBar
+                    value={this.state.searchValue}
                     placeholder='请输入搜索内容'
-                    onChange={this.handleSearchBusiness}
+                    onChange={(val) => this.setState({searchValue: val})}
+                    onCancel={this.handleSearchCancel}
+                    onSubmit={this.handleSearchBusiness}
                 />
                 <WhiteSpace/>
                 <Modal
-                    title='title'
+                    title='请选择'
                     visible={this.state.modalVisible}
                     maskClosable={false}
                     transparent

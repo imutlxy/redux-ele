@@ -10,7 +10,7 @@ export default class CommonButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orientation: ['asc', 'desc'].includes(props.className.toLowerCase()) ? props.className : 'asc'
+            orientation: ['asc', 'desc'].includes(props.defaultOrientation.toLowerCase()) ? props.defaultOrientation : 'asc'
         };
     }
 
@@ -41,6 +41,6 @@ CommonButton.defaultProps = {
     keyWord: '',
     text: '',
     className: '',
-    orientation: 'asc',
+    defaultOrientation: 'asc',
     onChange: () => {}
 };
